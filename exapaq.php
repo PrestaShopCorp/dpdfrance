@@ -285,7 +285,7 @@ class Exapaq extends CarrierModule
 		if (_PS_VERSION_ < '1.4')
 			$output .= '<script type="text/javascript" src="../modules/'.$this->name.'/js/admin/jquery/jquery-1.4.3.min.js"></script>';
 
-		$output .= 	'<link rel="stylesheet" type="text/css" href="../modules/'.$this->name.'/js/admin/jquery/plugins/fancybox/jquery.fancybox-1.3.4.css" media="screen"/>
+		$output .= '<link rel="stylesheet" type="text/css" href="../modules/'.$this->name.'/js/admin/jquery/plugins/fancybox/jquery.fancybox-1.3.4.css" media="screen"/>
 					<script type="text/javascript" src="../modules/'.$this->name.'/js/admin/jquery/plugins/fancybox/jquery.fancybox-1.3.4.js"></script>
 					<link rel="stylesheet" type="text/css" href="../modules/'.$this->name.'/css/admin/exapaq_config.css"/>';
 
