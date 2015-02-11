@@ -443,7 +443,6 @@ class Exapaq extends CarrierModule
 			'optvd'					=> array($this->l('Integrated parcel insurance service (23 € / kg)'), $this->l('Ad Valorem insurance service')),
 			'ps_version' 			=> (float)_PS_VERSION_,
 			'form_submit_url' 		=> $_SERVER['REQUEST_URI'],
-			'cron_url' 				=> Tools::getHttpHost(true, true)._MODULE_DIR_.$this->name.'/cron.php',
 			));
 		return $this->display(__FILE__, 'views/templates/admin/config.tpl');
 		}
