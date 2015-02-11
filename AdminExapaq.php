@@ -60,31 +60,13 @@ class AdminExapaq extends AdminTab
 		$isops = array('DE', 'AD', 'AT', 'BE', 'BA', 'BG', 'HR', 'DK', 'ES', 'EE', 'FI', 'FR', 'GB', 'GR', 'GG', 'HU', 'IM', 'IE', 'IT', 'JE', 'LV', 'LI', 'LT', 'LU', 'NO', 'NL', 'PL', 'PT', 'CZ', 'RO', 'RS', 'SK', 'SI', 'SE', 'CH');
 		$isoep = array('D', 'AND', 'A', 'B', 'BA', 'BG', 'CRO', 'DK', 'E', 'EST', 'SF', 'F', 'GB', 'GR', 'GG', 'H', 'IM', 'IRL', 'I', 'JE', 'LET', 'LIE', 'LIT', 'L', 'N', 'NL', 'PL', 'P', 'CZ', 'RO', 'RS', 'SK', 'SLO', 'S', 'CH');
 
-		if (in_array($result['iso_code'], $isops)) // Si le code ISO est européen, on le convertit au format Exa-Print
+		if (in_array($result['iso_code'], $isops)) // If the ISO code is in Europe, then convert it to EXA-Print format
 			$code_iso = str_replace($isops, $isoep, $result['iso_code']);
 		else
-			$code_iso = str_replace($result['iso_code'], 'INT', $result['iso_code']); // Si le code ISO n'est pas européen, on le passe en 'INT' (intercontinental)
+			$code_iso = str_replace($result['iso_code'], 'INT', $result['iso_code']); // If not, then it will be 'INT' (intercontinental)
 	return $code_iso;
 	}
-	/* Get order IDs by status */
-	public static function getOrderIdsByStatus($id_order_state)
-	{
-		$result = Db::getInstance()->ExecuteS('
-		  SELECT id_order
-		  FROM '._DB_PREFIX_.'orders o
-		  WHERE '.(int)$id_order_state.' = (
-		   SELECT id_order_state
-		   FROM '._DB_PREFIX_.'order_history oh
-		   WHERE oh.id_order = o .id_order
-		   ORDER BY date_add DESC, id_order_history DESC
-		   LIMIT 1
-		  )
-		  ORDER BY invoice_date ASC');
-		$orders = array();
-		foreach ($result as $order)
-			$orders[] = (int)$order['id_order'];
-		return $orders;
-	}
+
 	/* Get all orders but statuses cancelled, delivered, error */
 	public static function getAllOrders($id_shop)
 	{
@@ -115,8 +97,11 @@ class AdminExapaq extends AdminTab
 			$result = Db::getInstance()->ExecuteS($sql15);
 
 		$orders = array();
-		foreach ($result as $order)
-			$orders[] = (int)$order['id_order'];
+		if (!empty($result))
+		{
+			foreach ($result as $order)
+				$orders[] = (int)$order['id_order'];
+		}
 		return $orders;
 	}
 	/* Formats GSM numbers */
@@ -219,7 +204,7 @@ class AdminExapaq extends AdminTab
 			if (Tools::getIsset('checkbox'))
 				$orders = Tools::getValue('checkbox');
 			if (!empty($orders))
-			{ // Test sur requete SQL OK
+			{
 				$sql = 'SELECT 	O.`id_order` AS id_order
 						FROM 	'._DB_PREFIX_.'orders AS O, 
 								'._DB_PREFIX_.'carrier AS CA 
@@ -338,7 +323,7 @@ class AdminExapaq extends AdminTab
 				echo '<div class="alert warn">'.$this->l('No order selected.').'</div>';
 		}
 
-		// Exporter les commandes sélectionnées
+		// Export selected orders
 		if (Tools::getIsset('exportOrders'))
 		{
 			$fieldlist = array('O.`id_order`', 'AD.`lastname`', 'AD.`firstname`', 'AD.`postcode`', 'AD.`city`', 'CL.`iso_code`', 'C.`email`');
@@ -348,7 +333,7 @@ class AdminExapaq extends AdminTab
 
 				$liste_expeditions = 'O.id_order IN ('.implode(',', $orders).')';
 				if (!empty($orders))
-				{ // Test sur requete SQL OK
+				{
 					$sql = 'SELECT	'.implode(', ', $fieldlist).'
 							FROM 	'._DB_PREFIX_.'orders AS O, 
 									'._DB_PREFIX_.'carrier AS CA, 
@@ -365,12 +350,12 @@ class AdminExapaq extends AdminTab
 					$orderlist = Db::getInstance()->ExecuteS($sql);
 
 					if (!empty($orderlist))
-					{ // Test sur la présence de commandes
-						// Creation fichier et récup des données expéditeur
+					{
+						// File creation
 						$record = new ExaPrint();
 						foreach ($orderlist as $order_var)
 						{
-							// Récupération des données nécessaires
+							// Shipper information retrieval
 							$order = new Order($order_var['id_order']);
 							$nom_exp = Configuration::get('EXAPAQ_NOM_EXP', null, null, (int)$order->id_shop);			// Raison sociale expéditeur
 							$address_exp = Configuration::get('EXAPAQ_ADDRESS_EXP', null, null, (int)$order->id_shop);	// Adresse
@@ -382,7 +367,7 @@ class AdminExapaq extends AdminTab
 							$email_exp = Configuration::get('EXAPAQ_EMAIL_EXP', null, null, (int)$order->id_shop);		// E-mail
 							$gsm_exp = Configuration::get('EXAPAQ_GSM_EXP', null, null, (int)$order->id_shop);			// N° GSM
 
-							// Retro compatibilité PS 1.4 et inf.
+							// Backwards compatibility PS 1.4 and lower
 							if (_PS_VERSION_ < '1.5')
 								$order->reference = $order->id;
 
@@ -416,7 +401,7 @@ class AdminExapaq extends AdminTab
 									break;
 							}
 
-							// Structure du fichier d'interface EXAPAQ unifié
+							// EXAPAQ unified interface file structure
 							$record->add($order->reference, 0, 35);														//	Référence client N°1 - Référence Commande Prestashop 1.5
 							$record->add(str_pad((int)$poids, 8, '0', STR_PAD_LEFT), 37, 8);							//	Poids du colis sur 8 caractères
 							if ($type == 'REL')
@@ -480,14 +465,14 @@ class AdminExapaq extends AdminTab
 				echo '<div class="alert warn">'.$this->l('No order selected.').'</div>';
 		}
 
-		// Affichage
-		// Message d'erreur si Cargo ou N° Agence manquant
+		// Display
+		// Error message if shipper info is missing
 		if (Configuration::get('EXAPAQ_PARAM', null, null, (int)$this->context->shop->id) != 1)
 		{
 			echo '<div class="error">'.$this->l('Warning! Your EXAPAQ Depot code and contract number are missing. You must configure the EXAPAQ plugin in order to use the export and tracking features.').'</div>';
 			exit;
 		}
-		// Flux RSS
+		// RSS stream
 		if (_PS_VERSION_ < '1.4')
 			$rss = @simplexml_load_string(file_get_contents('http://www.exapaq.com/flux_info_exapaq.xml'));
 		else
@@ -501,7 +486,7 @@ class AdminExapaq extends AdminTab
 				echo '<strong style="color:red;">'.$item->category.' > '.$item->title.' : </strong> '.$item->description.'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 			echo '</div></div></fieldset><br/>';
 		}
-		// Fin RSS
+		// End of RSS
 
 		echo '<link rel="stylesheet" type="text/css" href="../modules/'.$this->name.'/css/admin/AdminExapaq.css"/>';
 		echo '<fieldset><legend><img src="../modules/'.$this->name.'/img/admin/admin.png"/>'.$this->l('EXAPAQ deliveries management').'</legend>'; // Titre et cadre
@@ -531,19 +516,19 @@ class AdminExapaq extends AdminTab
 
 		foreach ($statuses as $status)
 			$statuses_array[$status['id_order_state']] = $status['name'];
-			$fieldlist = array('O.`id_order`', 'O.`id_cart`', 'AD.`lastname`', 'AD.`firstname`', 'AD.`postcode`', 'AD.`city`', 'CL.`iso_code`', 'C.`email`', 'CA.`name`');
-			$orders = AdminExapaq::getAllOrders((int)Tools::substr($this->context->cookie->shopContext, 2));
-			$liste_expeditions = 'O.id_order IN ('.implode(',', $orders).')';
+		$fieldlist = array('O.`id_order`', 'O.`id_cart`', 'AD.`lastname`', 'AD.`firstname`', 'AD.`postcode`', 'AD.`city`', 'CL.`iso_code`', 'C.`email`', 'CA.`name`');
+		$orders = AdminExapaq::getAllOrders((int)Tools::substr($this->context->cookie->shopContext, 2));
+		$liste_expeditions = 'O.id_order IN ('.implode(',', $orders).')';
 
-			$predict_carrier_log = $classic_carrier_log = $icirelais_carrier_log = $europe_carrier_log = '';
+		$predict_carrier_log = $classic_carrier_log = $icirelais_carrier_log = $europe_carrier_log = '';
 
-			if (Configuration::get('EXAPAQ_PREDICT_CARRIER_LOG', null, null, (int)$this->context->shop->id))
-				$predict_carrier_log = 'CA.id_carrier IN ('.implode(',', explode('|', Tools::substr(Configuration::get('EXAPAQ_PREDICT_CARRIER_LOG', null, null, (int)$this->context->shop->id), 1))).') OR ';
-			if (Configuration::get('EXAPAQ_CLASSIC_CARRIER_LOG', null, null, (int)$this->context->shop->id))
-				$classic_carrier_log = 'CA.id_carrier IN ('.implode(',', explode('|', Tools::substr(Configuration::get('EXAPAQ_CLASSIC_CARRIER_LOG', null, null, (int)$this->context->shop->id), 1))).') OR ';
-			if (Configuration::get('EXAPAQ_ICIRELAIS_CARRIER_LOG', null, null, (int)$this->context->shop->id))
-				$icirelais_carrier_log = 'CA.id_carrier IN ('.implode(',', explode('|', Tools::substr(Configuration::get('EXAPAQ_ICIRELAIS_CARRIER_LOG', null, null, (int)$this->context->shop->id), 1))).') OR ';
-			$europe_carrier_log = 'CA.name LIKE \'%DPD%\'';
+		if (Configuration::get('EXAPAQ_PREDICT_CARRIER_LOG', null, null, (int)$this->context->shop->id))
+			$predict_carrier_log = 'CA.id_carrier IN ('.implode(',', explode('|', Tools::substr(Configuration::get('EXAPAQ_PREDICT_CARRIER_LOG', null, null, (int)$this->context->shop->id), 1))).') OR ';
+		if (Configuration::get('EXAPAQ_CLASSIC_CARRIER_LOG', null, null, (int)$this->context->shop->id))
+			$classic_carrier_log = 'CA.id_carrier IN ('.implode(',', explode('|', Tools::substr(Configuration::get('EXAPAQ_CLASSIC_CARRIER_LOG', null, null, (int)$this->context->shop->id), 1))).') OR ';
+		if (Configuration::get('EXAPAQ_ICIRELAIS_CARRIER_LOG', null, null, (int)$this->context->shop->id))
+			$icirelais_carrier_log = 'CA.id_carrier IN ('.implode(',', explode('|', Tools::substr(Configuration::get('EXAPAQ_ICIRELAIS_CARRIER_LOG', null, null, (int)$this->context->shop->id), 1))).') OR ';
+		$europe_carrier_log = 'CA.name LIKE \'%DPD%\'';
 
 		if (!empty($orders))
 		{

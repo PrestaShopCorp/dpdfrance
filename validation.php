@@ -54,65 +54,66 @@ switch ((int)$delivery_option)
 	else
 		$relay_id = Tools::getValue('relay_id_opc');
 
-	if (!isset($_SESSION))session_start();
-		if (isset($_SESSION['icirelais']) && isset($_SESSION['icirelais'][$relay_id])) /* Check if session started and if ICI relais point is selected */
+	$detail_relais = unserialize(Context::getContext()->cookie->$relay_id); /* Retrieve details of chosen relaypoint in the cookie*/
+
+	if (!empty($detail_relais))
+	{
+		Db::getInstance()->delete(_DB_PREFIX_.'exapaq_france', 'id_cart = "'.$cart->id.'"'); /* Delete previous entry in database */
+		$address1 = (isset($detail_relais['address1']))?$detail_relais['address1']:'';
+		$address2 = (isset($detail_relais['address2']))?$detail_relais['address2']:'';
+		$sql = 'INSERT IGNORE INTO '._DB_PREFIX_."exapaq_france 
+				(id_customer, id_cart, id_carrier, service, relay_id, company, address1, address2, postcode, city, id_country, gsm_dest) 
+				VALUES (
+				'".(int)$cart->id_customer."',
+				'".(int)$cart->id."',
+				'".(int)$cart->id_carrier."',
+				'REL',
+				'$relay_id',
+				'".$detail_relais['shop_name']."',
+				'$address1',
+				'$address2',
+				'".$detail_relais['postal_code']."',
+				'".$detail_relais['city']."',
+				'".$detail_relais['id_country']."',
+				''
+				)";
+
+		if (!Db::getInstance()->Execute($sql)) /* If error while writing in database : display an error message */
 		{
-			Db::getInstance()->delete(_DB_PREFIX_.'exapaq_france', 'id_cart = "'.$cart->id.'"'); /* Delete previous entry in database */
-			$address1 = (isset($_SESSION['icirelais'][$relay_id]['address1']))?$_SESSION['icirelais'][$relay_id]['address1']:'';
-			$address2 = (isset($_SESSION['icirelais'][$relay_id]['address2']))?$_SESSION['icirelais'][$relay_id]['address2']:'';
-			$sql = 'INSERT IGNORE INTO '._DB_PREFIX_."exapaq_france 
-							(id_customer, id_cart, id_carrier, service, relay_id, company, address1, address2, postcode, city, id_country, gsm_dest) 
-							VALUES (
-							'".(int)$cart->id_customer."',
-							'".(int)$cart->id."',
-							'".(int)$cart->id_carrier."',
-							'REL',
-							'$relay_id',
-							'".$_SESSION['icirelais'][$relay_id]['shop_name']."',
-							'$address1',
-							'$address2',
-							'".$_SESSION['icirelais'][$relay_id]['postal_code']."',
-							'".$_SESSION['icirelais'][$relay_id]['city']."',
-							'".$_SESSION['icirelais'][$relay_id]['id_country']."',
-							''
-							)";
-
-			if (!Db::getInstance()->Execute($sql)) /* If error while writing in database : display an error message */
-			{
-				echo '<div class="alert error">Un problème est survenu lors de la sélection de votre point relais, merci de réessayer</div>';
-				echo '<a href="javascript:history.back()">Retour</a>';
-			}
-			if (version_compare(_PS_VERSION_, '1.5', '<'))
-				if ((int)Configuration::get('PS_ORDER_PROCESS_TYPE') == 0)
-					Tools::redirect('order.php?step=3&cgv=1&icirelais=ok'); /* PS 1.4 STD */
-				else
-					Tools::redirect('order-opc.php?cgv=1&icirelais=ok#opc_delivery_methods'); /* PS 1.4 OPC */
-			else
-				if ((int)Configuration::get('PS_ORDER_PROCESS_TYPE') == 0)
-					Tools::redirect('index.php?controller=order&step=3&cgv=1&icirelais=ok'); /* PS 1.5 STD */
-				else
-					Tools::redirect('index.php?controller=order-opc&isPaymentStep=true&cgv=1&icirelais=ok#carrier_area'); /* PS 1.5 OPC */
+			echo '<div class="alert error">Un problème est survenu lors de la sélection de votre point relais, merci de réessayer</div>';
+			echo '<a href="javascript:history.back()">Retour</a>';
 		}
+		if (version_compare(_PS_VERSION_, '1.5', '<'))
+			if ((int)Configuration::get('PS_ORDER_PROCESS_TYPE') == 0)
+				Tools::redirect('order.php?step=3&cgv=1&icirelais=ok'); /* PS 1.4 STD */
+			else
+				Tools::redirect('order-opc.php?cgv=1&icirelais=ok#opc_delivery_methods'); /* PS 1.4 OPC */
 		else
-		{ /* While entering payment step, we check if relaypoint data is written. If it's OK then go to payment page. Else, redirect to carriers page */
-			$sql = 'SELECT relay_id FROM '._DB_PREFIX_.'exapaq_france WHERE id_cart = '.$cart->id;
-			$res = Db::getInstance()->ExecuteS($sql);
-			foreach ($res as $relays) /* All right, go to payment page */
-				Tools::redirect('index.php?controller=order&step=3&cgv=1&icirelais=ok');
-
-			/* Else, set error parameter and redirect to carriers page */
-			if (version_compare(_PS_VERSION_, '1.5', '<'))
-				if ((int)Configuration::get('PS_ORDER_PROCESS_TYPE') == 0)
-					Tools::redirect('order.php?step=2&cgv=1&icirelais=error'); /* PS 1.4 STD */
-				else
-					Tools::redirect('order-opc.php?cgv=1&icirelais=error#opc_delivery_methods'); /* PS 1.4 OPC */
+			if ((int)Configuration::get('PS_ORDER_PROCESS_TYPE') == 0)
+				Tools::redirect('index.php?controller=order&step=3&cgv=1&icirelais=ok'); /* PS 1.5 STD */
 			else
-				if ((int)Configuration::get('PS_ORDER_PROCESS_TYPE') == 0)
-					Tools::redirect('index.php?controller=order&step=2&cgv=1&icirelais=error'); /* PS 1.5 STD */
-				else
-					Tools::redirect('index.php?controller=order-opc&isPaymentStep=true&cgv=1&icirelais=error#carrier_area'); /* PS 1.5 OPC */
-		}
-		break;
+				Tools::redirect('index.php?controller=order-opc&isPaymentStep=true&cgv=1&icirelais=ok#carrier_area'); /* PS 1.5 OPC */
+	}
+	else
+	{ /* While entering payment step, we check if relaypoint data is written. If it's OK then go to payment page. Else, redirect to carriers page */
+		$sql = 'SELECT relay_id FROM '._DB_PREFIX_.'exapaq_france WHERE id_cart = '.$cart->id;
+		$res = Db::getInstance()->ExecuteS($sql);
+		foreach ($res as $relays) /* All right, go to payment page */
+			Tools::redirect('index.php?controller=order&step=3&cgv=1&icirelais=ok');
+
+		/* Else, set error parameter and redirect to carriers page */
+		if (version_compare(_PS_VERSION_, '1.5', '<'))
+			if ((int)Configuration::get('PS_ORDER_PROCESS_TYPE') == 0)
+				Tools::redirect('order.php?step=2&cgv=1&icirelais=error'); /* PS 1.4 STD */
+			else
+				Tools::redirect('order-opc.php?cgv=1&icirelais=error#opc_delivery_methods'); /* PS 1.4 OPC */
+		else
+			if ((int)Configuration::get('PS_ORDER_PROCESS_TYPE') == 0)
+				Tools::redirect('index.php?controller=order&step=2&cgv=1&icirelais=error'); /* PS 1.5 STD */
+			else
+				Tools::redirect('index.php?controller=order-opc&isPaymentStep=true&cgv=1&icirelais=error#carrier_area'); /* PS 1.5 OPC */
+	}
+	break;
 	case (int)Configuration::get('EXAPAQ_PREDICT_CARRIER_ID') : /* If Predict carrier is selected */
 		$exapredict_gsm_dest = Tools::getValue('exapredict_gsm_dest');
 		$input_tel = Tools::getValue('exapredict_gsm_dest'); /* Get customer's mobile phone number entered */

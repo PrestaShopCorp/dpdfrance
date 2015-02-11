@@ -28,57 +28,6 @@ if (!defined('_PS_VERSION_'))
 
 class Exapaq extends CarrierModule
 {
-	/* Get Postal Code from an address ID */
-	public static function getPostcodeByAddress($id_address)
-	{
-		$row = Db::getInstance()->getRow('
-			SELECT `postcode`
-			FROM '._DB_PREFIX_.'address a
-			WHERE a.`id_address` = '.(int)$id_address);
-		return $row['postcode'];
-	}
-
-	/* Island and Mountain zones overcost calculation functions */
-	public function getOrderShippingCost($params, $shipping_cost)
-	{
-		if (!$this->context->cart instanceof Cart)
-			$this->context->cart = new Cart($params->id);
-
-		if ($this->context->country->iso_code != 'FR')
-			return $shipping_cost;
-
-		$exa_iles = array('17111','17123','17190','17310','17370','17410','17480','17550','17580','17590','17630','17650','17670','17740','17840','17880','17940','22870','29242','29253','29259','29980','29990','56360','56590','56780','56840','85350');
-		$exa_montagne = array('04120','04130','04140','04160','04170','04200','04240','04260','04300','04310','04330','04360','04370','04400','04510','04530','04600','04700','04850','05100','05110','05120','05130','05150','05160','05170','05200','05220','05240','05250','05260','05290','05300','05310','05320','05330','05340','05350','05400','05460','05470','05500','05560','05600','05700','05800','06140','06380','06390','06410','06420','06430','06450','06470','06530','06540','06620','06710','06750','06910','09110','09140','09300','09460','25120','25140','25240','25370','25450','25500','25650','30570','31110','38112','38114','38142','38190','38250','38350','38380','38410','38580','38660','38700','38750','38860','38880','39220','39310','39400','63113','63210','63240','63610','63660','63690','63840','63850','64440','64490','64560','64570','65110','65120','65170','65200','65240','65400','65510','65710','66210','66760','66800','68140','68610','68650','73110','73120','73130','73140','73150','73160','73170','73190','73210','73220','73230','73250','73260','73270','73300','73320','73340','73350','73390','73400','73440','73450','73460','73470','73500','73530','73550','73590','73600','73620','73630','73640','73710','73720','73870','74110','74120','74170','74220','74230','74260','74310','74340','74350','74360','74390','74400','74420','74430','74440','74450','74470','74480','74660','74740','74920','83111','83440','83530','83560','83630','83690','83830','83840','84390','88310','88340','88370','88400','90200');
-
-		$id_address = $this->context->cart->id_address_delivery;
-		$postcode = self::getPostcodeByAddress($id_address);
-
-		if (Tools::substr($postcode, 0, 2) == '20')
-		{
-			$shipping_cost += (float)Configuration::get('EXAPAQ_SUPP_ILES');
-			if ((float)Configuration::get('EXAPAQ_SUPP_ILES') < 0)
-				return false;
-		}
-		if (in_array($postcode, $exa_iles))
-		{
-			$shipping_cost += (float)Configuration::get('EXAPAQ_SUPP_ILES');
-			if ((float)Configuration::get('EXAPAQ_SUPP_ILES') < 0)
-				return false;
-		}
-		if (in_array($postcode, $exa_montagne))
-		{
-			$shipping_cost += (float)Configuration::get('EXAPAQ_SUPP_MONTAGNE');
-			if ((float)Configuration::get('EXAPAQ_SUPP_MONTAGNE') < 0)
-				return false;
-		}
-		return $shipping_cost;
-	}
-
-	public function getOrderShippingCostExternal($params)
-	{
-		return $params;
-	}
-
 	private $config_carrier_icirelais = array(
 		'name' 					=> 'ICI relais par EXAPAQ',
 		'id_tax_rules_group' 	=> 0,
@@ -163,6 +112,60 @@ class Exapaq extends CarrierModule
 		'grade' 				=> 9,
 		);
 
+	/* Get Postal Code from an address ID */
+	public static function getPostcodeByAddress($id_address)
+	{
+		$row = Db::getInstance()->getRow('
+			SELECT `postcode`
+			FROM '._DB_PREFIX_.'address a
+			WHERE a.`id_address` = '.(int)$id_address);
+		if (!empty($row['postcode']))
+			return $row['postcode'];
+		else
+			return false;
+	}
+
+	/* Island and Mountain zones overcost calculation functions */
+	public function getOrderShippingCost($params, $shipping_cost)
+	{
+		if (!$this->context->cart instanceof Cart)
+			$this->context->cart = new Cart((int)$params->id);
+
+		if ($this->context->country->iso_code != 'FR')
+			return $shipping_cost;
+
+		$exa_iles = array('17111','17123','17190','17310','17370','17410','17480','17550','17580','17590','17630','17650','17670','17740','17840','17880','17940','22870','29242','29253','29259','29980','29990','56360','56590','56780','56840','85350');
+		$exa_montagne = array('04120','04130','04140','04160','04170','04200','04240','04260','04300','04310','04330','04360','04370','04400','04510','04530','04600','04700','04850','05100','05110','05120','05130','05150','05160','05170','05200','05220','05240','05250','05260','05290','05300','05310','05320','05330','05340','05350','05400','05460','05470','05500','05560','05600','05700','05800','06140','06380','06390','06410','06420','06430','06450','06470','06530','06540','06620','06710','06750','06910','09110','09140','09300','09460','25120','25140','25240','25370','25450','25500','25650','30570','31110','38112','38114','38142','38190','38250','38350','38380','38410','38580','38660','38700','38750','38860','38880','39220','39310','39400','63113','63210','63240','63610','63660','63690','63840','63850','64440','64490','64560','64570','65110','65120','65170','65200','65240','65400','65510','65710','66210','66760','66800','68140','68610','68650','73110','73120','73130','73140','73150','73160','73170','73190','73210','73220','73230','73250','73260','73270','73300','73320','73340','73350','73390','73400','73440','73450','73460','73470','73500','73530','73550','73590','73600','73620','73630','73640','73710','73720','73870','74110','74120','74170','74220','74230','74260','74310','74340','74350','74360','74390','74400','74420','74430','74440','74450','74470','74480','74660','74740','74920','83111','83440','83530','83560','83630','83690','83830','83840','84390','88310','88340','88370','88400','90200');
+
+		$id_address = (int)$this->context->cart->id_address_delivery;
+		$postcode = self::getPostcodeByAddress($id_address);
+
+		if (Tools::substr($postcode, 0, 2) == '20')
+		{
+			$shipping_cost += (float)Configuration::get('EXAPAQ_SUPP_ILES');
+			if ((float)Configuration::get('EXAPAQ_SUPP_ILES') < 0)
+				return false;
+		}
+		if (in_array($postcode, $exa_iles))
+		{
+			$shipping_cost += (float)Configuration::get('EXAPAQ_SUPP_ILES');
+			if ((float)Configuration::get('EXAPAQ_SUPP_ILES') < 0)
+				return false;
+		}
+		if (in_array($postcode, $exa_montagne))
+		{
+			$shipping_cost += (float)Configuration::get('EXAPAQ_SUPP_MONTAGNE');
+			if ((float)Configuration::get('EXAPAQ_SUPP_MONTAGNE') < 0)
+				return false;
+		}
+		return $shipping_cost;
+	}
+
+	public function getOrderShippingCostExternal($params)
+	{
+		return $params;
+	}
+
 	public function __construct()
 	{
 		$this->name = 'exapaq';
@@ -220,26 +223,31 @@ class Exapaq extends CarrierModule
 		$sql = 'ALTER TABLE `'._DB_PREFIX_.'orders` CHANGE `shipping_number`  `shipping_number` VARCHAR( 64 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL';
 		Db::getInstance()->Execute($sql);
 
-		if (!Db::getInstance()->Execute('CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.'exapaq_france` (
-											`id_customer` int(10) unsigned DEFAULT NULL,
-											`id_cart` int(10) unsigned DEFAULT NULL,
-											`id_carrier` int(5) unsigned DEFAULT NULL,
-											`service` varchar(3) DEFAULT NULL,
-											`relay_id` varchar(8) DEFAULT NULL,
-											`company` varchar(23) DEFAULT NULL,
-											`address1` varchar(128) DEFAULT NULL,
-											`address2` varchar(128) DEFAULT NULL,
-											`postcode` varchar(10) DEFAULT NULL,
-											`city` varchar(100) DEFAULT NULL,
-											`id_country` int(11) DEFAULT NULL,
-											`gsm_dest` varchar(14) DEFAULT NULL) 
-										ENGINE=MyISAM DEFAULT CHARSET=utf8;'))return false;
+		$query = Db::getInstance()->Execute('CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.'exapaq_france` (
+		`id_customer` int(10) unsigned DEFAULT NULL,
+		`id_cart` int(10) unsigned DEFAULT NULL,
+		`id_carrier` int(5) unsigned DEFAULT NULL,
+		`service` varchar(3) DEFAULT NULL,
+		`relay_id` varchar(8) DEFAULT NULL,
+		`company` varchar(23) DEFAULT NULL,
+		`address2` varchar(128) DEFAULT NULL,
+		`postcode` varchar(10) DEFAULT NULL,
+		`city` varchar(100) DEFAULT NULL,
+		`id_country` int(11) DEFAULT NULL,
+		`gsm_dest` varchar(14) DEFAULT NULL) 
+		ENGINE=MyISAM DEFAULT CHARSET=utf8;');
+
+		if (!$query)
+			return false;
 
 		// Get "France" zone ID and set it as $id_zone_france
 		$sql = 'SELECT id_zone FROM '._DB_PREFIX_.'zone WHERE name LIKE \'%France%\'';
 		$res = Db::getInstance()->ExecuteS($sql);
-		foreach ($res as $zone)
-			$id_zone_france = $zone['id_zone'];
+		if (!empty($res))
+		{
+			foreach ($res as $zone)
+				$id_zone_france = $zone['id_zone'];
+		}
 
 		// If France zone ID is empty : Create a France zone, fetch its ID, and assign the France country to this zone
 		if (!$id_zone_france)
@@ -247,19 +255,18 @@ class Exapaq extends CarrierModule
 			Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'zone (name, active) VALUES (\'France\',1)');
 			$sql = 'SELECT id_zone FROM '._DB_PREFIX_.'zone WHERE name = \'France\'';
 			$res = Db::getInstance()->ExecuteS($sql);
-			foreach ($res as $zone)
+			if (!empty($res))
 			{
-				$id_zone_france = $zone['id_zone'];
-				Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'country SET id_zone='.$id_zone_france.' WHERE iso_code = \'FR\' and active = 1');
+				foreach ($res as $zone)
+				{
+					$id_zone_france = $zone['id_zone'];
+					Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'country SET id_zone='.$id_zone_france.' WHERE iso_code = \'FR\' and active = 1');
+				}
 			}
 		}
-		if (!Db::getInstance()->Execute($sql))
-			return false;
-
 		$sql = 'UPDATE '._DB_PREFIX_.'country SET id_zone='.(int)$id_zone_france.' WHERE iso_code = \'FR\' and active = 1';
 		if (!Db::getInstance()->Execute($sql))
 			return false;
-
 		return true;
 	}
 
@@ -274,6 +281,33 @@ class Exapaq extends CarrierModule
 	public function getContent()
 	{
 		$output = '<h2>'.$this->displayName.'</h2>';
+
+		if (_PS_VERSION_ < '1.4')
+			$output .= '<script type="text/javascript" src="../modules/'.$this->name.'/js/admin/jquery/jquery-1.4.3.min.js"></script>';
+
+		$output .= 	'<link rel="stylesheet" type="text/css" href="../modules/'.$this->name.'/js/admin/jquery/plugins/fancybox/jquery.fancybox-1.3.4.css" media="screen"/>
+					<script type="text/javascript" src="../modules/'.$this->name.'/js/admin/jquery/plugins/fancybox/jquery.fancybox-1.3.4.js"></script>
+					<link rel="stylesheet" type="text/css" href="../modules/'.$this->name.'/css/admin/exapaq_config.css"/>';
+
+		// Contact form if not customer
+		if (Tools::isSubmit('submitContactForm'))
+		{
+			$lead_content = array();
+			$lead_content['{raison_sociale}'] = (Tools::getValue('raison_sociale') ? Tools::getValue('raison_sociale') : 'Non renseigné');
+			$lead_content['{site_web}'] = Configuration::get('PS_SHOP_DOMAIN');
+			$lead_content['{nom_contact}'] = (Tools::getValue('nom_contact') ? Tools::getValue('nom_contact') : 'Non renseigné');
+			$lead_content['{code_postal}'] = (Tools::getValue('code_postal') ? Tools::getValue('code_postal') : 'Non renseigné');
+			$lead_content['{ville}'] = (Tools::getValue('ville') ? Tools::getValue('ville') : 'Non renseigné');
+			$lead_content['{coordonnees}'] = (Tools::getValue('coordonnees') ? Tools::getValue('coordonnees') : 'Non renseigné');
+			$lead_content['{volume_colis}'] = (Tools::getValue('volume_colis') ? Tools::getValue('volume_colis') : 'Non renseigné');
+
+			$iso = Language::getIsoById((int)$this->context->cookie->id_lang);
+			if (file_exists(dirname(__FILE__).'/mails/'.$iso.'/contact.txt') && file_exists(dirname(__FILE__).'/mails/'.$iso.'/contact.html'))
+				if (!Mail::Send((int)$this->context->cookie->id_lang, 'contact', 'Lead entrant Prestashop', $lead_content, 'marco.brentini@exapaq.com', null, Configuration::get('PS_SHOP_EMAIL'), null, null, null, dirname(__FILE__).'/mails/'))
+					$output .= '<div class="error">'.$this->l('An error occured while sending your information. Please try again or visit www.exapaq.com').'</div>';
+				else
+					$output .= '<div class="conf confirm">'.$this->l('Thank you! Your information are successfully sent, we will keep you in touch as soon as possible.').'</div>';
+		}
 
 		// Create ICI relais carrier
 		if (Tools::isSubmit('submitCreateCarrierIcirelais'))
@@ -375,212 +409,44 @@ class Exapaq extends CarrierModule
 
 	public function displayForm()
 	{
-		$output = '<link rel="stylesheet" type="text/css" href="'.$this->_path.'/css/admin/exapaq_config.css"/>';
 		if (!extension_loaded('soap'))
-			$output .= '<div class="error">'.$this->l('Warning! The PHP extension SOAP is not installed on this server. You must activate it in order to use the EXAPAQ plugin').'</div>';
+			echo '<div class="error">'.$this->l('Warning! The PHP extension SOAP is not installed on this server. You must activate it in order to use the EXAPAQ plugin').'</div>';
 		else
 		{
-			$nom_exp 				= Tools::getValue('nom_exp', Configuration::get('EXAPAQ_NOM_EXP'));
-			$address_exp 			= Tools::getValue('address_exp', Configuration::get('EXAPAQ_ADDRESS_EXP'));
-			$address2_exp 			= Tools::getValue('address2_exp', Configuration::get('EXAPAQ_ADDRESS2_EXP'));
-			$cp_exp 				= Tools::getValue('cp_exp', Configuration::get('EXAPAQ_CP_EXP'));
-			$ville_exp 				= Tools::getValue('ville_exp', Configuration::get('EXAPAQ_VILLE_EXP'));
-			$tel_exp 				= Tools::getValue('tel_exp', Configuration::get('EXAPAQ_TEL_EXP'));
-			$email_exp 				= Tools::getValue('email_exp', Configuration::get('EXAPAQ_EMAIL_EXP'));
-			$gsm_exp 				= Tools::getValue('gsm_exp', Configuration::get('EXAPAQ_GSM_EXP'));
-			$icirelais_depot_code 	= Tools::getValue('icirelais_depot_code', Configuration::get('EXAPAQ_ICIRELAIS_DEPOT_CODE'));
-			$predict_depot_code 	= Tools::getValue('predict_depot_code', Configuration::get('EXAPAQ_PREDICT_DEPOT_CODE'));
-			$classic_depot_code 	= Tools::getValue('classic_depot_code', Configuration::get('EXAPAQ_CLASSIC_DEPOT_CODE'));
-			$icirelais_shipper_code = Tools::getValue('icirelais_shipper_code', Configuration::get('EXAPAQ_ICIRELAIS_SHIPPER_CODE'));
-			$predict_shipper_code 	= Tools::getValue('predict_shipper_code', Configuration::get('EXAPAQ_PREDICT_SHIPPER_CODE'));
-			$classic_shipper_code 	= Tools::getValue('classic_shipper_code', Configuration::get('EXAPAQ_CLASSIC_SHIPPER_CODE'));
-			$carriers 				= Carrier::getCarriers($this->context->language->id, false, false, false, null, (defined('ALL_CARRIERS') ? ALL_CARRIERS : null));
-			$icirelais_carrier_id 	= Tools::getValue('icirelais_carrier_id', Configuration::get('EXAPAQ_ICIRELAIS_CARRIER_ID'));
-			$predict_carrier_id 	= Tools::getValue('predict_carrier_id', Configuration::get('EXAPAQ_PREDICT_CARRIER_ID'));
-			$classic_carrier_id 	= Tools::getValue('classic_carrier_id', Configuration::get('EXAPAQ_CLASSIC_CARRIER_ID'));
-			$mypudo_url				= Tools::getValue('mypudo_url', Configuration::get('EXAPAQ_ICIRELAIS_MYPUDO_URL'));
-			$supp_iles 				= Tools::getValue('supp_iles', Configuration::get('EXAPAQ_SUPP_ILES'));
-			$supp_montagne 			= Tools::getValue('supp_montagne', Configuration::get('EXAPAQ_SUPP_MONTAGNE'));
-			$etats_factures = OrderState::getOrderStates((int)$this->context->language->id);
-			$options 				= array();
-			$optvd					= array($this->l('Integrated parcel insurance service (23 € / kg)'),$this->l('Ad Valorem insurance service'));
-
-			$output .= '<form action="'.Tools::safeOutput($_SERVER['REQUEST_URI']).'" method="post">
-						<fieldset><legend><img src="'.$this->_path.'/img/admin/admin.png" alt="" title="" />'.$this->l('Settings').'</legend>';
-
-			// Tabs header
-			$output .= '<div id="exapaq_menu">
-						  <ul id="onglets">
-						  	<li><a id="onglet0" href="javascript:void(0)" onclick="$(&quot;#donnees_exp,#modes_transport,#options_supp,#gestion_exp,#recap&quot;).fadeOut(0, function() {$(&quot;#accueil&quot;).fadeIn(&quot;slow&quot;)});"> '.$this->l('Start').' </a></li>
-							<li><a id="onglet1" href="javascript:void(0)" onclick="$(&quot;#accueil,#modes_transport,#options_supp,#gestion_exp,#recap&quot;).fadeOut(0, function() {$(&quot;#donnees_exp&quot;).fadeIn(&quot;slow&quot;)});"> '.$this->l('Your personal data').' </a></li>
-							<li><a id="onglet2" href="javascript:void(0)" onclick="$(&quot;#accueil,#donnees_exp,#options_supp,#gestion_exp,#recap&quot;).fadeOut(0, function() {$(&quot;#modes_transport&quot;).fadeIn(&quot;slow&quot;)});"> '.$this->l('Delivery services').' </a></li>
-							<li><a id="onglet3" href="javascript:void(0)" onclick="$(&quot;#accueil,#donnees_exp,#modes_transport,#gestion_exp,#recap&quot;).fadeOut(0, function() {$(&quot;#options_supp&quot;).fadeIn(&quot;slow&quot;)});"> '.$this->l('Advanced settings').' </a></li>
-							<li><a id="onglet4" href="javascript:void(0)" onclick="$(&quot;#accueil,#donnees_exp,#modes_transport,#options_supp,#recap&quot;).fadeOut(0, function() {$(&quot;#gestion_exp&quot;).fadeIn(&quot;slow&quot;)});"> '.$this->l('Orders management').' </a></li>
-							<li><a id="onglet5" href="javascript:void(0)" onclick="$(&quot;#accueil,#donnees_exp,#modes_transport,#options_supp,#gestion_exp&quot;).fadeOut(0, function() {$(&quot;#recap&quot;).fadeIn(&quot;slow&quot;)});"> '.$this->l('Summary').' </a></li>
-						  </ul>
-						</div>';
-
-			// Tab Accueil
-			$output .= '<div id="accueil" style="display:block;">';
-			$output .= '<br/><span class="section_title">'.$this->l('Welcome to EXAPAQ').'</span><br/>';
-			$output .= '<div>'.$this->l('Please configure the EXAPAQ plugin. Documentation is available here : ').'<a target="_blank" href="../modules/exapaq/docs/readme_exapaq_prestashop.pdf"><img src ="../modules/exapaq/img/admin/pdf.png" alt="PDF"/></a></div><br/>';
-
-			$output .= '<div id="accueil_wrap">';
-			$output .= '<div id="pasclient"><a style="text-decoration:none;" href="http://www.exapaq.com/exa/agences.php" target="_blank"><span class="client_title">'.$this->l('Not a customer yet?').'</span><div id="pasclient_img"></div><span class="client_subtitle">'.$this->l('Click here to get in touch with our sales team').'</span></a></div>';
-			$output .= '<div id="client" href="javascript:void(0)" onclick="$(&quot;#accueil,#modes_transport,#options_supp,#gestion_exp&quot;).fadeOut(0, function() {$(&quot;#donnees_exp&quot;).fadeIn(&quot;slow&quot;)});"><span class="client_title">'.$this->l('I\'m already a customer').'</span><div id="client_img"></div><span class="client_subtitle">'.$this->l('Proceed to the plugin configuration').'</span></div>';
-			$output .= '<br/></div></div>';
-
-			// Tab Vos données expéditeur
-			$output .= '<div id="donnees_exp" style="display:none;">';
-			$output .= '<br/><span class="section_title">'.$this->l('Your personal data').'</span><br/><br/>';
-
-			$output .= '<div id="donnees_exp_wrap">';
-			$output .= '<label>'.$this->l('Company Name').'</label><div class="margin-form"><input type="text" size="33" name="nom_exp" value="'.$nom_exp.'" /></div>';
-			$output .= '<label>'.$this->l('Address 1').'</label><div class="margin-form"><input type="text" size="33" name="address_exp" value="'.$address_exp.'" /></div>';
-			$output .= '<label>'.$this->l('Address 2').'</label><div class="margin-form"><input type="text" size="33" name="address2_exp" value="'.$address2_exp.'" /></div>';
-			$output .= '<label>'.$this->l('Postal code').'</label><div class="margin-form"><input type="text" size="33" name="cp_exp" value="'.$cp_exp.'" /></div>';
-			$output .= '<label>'.$this->l('City').'</label><div class="margin-form"><input type="text" size="33" name="ville_exp" value="'.$ville_exp.'" /></div>';
-			$output .= '<label>'.$this->l('Telephone').'</label><div class="margin-form"><input type="text" size="33" name="tel_exp" value="'.$tel_exp.'" /></div>';
-			$output .= '<label>'.$this->l('GSM').'</label><div class="margin-form"><input type="text" size="33" name="gsm_exp" value="'.$gsm_exp.'" /></div>';
-			$output .= '<label>'.$this->l('E-mail').'</label><div class="margin-form"><input type="text" size="33" name="email_exp" value="'.$email_exp.'" /></div>';
-
-			$output .= '<center><a size="6" name="next" class="button" href="javascript:void(0)" onclick="$(&quot;#donnees_exp,#modes_transport,#options_supp,#gestion_exp,#recap&quot;).fadeOut(0, function() {$(&quot;#accueil&quot;).fadeIn(&quot;slow&quot;)});">'.$this->l('Previous').'</a> ';
-			$output .= '<a size="6" name="next" class="button" href="javascript:void(0)" onclick="$(&quot;#donnees_exp,#options_supp,#gestion_exp&quot;).fadeOut(0, function() {$(&quot;#modes_transport&quot;).fadeIn(&quot;slow&quot;)});">'.$this->l('Next').'</a></center>';
-			$output .= '<br/></div></div>';
-
-			// Tab Services de transport
-			$output .= '<div id="modes_transport" style="display:none;">';
-			$output .= '<br/><span class="section_title">'.$this->l('Delivery services').'</span><br/><br/>';
-			$output .= '<div id="modes_transport_wrap">';
-
-			// ICI relais par EXAPAQ
-			$output .= '<div id="service_relais">';
-			$output .= '<label>'.$this->l('ICI relais by EXAPAQ').'</label>';
-			$output .= '<div id="service_relais_img"></div>';
-
-			$output .= '<span>'.$this->l('Depot code - Contract number').'<br/>'.$this->l('(i.e.: 013 - 12345)').'</span><br/><br/>';
-			$output .= '<input type="text" size="3" name="icirelais_depot_code" class="icirelais_depot_code" value="'.$icirelais_depot_code.'" /> - ';
-			$output .= '<input type="text" size="5" name="icirelais_shipper_code" class="icirelais_shipper_code" value="'.$icirelais_shipper_code.'" /><br/><br/>';
-
-			$output .= '<span>'.$this->l('Carrier assignation').'</span><br/><br/>';
-			$output .= '<select name="icirelais_carrier_id"><option value="0">'.$this->l('None - Disable this carrier').'</option>';
-			foreach ($carriers as $carrier)
-			{
-				if ($carrier['id_carrier'] == $icirelais_carrier_id)
-					$output .= '<option value="'.$carrier['id_carrier'].'" selected>'.$carrier['id_carrier'].' - '.$carrier['name'].'</option>';
-				else
-					$output .= '<option value="'.$carrier['id_carrier'].'">'.$carrier['id_carrier'].' - '.$carrier['name'].'</option>';
-			}
-			$output .= '</select><br/><br/>';
-
-			$output .= '<span>'.$this->l('Carrier creation').'</span><br/><br/>';
-			$output .= '<input type="submit" name="submitCreateCarrierIcirelais" value="'.$this->l('Create ICI relais carrier').'" class="button"/> ';
-			$output .= '</div>';
-
-			// Predict par EXAPAQ
-			$output .= '<div id="service_predict">';
-			$output .= '<label>'.$this->l('Predict by EXAPAQ').'</label>';
-			$output .= '<div id="service_predict_img"></div>';
-
-			$output .= '<span>'.$this->l('Depot code - Contract number').'<br/>'.$this->l('(i.e.: 013 - 12345)').'</span><br/><br/>';
-			$output .= '<input type="text" size="3" name="predict_depot_code" class="predict_depot_code" value="'.$predict_depot_code.'" /> - ';
-			$output .= '<input type="text" size="5" name="predict_shipper_code" class="predict_shipper_code" value="'.$predict_shipper_code.'" /><br/><br/>';
-
-			$output .= '<span>'.$this->l('Carrier assignation').'</span><br/><br/>';
-			$output .= '<select name="predict_carrier_id"><option value="0">'.$this->l('None - Disable this carrier').'</option>';
-			foreach ($carriers as $carrier)
-			{
-				if ($carrier['id_carrier'] == $predict_carrier_id)
-					$output .= '<option value="'.$carrier['id_carrier'].'" selected>'.$carrier['id_carrier'].' - '.$carrier['name'].'</option>';
-				else
-					$output .= '<option value="'.$carrier['id_carrier'].'">'.$carrier['id_carrier'].' - '.$carrier['name'].'</option>';
-			}
-			$output .= '</select><br/><br/>';
-
-			$output .= '<span>'.$this->l('Carrier creation').'</span><br/><br/>';
-			$output .= '<input type="submit" name="submitCreateCarrierPredict" value="'.$this->l('Create Predict carrier').'" class="button"/> ';
-			$output .= '</div>';
-
-			// Classic par EXAPAQ
-			$output .= '<div id="service_classic">';
-			$output .= '<label>'.$this->l('Classic by EXAPAQ').'</label>';
-			$output .= '<div id="service_classic_img"></div>';
-
-			$output .= '<span>'.$this->l('Depot code - Contract number').'<br/>'.$this->l('(i.e.: 013 - 12345)').'</span><br/><br/>';
-			$output .= '<input type="text" size="3" name="classic_depot_code" class="classic_depot_code" value="'.$classic_depot_code.'" /> - ';
-			$output .= '<input type="text" size="5" name="classic_shipper_code" class="classic_shipper_code" value="'.$classic_shipper_code.'" /><br/><br/>';
-
-			$output .= '<span>'.$this->l('Carrier assignation').'</span><br/><br/>';
-			$output .= '<select name="classic_carrier_id"><option value="0">'.$this->l('None - Disable this carrier').'</option>';
-			foreach ($carriers as $carrier)
-			{
-				if ($carrier['id_carrier'] == $classic_carrier_id)
-					$output .= '<option value="'.$carrier['id_carrier'].'" selected>'.$carrier['id_carrier'].' - '.$carrier['name'].'</option>';
-				else
-					$output .= '<option value="'.$carrier['id_carrier'].'">'.$carrier['id_carrier'].' - '.$carrier['name'].'</option>';
-			}
-			$output .= '</select><br/><br/>';
-
-			$output .= '<span>'.$this->l('Carrier creation').'</span><br/><br/>';
-			$output .= '<input type="submit" name="submitCreateCarrierClassic" value="'.$this->l('Create Classic carrier').'" class="button"/> ';
-			$output .= '<input type="submit" name="submitCreateCarrierWorld" value="'.$this->l('Create Europe carrier').'" class="button"/><br/>';
-			$output .= '</div>';
-
-			$output .= '<div class="notabene">'.$this->l('Please contact your EXAPAQ sales representative to get your contract numbers and depot code.').'</div><br/><br/>';
-
-			$output .= '<center><a size="6" name="next" class="button" href="javascript:void(0)" onclick="$(&quot;#modes_transport,#options_supp,#gestion_exp&quot;).fadeOut(0, function() {$(&quot;#donnees_exp&quot;).fadeIn(&quot;slow&quot;)});">'.$this->l('Previous').'</a> ';
-			$output .= '<a size="6" name="next" class="button" href="javascript:void(0)" onclick="$(&quot;#donnees_exp,#modes_transport,#gestion_exp&quot;).fadeOut(0, function() {$(&quot;#options_supp&quot;).fadeIn(&quot;slow&quot;)});">'.$this->l('Next').'</a></center>';
-			$output .= '<br/></div></div>';
-
-			// Tab Options supplémentaires
-			$output .= '<div id="options_supp" style="display:none;">';
-			$output .= '<strong><br/>'.$this->l('Advanced settings').'</strong><br/><br/>';
-			$output .= '<label>'.$this->l('ICI relais WebService URL').'</label><div class="margin-form"><input type="text" size="52" name="mypudo_url" value="'.htmlentities($mypudo_url, ENT_COMPAT, 'UTF-8').'" /> '.$this->l('Caution! Critical setting').'</div>';
-
-			if (_PS_VERSION_ >= '1.4')
-			{
-				$output .= '<label>'.$this->l('Coastal islands & Corsica overcost').'</label><div class="margin-form"><input type="text" size="3" name="supp_iles" value="'.$supp_iles.'" />'.$this->l(' € (-1 to disable delivery to these areas)').'</div>';
-				$output .= '<label>'.$this->l('Mountain areas overcost').'</label><div class="margin-form"><input type="text" size="3" name="supp_montagne" value="'.$supp_montagne.'" />'.$this->l(' € (-1 to disable delivery to these areas)').'</div>';
-			}
-			$output .= '<center><a size="6" name="next" class="button" href="javascript:void(0)" onclick="$(&quot;#donnees_exp,#options_supp,#gestion_exp&quot;).fadeOut(0, function() {$(&quot;#modes_transport&quot;).fadeIn(&quot;slow&quot;)});">'.$this->l('Previous').'</a> ';
-			$output .= '<a size="6" name="next" class="button" href="javascript:void(0)" onclick="$(&quot;#donnees_exp,#modes_transport,#options_supp&quot;).fadeOut(0, function() {$(&quot;#gestion_exp&quot;).fadeIn(&quot;slow&quot;)});">'.$this->l('Next').'</a></center>';
-			$output .= '<br/></div>';
-
-			// Tab Gestion des expéditions
-			$output .= '<div id="gestion_exp" style="display:none;">';
-			$output .= '<strong><br/><br/>'.$this->l('Orders management').'</strong><br/><br/><br/>';
-
-			foreach ($etats_factures as $etat_facture)
-				$options[$etat_facture['id_order_state']] = $etat_facture['name'];
-
-			$selected = (int)Configuration::get('EXAPAQ_ETAPE_EXPEDITION');
-			$output .= $this->_adminFormSelect($options, $selected, 'id_expedition', $this->l('Preparation in progress status'), $this->l('Orders in this state will be selected by default for exporting.'));
-
-			$selected = (int)Configuration::get('EXAPAQ_ETAPE_EXPEDIEE');
-			$output .= $this->_adminFormSelect($options, $selected, 'id_expedie', $this->l('Shipped status'), $this->l('Once parcel trackings are generated, orders will be updated to this state.'));
-
-			$selected = (int)Configuration::get('EXAPAQ_ETAPE_LIVRE');
-			$output .= $this->_adminFormSelect($options, $selected, 'id_livre', $this->l('Delivered status'), $this->l('Once parcels are delivered, orders will be updated to this state.'));
-
-			$selected = (int)Configuration::get('EXAPAQ_AD_VALOREM');
-			$output .= $this->_adminFormSelect($optvd, $selected, 'ad_valorem', $this->l('Parcel insurance service'), $this->l('Ad Valorem : Please refer to your pricing conditions.'));
-
-			// if (_PS_VERSION_ >= '1.5')
-				// $output .= '<label>'.$this->l('Cron URL').'</label><div>'.Tools::getHttpHost(true, true)._MODULE_DIR_.$this->name.'/cron.php'.'</div><br/>';
-
-			$output .= '<center><a size="6" name="next" class="button" href="javascript:void(0)" onclick="$(&quot;#donnees_exp,#modes_transport,#gestion_exp&quot;).fadeOut(0, function() {$(&quot;#options_supp&quot;).fadeIn(&quot;slow&quot;)});">'.$this->l('Previous').'</a> ';
-			$output .= '<a size="6" name="next" class="button" href="javascript:void(0)" onclick="$(&quot;#accueil,#donnees_exp,#modes_transport,#options_supp,#gestion_exp&quot;).fadeOut(0, function() {$(&quot;#recap&quot;).fadeIn(&quot;slow&quot;)});">'.$this->l('Next').'</a></center>';
-			$output .= '<br/></div>';
-
-			// Tab Recapitulatif
-			$output .= '<div id="recap" style="display:none;">';
-			$output .= '<strong><center><br/><br/>'.$this->l('You\'re all set!').'</center></strong><br/><br/>';
-			$output .= '<center><input id="save_settings_button" type="submit" name="submitRcReferer" value="'.$this->l('Save settings').'" class="button" /></center></br>';
-			$output .= '<center><a size="6" name="next" class="button" href="javascript:void(0)" onclick="$(&quot;#donnees_exp,#modes_transport,#options_supp,#recap&quot;).fadeOut(0, function() {$(&quot;#gestion_exp&quot;).fadeIn(&quot;slow&quot;)});">'.$this->l('Return to configuration').'</a></center><br/>';
-			$output .= '<br/></div>';
-			$output .= '</fieldset></form>';
+		$this->context->smarty->assign(array(
+			'nom_exp' 				=> Tools::getValue('nom_exp', Configuration::get('EXAPAQ_NOM_EXP')),
+			'address_exp' 			=> Tools::getValue('address_exp', Configuration::get('EXAPAQ_ADDRESS_EXP')),
+			'address2_exp' 			=> Tools::getValue('address2_exp', Configuration::get('EXAPAQ_ADDRESS2_EXP')),
+			'cp_exp' 				=> Tools::getValue('cp_exp', Configuration::get('EXAPAQ_CP_EXP')),
+			'ville_exp'				=> Tools::getValue('ville_exp', Configuration::get('EXAPAQ_VILLE_EXP')),
+			'tel_exp' 				=> Tools::getValue('tel_exp', Configuration::get('EXAPAQ_TEL_EXP')),
+			'email_exp' 			=> Tools::getValue('email_exp', Configuration::get('EXAPAQ_EMAIL_EXP')),
+			'gsm_exp' 				=> Tools::getValue('gsm_exp', Configuration::get('EXAPAQ_GSM_EXP')),
+			'icirelais_depot_code' 	=> Tools::getValue('icirelais_depot_code', Configuration::get('EXAPAQ_ICIRELAIS_DEPOT_CODE')),
+			'predict_depot_code' 	=> Tools::getValue('predict_depot_code', Configuration::get('EXAPAQ_PREDICT_DEPOT_CODE')),
+			'classic_depot_code' 	=> Tools::getValue('classic_depot_code', Configuration::get('EXAPAQ_CLASSIC_DEPOT_CODE')),
+			'icirelais_shipper_code'=> Tools::getValue('icirelais_shipper_code', Configuration::get('EXAPAQ_ICIRELAIS_SHIPPER_CODE')),
+			'predict_shipper_code' 	=> Tools::getValue('predict_shipper_code', Configuration::get('EXAPAQ_PREDICT_SHIPPER_CODE')),
+			'classic_shipper_code' 	=> Tools::getValue('classic_shipper_code', Configuration::get('EXAPAQ_CLASSIC_SHIPPER_CODE')),
+			'carriers' 				=> Carrier::getCarriers($this->context->language->id, false, false, false, null, (defined('ALL_CARRIERS') ? ALL_CARRIERS : null)),
+			'icirelais_carrier_id'	=> Tools::getValue('icirelais_carrier_id', Configuration::get('EXAPAQ_ICIRELAIS_CARRIER_ID')),
+			'predict_carrier_id' 	=> Tools::getValue('predict_carrier_id', Configuration::get('EXAPAQ_PREDICT_CARRIER_ID')),
+			'classic_carrier_id' 	=> Tools::getValue('classic_carrier_id', Configuration::get('EXAPAQ_CLASSIC_CARRIER_ID')),
+			'mypudo_url'			=> Tools::getValue('mypudo_url', Configuration::get('EXAPAQ_ICIRELAIS_MYPUDO_URL')),
+			'supp_iles' 			=> Tools::getValue('supp_iles', Configuration::get('EXAPAQ_SUPP_ILES')),
+			'supp_montagne' 		=> Tools::getValue('supp_montagne', Configuration::get('EXAPAQ_SUPP_MONTAGNE')),
+			'etats_factures' 		=> OrderState::getOrderStates((int)$this->context->language->id),
+			'exapaq_etape_expedition'=> (int)Configuration::get('EXAPAQ_ETAPE_EXPEDITION'),
+			'exapaq_etape_expediee'	=> (int)Configuration::get('EXAPAQ_ETAPE_EXPEDIEE'),
+			'exapaq_etape_livre'	=> (int)Configuration::get('EXAPAQ_ETAPE_LIVRE'),
+			'exapaq_ad_valorem'		=> (int)Configuration::get('EXAPAQ_AD_VALOREM'),
+			'optvd'					=> array($this->l('Integrated parcel insurance service (23 € / kg)'), $this->l('Ad Valorem insurance service')),
+			'ps_version' 			=> (float)_PS_VERSION_,
+			'form_submit_url' 		=> $_SERVER['REQUEST_URI'],
+			'cron_url' 				=> Tools::getHttpHost(true, true)._MODULE_DIR_.$this->name.'/cron.php',
+			));
+		return $this->display(__FILE__, 'views/templates/admin/config.tpl');
 		}
-		return $output;
 	}
 	/* Calls CSS and JS files on header of front-office pages */
 	public function hookHeader()
@@ -599,11 +465,12 @@ class Exapaq extends CarrierModule
 		$delivery_infos = $this->getDeliveryInfos((int)$this->context->cart->id);
 
 		if (_PS_VERSION_ < '1.5')
-			$this->context->country->iso_code = Db::getInstance()->getValue('SELECT iso_code FROM '._DB_PREFIX_.'country WHERE id_country = '.$address_details['id_country'].'');
+			$this->context->country->iso_code = Db::getInstance()->getValue('SELECT iso_code FROM '._DB_PREFIX_.'country WHERE id_country = '.(int)$address_details['id_country'].'');
 
 		if ($this->context->country->iso_code == 'FR')
 		{
 			$ici_relais_points = $this->getPoints($address_details);
+
 			$this->context->smarty->assign(array(
 				'ps_version' => (float)_PS_VERSION_,
 				'opc' => (int)Configuration::get('PS_ORDER_PROCESS_TYPE'),
@@ -671,7 +538,7 @@ class Exapaq extends CarrierModule
 	}
 
 	/* Get delivery information from a Cart ID */
-	public function getDeliveryInfos($id_cart)
+	public static function getDeliveryInfos($id_cart)
 	{
 		return Db::getInstance()->getRow('SELECT id_customer, id_cart, service, relay_id, company, address1, address2, postcode, city, id_country, gsm_dest FROM '._DB_PREFIX_.'exapaq_france WHERE id_cart = '.(int)$id_cart);
 	}
@@ -688,13 +555,13 @@ class Exapaq extends CarrierModule
 
 				// ICI relais address will become one of customer's
 				$address_icirelais = self::getDeliveryInfos($cart->id);
-				if (is_array($address_icirelais) && Tools::strlen($address_icirelais['relay_id']) > 0)
+				if (is_array($address_icirelais) && !empty($address_icirelais['relay_id']))
 				{
 					// Check if the ICI relais address already exists
 					$return = Db::getInstance()->GetRow('SELECT id_address, company, lastname, firstname, address1, address2, postcode, city
 										FROM '._DB_PREFIX_.'address
 										WHERE id_customer = '.(int)$order->id_customer.'
-											AND alias LIKE "ICI RELAIS '.$address_icirelais['relay_id'].'"
+											AND alias LIKE "ICI RELAIS '.pSQL($address_icirelais['relay_id']).'"
 										ORDER BY id_address DESC');
 
 					// ICI Relais address already exists for this customer => get id_address
@@ -742,15 +609,15 @@ class Exapaq extends CarrierModule
 				$cart = $params['cart'];
 				$id_address_delivery = 0;
 
-				// Predict adsress will become one of customer's
+				// Predict address will become one of customer's
 				$address_predict = self::getDeliveryInfos($cart->id);
-				if (is_array($address_predict) && Tools::strlen($address_predict['gsm_dest']) > 0)
+				if (is_array($address_predict) && !empty($address_predict['gsm_dest']))
 				{
 					// Check if the Predict address already exists
 					$return = Db::getInstance()->GetRow('SELECT id_address, company, lastname, firstname, address1, address2, postcode, city, phone_mobile
 									FROM '._DB_PREFIX_.'address
 									WHERE id_customer = '.(int)$order->id_customer.'
-										AND alias LIKE "PREDICT '.$address_predict['gsm_dest'].'"
+										AND alias LIKE "PREDICT '.pSQL($address_predict['gsm_dest']).'"
 									ORDER BY id_address DESC');
 
 					// Predict address already exists for this customer => get id_address
@@ -892,7 +759,6 @@ class Exapaq extends CarrierModule
 					$relais_items = $xml->PUDO_ITEMS;
 					// Loop through each pudo
 					$i = 0;
-					if (!isset($_SESSION))session_start();
 					foreach ($relais_items->PUDO_ITEM as $item)
 					{
 						$point = array();
@@ -900,13 +766,16 @@ class Exapaq extends CarrierModule
 						$point['relay_id']		 = $item['PUDO_ID'];
 						$point['shop_name']		 = self::stripAccents($item['NAME']);
 						$point['address1']		 = self::stripAccents($item['ADDRESS1']);
-						if ($item['ADDRESS2'] != '')$point['address2']	 = self::stripAccents($item['ADDRESS2']);
-						if ($item['ADDRESS3'] != '')$point['address3']	 = self::stripAccents($item['ADDRESS3']);
-						if ($item['LOCAL_HINT'] != '')$point['local_hint'] = self::stripAccents($item['LOCAL_HINT']);
+						if ($item['ADDRESS2'] != '')
+							$point['address2']	 = self::stripAccents($item['ADDRESS2']);
+						if ($item['ADDRESS3'] != '')
+							$point['address3']	 = self::stripAccents($item['ADDRESS3']);
+						if ($item['LOCAL_HINT'] != '')
+							$point['local_hint'] = self::stripAccents($item['LOCAL_HINT']);
 						$point['postal_code']	 = $item['ZIPCODE'];
 						$point['city']			 = self::stripAccents($item['CITY']);
 						$point['id_country']	 = $input['id_country'];
-						$_SESSION['icirelais'][$point['relay_id']] = (array)$point;
+						Context::getContext()->cookie->$point['relay_id'] = serialize($point);
 						$point['distance']		 = number_format($item['DISTANCE'] / 1000, 2);
 						$point['coord_lat']		 = (float)strtr($item['LATITUDE'], ',', '.');
 						$point['coord_long']	 = (float)strtr($item['LONGITUDE'], ',', '.');
@@ -926,7 +795,8 @@ class Exapaq extends CarrierModule
 								++$x;
 							}
 						array_push($ici_relais_points, $point);
-						if (++$i == 5) break;
+						if (++$i == 5)
+							break;
 					}
 				}
 		} catch (Exception $e){
@@ -963,23 +833,6 @@ class Exapaq extends CarrierModule
 			return true;
 		}
 		return false;
-	}
-
-	public static function _adminFormSelect($options, $selected, $name, $label, $description, $extra_attributes = null)
-	{
-		$texte = "\n";
-		$texte .= '<label for="'.$name.'">'.$label.'</label>';
-		$texte .= '<div class="margin-form">';
-		$texte .= '<select name="'.$name.'" '.$extra_attributes.'>';
-		foreach ($options as $value => $label)
-		{
-			$texte .= '<option value="'.$value.'"';
-			$is_selected = is_array($selected) ? in_array($value, $selected) : ((string)$value == (string)$selected);
-			$texte .= $is_selected ? ' selected="selected"' : '';
-			$texte .= '>'.$label.'</option>';
-		}
-		$texte .= '</select><p>'.$description.'</p></div>';
-		return $texte;
 	}
 
 	/* Carrier creation function */
