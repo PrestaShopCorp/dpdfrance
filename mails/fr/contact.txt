@@ -1,0 +1,17 @@
+Lead entrant Prestashop
+
+Voici un lead entrant via l'installation du module EXAPAQ sur Prestashop. Vous trouverez les informations ci-dessous, entrez en contact et bonne vente !
+
+Raison sociale : {raison_sociale}
+
+Site web : {site_web}
+
+Nom du contact : {nom_contact}
+
+Code postal : {code_postal}
+
+Ville : {ville}
+
+Coordonnées : {coordonnees}
+
+Volumétrie indiquée : {volume_colis}
