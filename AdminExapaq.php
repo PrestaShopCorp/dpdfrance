@@ -684,7 +684,7 @@ class ExaPrint
 
 	public function display()
 	{
-		ob_clean();
+		while(@ob_end_clean());
 		header('Content-type: application/dat');
 		header('Content-Disposition: attachment; filename="EXAPAQ_'.date('dmY-His').'.dat"');
 		echo '$VERSION=110'."\r\n";
