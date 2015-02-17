@@ -47,6 +47,14 @@ class AdminExapaq extends AdminTab
 		if (_PS_VERSION_ < '1.4')
 			require_once(_PS_MODULE_DIR_.$this->module.'/'.Language::getIsoById((int)$this->context->language->id).'.php');
 	}
+
+	public function fetchTemplate($path, $name)
+	{
+		if (version_compare(_PS_VERSION_, '1.4', '<'))
+			$this->context->smarty->currentTemplate = $name;
+		return $this->context->smarty->fetch(dirname(__FILE__).$path.$name.'.tpl');
+	}
+
 	/* Converts country ISO code to EXA-Print format */
 	public static function getIsoCodebyIdCountry($idcountry)
 	{
@@ -104,6 +112,7 @@ class AdminExapaq extends AdminTab
 		}
 		return $orders;
 	}
+
 	/* Formats GSM numbers */
 	public function formatGSM($input_tel)
 	{
@@ -114,89 +123,34 @@ class AdminExapaq extends AdminTab
 		return $gsm_dest;
 	}
 
+	/* Get delivery service for a cart ID & checks if id_carrier matches */
+	public function getService($id_cart, $id_carrier)
+	{
+		$sql = Db::getInstance()->getRow('SELECT `service` FROM `'._DB_PREFIX_.'exapaq_france` WHERE `id_cart` = '.(int)$id_cart.' AND `id_carrier` = '.(int)$id_carrier);
+		return $sql['service'];
+	}
+
+	/* Get eligible orders and builds up display */
 	public function display()
 	{
+		// RSS stream
+		$stream = '';
 		if (_PS_VERSION_ < '1.4')
-			echo '<script type="text/javascript" src="../modules/'.$this->name.'/js/admin/jquery/jquery-1.4.3.min.js"></script>';
-		echo '	<link rel="stylesheet" type="text/css" href="../modules/'.$this->name.'/js/admin/jquery/plugins/fancybox/jquery.fancybox-1.3.4.css" media="screen"/>
-				<script type="text/javascript" src="../modules/'.$this->name.'/js/admin/jquery/plugins/fancybox/jquery.fancybox-1.3.4.js"></script>
-				<script type="text/javascript" src="../modules/'.$this->name.'/js/admin/jquery/plugins/marquee/jquery.marquee.min.js"></script>';
-		echo "	<script type='text/javascript'>
-				$(document).ready(function(){
-					$('.marquee').marquee({
-						duration: 20000,
-						gap: 50,
-						delayBeforeStart: 0,
-						direction: 'left',
-						duplicated: true,
-						pauseOnHover: true
-					});
-				$('a.popup').fancybox({ 			
-						'hideOnContentClick': true,
-						'padding'			: 0,
-						'overlayColor'		:'#D3D3D3',
-						'overlayOpacity'	: 0.7,
-						'width'				: 1024,
-						'height'			: 640,
-						'type'				:'iframe'
-						});
-					jQuery.expr[':'].contains = function(a, i, m) { 
-						return jQuery(a).text().toUpperCase().indexOf(m[3].toUpperCase()) >= 0; 
-					};
-				$(\"#tableFilter\").keyup(function () {
-					//split the current value of tableFilter
-					var data = this.value.split(\";\");
-					//create a jquery object of the rows
-					var jo = $(\"#fbody\").find(\"tr\");
-					if (this.value == \"\") {
-						jo.show();
-						return;
-					}
-					//hide all the rows
-					jo.hide();
+			$rss = @simplexml_load_string(file_get_contents('http://www.exapaq.com/flux_info_exapaq.xml'));
+		else
+			$rss = @simplexml_load_string(Tools::file_get_contents('http://www.exapaq.com/flux_info_exapaq.xml'));
 
-					//Recusively filter the jquery object to get results.
-					jo.filter(function (i, v) {
-						var t = $(this);
-						for (var d = 0; d < data.length; ++d) {
-							if (t.is(\":contains('\" + data[d] + \"')\")) {
-								return true;
-							}
-						}
-						return false;
-					})
-					//show the rows that match.
-					.show();
-				}).focus(function () {
-					this.value = \"\";
-					$(this).css({
-						\"color\": \"black\"
-					});
-					$(this).unbind('focus');
-				}).css({
-					\"color\": \"#C0C0C0\"
-				});
-				});
-				</script>";
-
-		echo "<script type='text/javascript'>
-				 function checkallboxes(ele) {
-					 var checkboxes = document.getElementsByName('checkbox[]');
-					 if (ele.checked) {
-						 for (var i = 0; i < checkboxes.length; i++) {
-							 if (checkboxes[i].type == 'checkbox') {
-								 checkboxes[i].checked = true;
-							 }
-						 }
-					 } else {
-						 for (var i = 0; i < checkboxes.length; i++) {
-							 if (checkboxes[i].type == 'checkbox') {
-								 checkboxes[i].checked = false;
-							 }
-						 }
-					 }
-				 }
-			</script>";
+		if (!empty($rss))
+		{
+			foreach ($rss->channel->item as $item)
+				$stream[] = array(
+					'category' => (string)$item->category,
+					'title' => (string)$item->title,
+					'description' => (string)$item->description,
+				);
+		}
+		else
+			$stream = 'error';
 
 		// Update delivered orders
 		if (Tools::getIsset('updateDeliveredOrders'))
@@ -232,10 +186,10 @@ class AdminExapaq extends AdminTab
 					echo '<div class="conf confirm">'.$this->l('Delivered orders statuses were updated').'</div>';
 				}
 				else
-					echo '<div class="alert warn">'.$this->l('No EXAPAQ trackings to generate.').'</div>';
+					echo '<div class="alert-danger">'.$this->l('No EXAPAQ trackings to generate.').'</div>';
 			}
 			else
-				echo '<div class="alert warn">'.$this->l('No order selected.').'</div>';
+				echo '<div class="alert-danger">'.$this->l('No order selected.').'</div>';
 		}
 
 		// Update shipped orders
@@ -317,10 +271,10 @@ class AdminExapaq extends AdminTab
 					echo '<div class="conf confirm">'.$this->l('Shipped orders statuses were updated and tracking numbers added.').'</div>';
 				}
 				else
-					echo '<div class="alert warn">'.$this->l('No trackings to generate.').'</div>';
+					echo '<div class="alert-danger">'.$this->l('No trackings to generate.').'</div>';
 			}
 			else
-				echo '<div class="alert warn">'.$this->l('No order selected.').'</div>';
+				echo '<div class="alert-danger">'.$this->l('No order selected.').'</div>';
 		}
 
 		// Export selected orders
@@ -332,6 +286,7 @@ class AdminExapaq extends AdminTab
 				$orders = Tools::getValue('checkbox');
 
 				$liste_expeditions = 'O.id_order IN ('.implode(',', $orders).')';
+
 				if (!empty($orders))
 				{
 					$sql = 'SELECT	'.implode(', ', $fieldlist).'
@@ -456,61 +411,27 @@ class AdminExapaq extends AdminTab
 						$record->display();
 					}
 					else
-						echo '<div class="alert warn">'.$this->l('No orders to export.').'</div>';
+						echo '<div class="alert-danger">'.$this->l('No orders to export.').'</div>';
 				}
 				else
-					echo '<div class="alert warn">'.$this->l('No orders to export.').'</div>';
+					echo '<div class="alert-danger">'.$this->l('No orders to export.').'</div>';
 			}
 			else
-				echo '<div class="alert warn">'.$this->l('No order selected.').'</div>';
+				echo '<div class="alert-danger">'.$this->l('No order selected.').'</div>';
 		}
 
-		// Display
+		// Display section
 		// Error message if shipper info is missing
-		if (Configuration::get('EXAPAQ_PARAM', null, null, (int)$this->context->shop->id) != 1)
+		if ((Configuration::get('EXAPAQ_ICIRELAIS_SHIPPER_CODE', null, null, (int)$this->context->shop->id) == '') && (Configuration::get('EXAPAQ_PREDICT_SHIPPER_CODE', null, null, (int)$this->context->shop->id) == '') && (Configuration::get('EXAPAQ_CLASSIC_SHIPPER_CODE', null, null, (int)$this->context->shop->id) == ''))
 		{
-			echo '<div class="error">'.$this->l('Warning! Your EXAPAQ Depot code and contract number are missing. You must configure the EXAPAQ plugin in order to use the export and tracking features.').'</div>';
+			echo '<div class="alert-danger">'.$this->l('Warning! Your EXAPAQ Depot code and contract number are missing. You must configure the EXAPAQ plugin in order to use the export and tracking features.').'</div>';
 			exit;
 		}
-		// RSS stream
+		// Add jQuery for Prestashop before 1.4
 		if (_PS_VERSION_ < '1.4')
-			$rss = @simplexml_load_string(file_get_contents('http://www.exapaq.com/flux_info_exapaq.xml'));
-		else
-			$rss = @simplexml_load_string(Tools::file_get_contents('http://www.exapaq.com/flux_info_exapaq.xml'));
-
-		if ($rss != '')
-		{
-			echo '<fieldset><legend><a href="javascript:void(0)" onclick="$(&quot;#zonemarquee&quot;).toggle(&quot;fast&quot;, function() {});"><img src="../modules/exapaq/img/admin/rss_icon.png" />'.$this->l('EXAPAQ News (show/hide)').'</a></legend>'; // Titre et cadre
-			echo '<div id="zonemarquee"><div id="marquee" class="marquee">';
-			foreach ($rss->channel->item as $item)
-				echo '<strong style="color:red;">'.$item->category.' > '.$item->title.' : </strong> '.$item->description.'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			echo '</div></div></fieldset><br/>';
-		}
-		// End of RSS
-
-		echo '<link rel="stylesheet" type="text/css" href="../modules/'.$this->name.'/css/admin/AdminExapaq.css"/>';
-		echo '<fieldset><legend><img src="../modules/'.$this->name.'/img/admin/admin.png"/>'.$this->l('EXAPAQ deliveries management').'</legend>'; // Titre et cadre
-
-		self::recupOrders();
-
-		echo '<p>
-				<input type="submit" class="button" name="exportOrders'.$this->table.'" value="'.$this->l('Export selected orders to EXA-Print').'" />
-				<input type="submit" class="button" name="updateShippedOrders'.$this->table.'" value="'.$this->l('Update shipped orders').'" />
-				<input type="submit" class="button" name="updateDeliveredOrders'.$this->table.'" value="'.$this->l('Update delivered orders').'" />
-			</p>
-			</form>';
-		echo '</fieldset>';
-	}
-	/* Get delivery service for a cart ID & checks if id_carrier matches */
-	public function getService($id_cart, $id_carrier)
-	{
-		$sql = Db::getInstance()->getRow('SELECT `service` FROM `'._DB_PREFIX_.'exapaq_france` WHERE `id_cart` = '.(int)$id_cart.' AND `id_carrier` = '.(int)$id_carrier);
-		return $sql['service'];
-	}
-
-	/* Get eligible orders and builds up display */
-	public function recupOrders()
-	{
+			echo '<script type="text/javascript" src="../modules/'.$this->name.'/js/admin/jquery/jquery-1.11.0.min.js"></script>';
+		// Calls function to get orders
+		$order_info = '';
 		$statuses_array = array();
 		$statuses = OrderState::getOrderStates((int)$this->context->language->id);
 
@@ -549,46 +470,11 @@ class AdminExapaq extends AdminTab
 			$orderlist = Db::getInstance()->ExecuteS($sql);
 			if (!empty($orderlist))
 			{
-				echo '<input id="tableFilter" value="'.$this->l('Search something, separate values with ; ').'"/><img id="filtericon" src="../modules/exapaq/img/admin/search.png"/><br/><br/>
-				<form id="exportform" action="index.php?tab=AdminExapaq&token='.$this->token.'" method="POST" enctype="multipart/form-data">	
-				';
-				echo '<body><table>
-						<thead>
-							<tr>
-								<th class="hcheckexport"><input type="checkbox" onchange="checkallboxes(this)"/></th>
-								<th class="hid">ID</th>
-								<th class="href">'.$this->l('Reference').'</th>
-								<th class="hdate">'.$this->l('Date of order').'</th>
-								<th class="hnom">'.$this->l('Recipient').'</th>
-								<th class="htype">'.$this->l('Service').'</th>
-								<th class="hpr">'.$this->l('Destination').'</th>
-								<th class="hpoids">'.$this->l('Weight').'</th>
-								<th colspan="2" class="hprix" align="right">'.$this->l('Amount').'<br/><span style="font-size:10px;">'.$this->l('(tick to insure<br/>this parcel)').'</span></th>
-								<th class="hstatutcommande" align="center">'.$this->l('Order status').'</th>
-								<th class="hstatutcolis" align="center">'.$this->l('Parcel trace').'</th>
-							</tr>
-						</thead><tbody id="fbody">
-				';
-
 				foreach ($orderlist as $order_var)
 				{
 					$order = new Order($order_var['id_order']);
 					$address_delivery = new Address($order->id_address_delivery, (int)$this->context->language->id);
 					$orderstate = new OrderHistory($order_var['id_order']);
-
-					switch (self::getService($order->id_cart, $order->id_carrier))
-					{
-						case 'PRE':
-							$type = 'Predict<img src="../modules/exapaq/img/admin/service_predict.png" title="Predict"/>';
-							break;
-						case 'REL':
-							$type = 'ICI relais<img src="../modules/exapaq/img/admin/service_relais.png" title="ICI relais"/>';
-							break;
-						default:
-							$type = 'Classic<img src="../modules/exapaq/img/admin/service_dom.png" title="Classic"/>';
-							break;
-					}
-
 					if (_PS_VERSION_ < '1.5')
 					{
 						$current_state_id = ($orderstate->getLastOrderState($order_var['id_order'])->id);
@@ -613,39 +499,63 @@ class AdminExapaq extends AdminTab
 						case Configuration::get('EXAPAQ_ETAPE_EXPEDIEE', null, null, (int)$order->id_shop):
 							$dernierstatutcolis = '<img src="../modules/exapaq/img/admin/tracking.png" title="Trace du colis"/>';
 					}
+					$weight = number_format($order->getTotalWeight(), 2, '.', '.').' '.Configuration::get('PS_WEIGHT_UNIT', null, null, (int)$order->id_shop);
+					$amount = number_format($order->total_paid, 2, '.', '.').' €';
 
-					// Display orders table
-					echo '<tr>';
-					if ($current_state_id == Configuration::get('EXAPAQ_ETAPE_EXPEDITION', null, null, (int)$order->id_shop))
-						echo '<td><input class="checkbox" type="checkbox" name="checkbox[]" value='.$order->id.' checked="checked"></input></td>';
-					else
-						echo '<td><input class="checkbox" type="checkbox" name="checkbox[]" value='.$order->id.'></input></td>';
-					echo '<td class="id">'.$order->id.'</td>
-						<td class="ref">'.$order->reference.'</td>
-						<td class="date">'.date('d/m/Y H:i:s', strtotime($order->date_add)).'</td>
-						<td class="nom">'.$address_delivery->firstname.' '.$address_delivery->lastname.'</td>
-						<td class="type">'.$type.'</td>';
+					switch (self::getService($order->id_cart, $order->id_carrier))
+					{
+						case 'PRE':
+							$type = 'Predict<img src="../modules/exapaq/img/admin/service_predict.png" title="Predict"/>';
+							$compte_chargeur = Configuration::get('EXAPAQ_PREDICT_SHIPPER_CODE', null, null, (int)$order->id_shop);
+							$depot_code = Configuration::get('EXAPAQ_PREDICT_DEPOT_CODE', null, null, (int)$order->id_shop);
+							$address = '<a class="popup" href="http://maps.google.com/maps?f=q&hl=fr&geocode=&q='.str_replace(' ', '+', $address_delivery->address1).','.str_replace(' ', '+', $address_delivery->postcode).'+'.str_replace(' ', '+', $address_delivery->city).'&output=embed" target="_blank">'.($address_delivery->company ? $address_delivery->company.'<br/>' : '').$address_delivery->address1.'<br/>'.$address_delivery->postcode.' '.$address_delivery->city.'</a>';
+							break;
+						case 'REL':
+							$type = 'ICI relais<img src="../modules/exapaq/img/admin/service_relais.png" title="ICI relais"/>';
+							$compte_chargeur = Configuration::get('EXAPAQ_ICIRELAIS_SHIPPER_CODE', null, null, (int)$order->id_shop);
+							$depot_code = Configuration::get('EXAPAQ_ICIRELAIS_DEPOT_CODE', null, null, (int)$order->id_shop);
+							$address = '<a class="popup" href="http://www.icirelais.com/pages_module_recherche/point_direct.php?point_id='.Tools::substr($address_delivery->company, -7, 6).'" target="_blank">'.$address_delivery->company.'<br/>'.$address_delivery->postcode.' '.$address_delivery->city.'</a>';
+							break;
+						default:
+							$type = 'Classic<img src="../modules/exapaq/img/admin/service_dom.png" title="Classic"/>';
+							$compte_chargeur = Configuration::get('EXAPAQ_CLASSIC_SHIPPER_CODE', null, null, (int)$order->id_shop);
+							$depot_code = Configuration::get('EXAPAQ_CLASSIC_DEPOT_CODE', null, null, (int)$order->id_shop);
+							$address = '<a class="popup" href="http://maps.google.com/maps?f=q&hl=fr&geocode=&q='.str_replace(' ', '+', $address_delivery->address1).','.str_replace(' ', '+', $address_delivery->postcode).'+'.str_replace(' ', '+', $address_delivery->city).'&output=embed" target="_blank">'.($address_delivery->company ? $address_delivery->company.'<br/>' : '').$address_delivery->address1.'<br/>'.$address_delivery->postcode.' '.$address_delivery->city.'</a>';
+							break;
+					}
 
-					if (self::getService($order->id_cart, $order->id_carrier) == 'REL')
-						echo '<td class="pr"><a class="popup" href="http://www.icirelais.com/pages_module_recherche/point_direct.php?point_id='.Tools::substr($address_delivery->company, -7, 6).'" target="_blank">'.$address_delivery->company.'<br/>'.$address_delivery->postcode.' '.$address_delivery->city.'</a></td>';
-					else
-						echo '<td class="pr"><a class="popup" href="http://maps.google.com/maps?f=q&hl=fr&geocode=&q='.str_replace(' ', '+', $address_delivery->address1).','.str_replace(' ', '+', $address_delivery->postcode).'+'.str_replace(' ', '+', $address_delivery->city).'&output=embed" target="_blank">'.($address_delivery->company ? $address_delivery->company.'<br/>' : '').$address_delivery->address1.'<br/>'.$address_delivery->postcode.' '.$address_delivery->city.'</a></td>';
-
-					echo '<td class="poids">'.number_format($order->getTotalWeight(), 2, '.', '.').' '.Configuration::get('PS_WEIGHT_UNIT', null, null, (int)$order->id_shop).'</td>
-						<td class="prix" align="right">'.number_format($order->total_paid, 2, '.', '.').' €</td>';
-
-					if (Configuration::get('EXAPAQ_AD_VALOREM', null, null, (int)$order->id_shop) == 1)
-						echo '<td class="advalorem"><input class="advalorem" type="checkbox" name="advalorem[]" value='.$order->id.' checked="checked"></input></td>';
-					else
-						echo '<td class="advalorem"><input class="advalorem" type="checkbox" name="advalorem[]" value='.$order->id.'></input></td>';
-					echo '<td class="statutcommande" align="center">'.$current_state_name.'</td>
-						 <td class="statutcolis" align="center"><a href="javascript:void(0)" onclick="window.open(&apos;http://webtrace.exapaq.com/exa-webtrace/webclients.aspx?verknr='.$order->reference.'&kund_mandnr='.Configuration::get('EXAPAQ_PREDICT_DEPOT_CODE', null, null, (int)$order->id_shop).'&kundenr='.Configuration::get('EXAPAQ_PREDICT_SHIPPER_CODE', null, null, (int)$order->id_shop).'&cmd=VERKNR_SEARCH&apos;,&apos;&apos;,&apos;width=1024,height=768,top=30,left=20&apos;)">'.$dernierstatutcolis.'</td>';
+					$order_info[] = array(
+						'checked' => ($current_state_id == Configuration::get('EXAPAQ_ETAPE_EXPEDITION', null, null, (int)$order->id_shop) ? 'checked="checked"' : ''),
+						'id' => $order->id,
+						'reference' => $order->reference,
+						'date' => date('d/m/Y H:i:s', strtotime($order->date_add)),
+						'nom' => $address_delivery->firstname.' '.$address_delivery->lastname,
+						'type' => $type,
+						'address' => $address,
+						'id' => $order->id,
+						'poids' => $amount,
+						'prix' => $weight,
+						'advalorem_checked' => (Configuration::get('EXAPAQ_AD_VALOREM', null, null, (int)$order->id_shop) == 1 ? 'checked="checked"' : ''),
+						'statut' => $current_state_name,
+						'depot_code' => $depot_code,
+						'shipper_code' => $compte_chargeur,
+						'dernier_statut_colis' => $dernierstatutcolis,
+					);
 				}
-				echo '</tbody></table>';
 			}
 			else
-				echo '<div class="alert warn">'.$this->l('There are no orders.').'</div>';
+				$order_info = 'error';			
 		}
+		else
+			$order_info = 'error';
+
+		// Assign smarty variables and fetches template
+		$this->context->smarty->assign(array(
+			'stream' => $stream,
+			'token' => $this->token,
+			'order_info' => $order_info,
+		));
+		echo $this->fetchTemplate('/views/templates/admin/', 'AdminExapaq');
 	}
 }
 
@@ -684,7 +594,7 @@ class ExaPrint
 
 	public function display()
 	{
-		while(@ob_end_clean());
+		while (@ob_end_clean());
 		header('Content-type: application/dat');
 		header('Content-Disposition: attachment; filename="EXAPAQ_'.date('dmY-His').'.dat"');
 		echo '$VERSION=110'."\r\n";

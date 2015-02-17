@@ -23,9 +23,29 @@
  */
 @import url(https://fonts.googleapis.com/css?family=Lato:400);
 
+.margin_contactform
+{
+	line-height: 18px; 
+	display: inline-block; 
+	width: 215px; 
+	vertical-align: middle; 
+	margin: 0px 5px;
+}
+
+.input_contactform {
+	width: 200px;
+    margin-bottom: 10px;
+}
+
 input.button
 {
 	font-family:Lato;
+}
+
+label.error {
+    float: inherit;
+    color: red;
+    font-weight: normal;
 }
 
 div.notabene

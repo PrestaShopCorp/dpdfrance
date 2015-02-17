@@ -21,12 +21,77 @@
  * @copyright 2015 EXAPAQ S.A.S.
  * @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  *}
+
+<link rel="stylesheet" type="text/css" href="../modules/exapaq/css/admin/exapaq_config.css"/>
+<link rel="stylesheet" type="text/css" href="../modules/exapaq/js/admin/jquery/plugins/fancybox/jquery.fancybox.css" media="screen"/>
+<script type="text/javascript" src="../modules/exapaq/js/admin/jquery/plugins/fancybox/jquery.fancybox.js"></script>
+<script type="text/javascript" src="../modules/exapaq/js/admin/jquery/plugins/validation/jquery.validate.min.js"></script>
+
 {literal}
 	<script type="text/javascript">
 		$(document).ready(function() {
 			exapaq_contact_form = $("#exapaq_contact_form").html();
+		$('#open_pasclient').fancybox({
+			autoDimensions: false, 
+			minWidth: 640, 
+			maxWidth: 960, 
+			height: 700, 
+			padding: 20, 
+			modal: false,
+			hideOnOverlayClick: true,
+			beforeShow: function() {
+				$("#contact_form").validate({
+					rules: {
+						raison_sociale: {
+							required: true,
+							minlength: 2
+						},
+						adresse: {
+							required: true,
+							minlength: 2
+						},
+						code_postal: {
+							required: true,
+							digits: true,
+							minlength: 5
+						},
+						ville: {
+							required: true,
+							minlength: 2
+						},
+						telephone: {
+							required: true,
+							digits: true,
+							minlength: 10
+						},						
+						message: {
+							maxlength: 200,
+						},
+					},
+					messages: {
+						raison_sociale: " {/literal}{l s='Please enter your' mod='exapaq'} {l s='Company Name' mod='exapaq'}{literal}",
+						adresse: " {/literal}{l s='Please enter your' mod='exapaq'} {l s='Address' mod='exapaq'}{literal}",
+						code_postal: {
+							required: " {/literal}{l s='Please enter your' mod='exapaq'} {l s='Postal code' mod='exapaq'}{literal}",
+							minlength: " 5 {/literal}{l s='Minimum digits required' mod='exapaq'}{literal}",
+							digits: " {/literal}{l s='Digits only' mod='exapaq'}{literal}",
+						},
+						ville: " {/literal}{l s='Please enter your' mod='exapaq'} {l s='City' mod='exapaq'}{literal}",
+						telephone: {
+							required: " {/literal}{l s='Please enter your' mod='exapaq'} {l s='Telephone' mod='exapaq'}{literal}",
+							minlength: " 10 {/literal}{l s='Minimum digits required' mod='exapaq'}{literal}",
+							digits: " {/literal}{l s='Digits only' mod='exapaq'}{literal}",
+						},
+						message: " {/literal}{l s='Your message can\'t exceed 200 characters' mod='exapaq'}{literal}",
+					},
+					submitHandler: function (form) {
+						return true;
+					}
+				});
+			}
 		});
-	</script>
+   });
+</script>
 {/literal}
 
  <div id="exapaq_contact_form" style="display: none;">
@@ -36,43 +101,41 @@
 
 	<hr style="display: block; border-bottom: 1px solid #DDD;">
 
-	<p style="text-align: justify;">{l s='By choosing EXAPAQ, you will enjoy innovative delivery solutions: home appointment with our Predict service, to more than 5.000 relaypoints with ICI relais, on workplace with EXAPAQ Classic and worldwide with the DPD Classic Intercontinental services.' mod='exapaq'}</p>
-	<p style="text-align: justify;">{l s='Before starting our partnership, it is necessary to sign a contract with one of our sales representatives who will guide you and meet your expectations (parcel picking schedules, pricing conditions, number of shipments, labeling solution, packaging supplies...)' mod='exapaq'}</p>
-	<p style="text-align: justify;">{l s='Thank you in advance for completing this form so a sales representative can contact you as soon as possible.' mod='exapaq'}</p>
+	<p style="margin-top: 20px; text-align: justify;">{l s='By choosing EXAPAQ, you will enjoy innovative delivery solutions: home appointment with our Predict service, to more than 5.000 relaypoints with ICI relais, on workplace with EXAPAQ Classic and worldwide with the DPD Classic Intercontinental services.' mod='exapaq'}</p>
+	<p style="margin-top: 20px; text-align: justify;">{l s='Before starting our partnership, it is necessary to sign a contract with one of our sales representatives who will guide you and meet your expectations (parcel picking schedules, pricing conditions, number of shipments, labeling solution, packaging supplies...)' mod='exapaq'}</p>
+	<p style="margin-top: 20px; text-align: justify;">{l s='Thank you in advance for completing this form so a sales representative can contact you as soon as possible.' mod='exapaq'}</p>
 
-	<form action="" method="post" style="margin-top: 10px; text-align: center">
-		<dl style="margin: 0 auto; width: auto; text-align: left">
-			<dt style="width: 40%"><label for="raison_sociale" style="width: 100%; line-height: 18px; vertical-align: middle">{l s='Company Name' mod='exapaq'} :</label></dt>
-			<dd><input type="text" value="" name="raison_sociale" id="raison_sociale" />
-			</dd><br>
-			
-			<dt style="width: 40%"><label for="nom_contact" style="width: 100%; line-height: 18px; vertical-align: middle">{l s='Contact Name' mod='exapaq'} :</label></dt>
-			<dd><input type="text" value="" name="nom_contact" id="nom_contact" />
-			</dd><br>
+	<form id="contact_form" action="" method="post" style="margin-top: 20px; text-align: center">
+		<dl style="text-align: left">
+			<label for="raison_sociale" class="margin_contactform">{l s='Company Name' mod='exapaq'} : </label>
+			<input type="text" value="" name="raison_sociale" id="raison_sociale" class="input_contactform"/><br/>			
 
-			<dt style="width: 40%"><label for="code_postal" style="width: 100%; line-height: 18px; vertical-align: middle">{l s='Postal code' mod='exapaq'} :</label></dt>
-			<dd><input type="text" value="" name="code_postal" id="code_postal" />
-			</dd><br>
-			
-			<dt style="width: 40%"><label for="ville" style="width: 100%; line-height: 18px; vertical-align: middle">{l s='City' mod='exapaq'} :</label></dt>
-			<dd><input type="text" value="" name="ville" id="ville" />
-			</dd><br>
-			
-			<dt style="width: 40%"><label for="coordonnees" style="width: 100%; line-height: 18px; vertical-align: middle">{l s='Phone and/or e-mail' mod='exapaq'} :</label></dt>
-			<dd><input type="text" value="" name="coordonnees" id="coordonnees" />
-			</dd><br>
+			<label for="adresse" class="margin_contactform">{l s='Address' mod='exapaq'} : </label>
+			<input type="text" value="" name="adresse" id="adresse" class="input_contactform"/> <br/>
 
-			<dt style="width: 40%"><label for="volume_colis" style="width: 100%; line-height: 18px; vertical-align: middle">{l s='Mean number of parcels' mod='exapaq'} :</label></dt>
-			<dd>
-				<select name="volume_colis" id="volume_colis">
+			<label for="code_postal" class="margin_contactform">{l s='Postal code' mod='exapaq'} : </label>
+			<input type="text" value="" name="code_postal" id="code_postal" class="input_contactform"/> <br/>
+
+			<label for="ville" class="margin_contactform">{l s='City' mod='exapaq'} : </label>
+			<input type="text" value="" name="ville" id="ville" class="input_contactform"/><br/>
+
+			<label for="telephone" class="margin_contactform">{l s='Telephone' mod='exapaq'} : </label>
+			<input type="text" value="" name="telephone" id="telephone" class="input_contactform"/><br/>
+
+			<label for="volume_colis" class="margin_contactform">{l s='Mean number of parcels' mod='exapaq'} : </label>
+				<select name="volume_colis" id="volume_colis" class="input_contactform">
+					<option value="Je démarre mon activité">{l s='I\'m starting my business' mod='exapaq'}</option>
 					<option value="< 100 colis / mois">{l s='< 100 parcels / month' mod='exapaq'}</option>
 					<option value="100 à 500 colis / mois">{l s='100 to 500 parcels / month' mod='exapaq'}</option>
 					<option value="> 500 colis / mois">{l s='> 500 parcels / month' mod='exapaq'}</option>
 				</select>
-			</dd><br>
+			<br/>
+
+			<label for="message" class="margin_contactform">{l s='Your message' mod='exapaq'} : </label>
+			<textarea rows="5" value="" name="message" id="message" style="width: 200px; height: 150px;"></textarea><br/>
 		</dl>
 
-		<input type="submit" class="button" name="submitContactForm" value="{l s='Confirm' mod='exapaq'}" style="float: right; margin-top: 10px; padding: 10px 20px" />
+		<input type="submit" class="button" name="submitContactForm" value="{l s='Confirm' mod='exapaq'}" style="float: center; margin-top: 10px; padding: 10px 20px" />
 	</form>
 </div>
 
@@ -96,7 +159,7 @@
 			<br/><span class="section_title">{l s='Welcome to EXAPAQ' mod='exapaq'}</span><br/>
 			<div>{l s='Please configure the EXAPAQ module. Documentation is available here : ' mod='exapaq'}<a target="_blank" href="../modules/exapaq/docs/readme_exapaq_prestashop.pdf"><img src ="../modules/exapaq/img/admin/pdf.png" alt="PDF"/></a></div><br/>
 			<div id="accueil_wrap">
-				<div id="pasclient"><a style="text-decoration:none;" href="javascript:void(0)" onclick="$.fancybox(exapaq_contact_form, {literal}{{/literal}type: 'html', autoDimensions: true, minWidth: 600, maxWidth: 960, height: 510, padding: 20, modal: false, hideOnOverlayClick: true{literal}}{/literal});"><span class="client_title">{l s='Not a customer yet?' mod='exapaq'}</span><div id="pasclient_img"></div><span class="client_subtitle">{l s='Click here to get in touch with our sales team' mod='exapaq'}</span></a></div>
+				<div id="pasclient"><a id="open_pasclient" href="#exapaq_contact_form" style="text-decoration:none;"><span class="client_title">{l s='Not a customer yet?' mod='exapaq'}</span><div id="pasclient_img"></div><span class="client_subtitle">{l s='Click here to get in touch with our sales team' mod='exapaq'}</span></a></div>
 				<div id="client" href="javascript:void(0)" onclick="$(&quot;#accueil,#modes_transport,#options_supp,#gestion_exp&quot;).fadeOut(0, function() {literal}{{/literal}$(&quot;#donnees_exp&quot;).fadeIn(&quot;slow&quot;){literal}}{/literal});"><span class="client_title">{l s='I\'m already a customer' mod='exapaq'}</span><div id="client_img"></div><span class="client_subtitle">{l s='Proceed to the plugin configuration' mod='exapaq'}</span></div>
 				<br/>
 			</div>
@@ -178,7 +241,8 @@
 			<!-- Classic -->
 			<div id="service_classic">
 				<label>{l s='Classic by EXAPAQ' mod='exapaq'}</label>
-				<div id="service_classic_img"></div>
+				<label>{l s='DPD Intercontinental' mod='exapaq'}</label>
+				<div id="service_classic_img"></div><div id="service_world_img"></div>
 
 				<span>{l s='Depot code - Contract number' mod='exapaq'}<br/>{l s='(i.e.: 013 - 12345)' mod='exapaq'}</span><br/><br/>
 				<input type="text" size="3" name="classic_depot_code" class="classic_depot_code" value="{$classic_depot_code|escape:'htmlall':'UTF-8'}" /> - 

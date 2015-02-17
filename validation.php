@@ -30,6 +30,8 @@ include('../../init.php');
 if (_PS_VERSION_ < '1.5')
 	require_once('/backward_compatibility/backward.php');
 
+$cart = (isset($cart) ? $cart : '');
+
 if (version_compare(_PS_VERSION_, '1.5', '<'))
 {
 	if ((int)Configuration::get('PS_ORDER_PROCESS_TYPE') == 0)
@@ -54,11 +56,15 @@ switch ((int)$delivery_option)
 	else
 		$relay_id = Tools::getValue('relay_id_opc');
 
-	$detail_relais = unserialize(Context::getContext()->cookie->$relay_id); /* Retrieve details of chosen relaypoint in the cookie*/
-
-	if (!empty($detail_relais))
+	if (!empty(Context::getContext()->cookie->$relay_id))
 	{
+		if (version_compare(_PS_VERSION_, '1.4.2.4', '>='))
+			$detail_relais = Tools::jsonDecode(Context::getContext()->cookie->$relay_id, true); /* Retrieve details of chosen relaypoint in the cookie */
+		else
+			$detail_relais = json_decode(Context::getContext()->cookie->$relay_id, true);
+
 		Db::getInstance()->delete(_DB_PREFIX_.'exapaq_france', 'id_cart = "'.$cart->id.'"'); /* Delete previous entry in database */
+
 		$address1 = (isset($detail_relais['address1']))?$detail_relais['address1']:'';
 		$address2 = (isset($detail_relais['address2']))?$detail_relais['address2']:'';
 		$sql = 'INSERT IGNORE INTO '._DB_PREFIX_."exapaq_france 
