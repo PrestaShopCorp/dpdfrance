@@ -492,7 +492,9 @@ span.section_title
 {
 	font-family:Lato;
 	text-align:center;
-	width:96%;
+	width:100%;
+	padding: 0;
+    margin: 0;
 }
 
 #service_relais select
@@ -530,8 +532,21 @@ span.section_title
 #service_classic_img
 {
 	background:url(../../img/front/classic/carrier_logo.jpg) no-repeat center;
-	height:96px;
-	margin:20px;
+	background-size: 100px 45px;
+    height: 50px;
+	width: 100px;
+	margin: 6px 6px 46px 6px;
+	float:left;
+}
+
+#service_world_img
+{
+	background:url(../../img/front/world/carrier_logo.jpg) no-repeat center;
+	background-size: 100px 45px;
+    height: 50px;
+	width: 100px;
+	margin: 6px 6px 46px 6px;
+	float:left;
 }
 
 #modes_transport
