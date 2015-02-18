@@ -114,12 +114,14 @@ class AdminExapaq extends AdminTab
 	}
 
 	/* Formats GSM numbers */
-	public function formatGSM($input_tel)
+	public function formatGSM($gsm_dest, $code_iso) 
 	{
-		$gsm_dest = str_replace(array(' ', '.', '-', ',', ';', '/', '\\', '(', ')'), '', $input_tel);
-		$gsm_dest = str_replace('+33', '0', $gsm_dest);
-		if (Tools::substr($gsm_dest, 0, 2) == 33) // Chrome autofill fix
-			$gsm_dest = substr_replace($gsm_dest, '0', 0, 2);
+		if ($code_iso == 'F') {
+			$gsm_dest = str_replace(array(' ', '.', '-', ',', ';', '/', '\\', '(', ')'),'',$gsm_dest);
+			$gsm_dest = str_replace('+33','0',$gsm_dest);
+			if (substr($gsm_dest, 0, 2) == 33) // Chrome autofill fix
+				$gsm_dest = substr_replace($gsm_dest, '0', 0, 2);
+		}
 		return $gsm_dest;
 	}
 
@@ -144,9 +146,9 @@ class AdminExapaq extends AdminTab
 		{
 			foreach ($rss->channel->item as $item)
 				$stream[] = array(
-					'category' => (string)$item->category,
-					'title' => (string)$item->title,
-					'description' => (string)$item->description,
+					'category' 		=> (string)$item->category,
+					'title' 		=> (string)$item->title,
+					'description'	=> (string)$item->description,
 				);
 		}
 		else
@@ -375,7 +377,7 @@ class AdminExapaq extends AdminTab
 							$record->add($address_delivery->address1, 325, 35);    										//	Rue
 							$record->add('', 360, 10);    																//	Filler
 							$record->add($code_pays_dest, 370, 3);          											//	Code Pays destinataire
-							$record->add(self::formatGSM($tel_dest), 373, 30);        									//	Téléphone
+							$record->add($tel_dest, 373, 30);        													//	Téléphone
 							$record->add($nom_exp, 418, 35);        													//	Nom expéditeur
 							$record->add($address2_exp, 453, 35);       												//	Complément d’adresse 1
 							$record->add($cp_exp, 628, 10);         													//	Code postal
@@ -397,10 +399,7 @@ class AdminExapaq extends AdminTab
 							$record->add($email_exp, 1116, 80);        													//	E-mail expéditeur
 							$record->add($gsm_exp, 1196, 35);        													//	GSM expéditeur
 							$record->add($customer->email, 1231, 80);      												//	E-mail destinataire
-							if ($type == 'PRE' || $type == 'REL')
-								$record->add(self::formatGSM($tel_dest), 1311, 35);  									//	GSM destinataire
-							else
-								$record->add($tel_dest, 1311, 35);  													//	GSM destinataire
+							$record->add(self::formatGSM($tel_dest, $code_pays_dest), 1311, 35);  						//	GSM destinataire
 							if ($type == 'REL')
 								$record->add($relay_id, 1442, 8);         												//	Identifiant de l'espace ICI relais
 							if ($type == 'PRE' && $tel_dest && $code_pays_dest == 'F')
@@ -525,21 +524,21 @@ class AdminExapaq extends AdminTab
 					}
 
 					$order_info[] = array(
-						'checked' => ($current_state_id == Configuration::get('EXAPAQ_ETAPE_EXPEDITION', null, null, (int)$order->id_shop) ? 'checked="checked"' : ''),
-						'id' => $order->id,
-						'reference' => $order->reference,
-						'date' => date('d/m/Y H:i:s', strtotime($order->date_add)),
-						'nom' => $address_delivery->firstname.' '.$address_delivery->lastname,
-						'type' => $type,
-						'address' => $address,
-						'id' => $order->id,
-						'poids' => $amount,
-						'prix' => $weight,
-						'advalorem_checked' => (Configuration::get('EXAPAQ_AD_VALOREM', null, null, (int)$order->id_shop) == 1 ? 'checked="checked"' : ''),
-						'statut' => $current_state_name,
-						'depot_code' => $depot_code,
-						'shipper_code' => $compte_chargeur,
-						'dernier_statut_colis' => $dernierstatutcolis,
+						'checked' 				=> ($current_state_id == Configuration::get('EXAPAQ_ETAPE_EXPEDITION', null, null, (int)$order->id_shop) ? 'checked="checked"' : ''),
+						'id'					=> $order->id,
+						'reference' 			=> $order->reference,
+						'date' 					=> date('d/m/Y H:i:s', strtotime($order->date_add)),
+						'nom' 					=> $address_delivery->firstname.' '.$address_delivery->lastname,
+						'type' 					=> $type,
+						'address' 				=> $address,
+						'id' 					=> $order->id,
+						'poids' 				=> $weight,
+						'prix' 					=> $amount,
+						'advalorem_checked' 	=> (Configuration::get('EXAPAQ_AD_VALOREM', null, null, (int)$order->id_shop) == 1 ? 'checked="checked"' : ''),
+						'statut'				=> $current_state_name,
+						'depot_code' 			=> $depot_code,
+						'shipper_code' 			=> $compte_chargeur,
+						'dernier_statut_colis'	=> $dernierstatutcolis,
 					);
 				}
 			}
@@ -551,9 +550,9 @@ class AdminExapaq extends AdminTab
 
 		// Assign smarty variables and fetches template
 		$this->context->smarty->assign(array(
-			'stream' => $stream,
-			'token' => $this->token,
-			'order_info' => $order_info,
+			'stream' 		=> $stream,
+			'token' 		=> $this->token,
+			'order_info'	=> $order_info,
 		));
 		echo $this->fetchTemplate('/views/templates/admin/', 'AdminExapaq');
 	}
