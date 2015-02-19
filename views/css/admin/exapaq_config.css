@@ -1,0 +1,699 @@
+/**
+ * 2007-2014 PrestaShop
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@prestashop.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
+ * versions in the future. If you wish to customize PrestaShop for your
+ * needs please refer to http://www.prestashop.com for more information.
+ *
+ * @author    EXAPAQ S.A.S. <support@icirelais.com>
+ * @copyright 2015 EXAPAQ S.A.S.
+ * @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+@import url(https://fonts.googleapis.com/css?family=Lato:400);
+
+.margin_contactform
+{
+	line-height: 18px; 
+	display: inline-block; 
+	width: 215px; 
+	vertical-align: middle; 
+	margin: 0px 5px;
+}
+
+.input_contactform {
+	width: 200px;
+    margin-bottom: 10px;
+}
+
+input.button
+{
+	font-family:Lato;
+}
+
+label.error {
+    float: inherit;
+    color: red;
+    font-weight: normal;
+}
+
+div.notabene
+{
+	color:red;
+	font-family:Lato;
+	text-align:center;
+}
+
+#modes_transport label
+{
+	margin-top:5px;
+}
+
+td.hint_cargo
+{
+	font-size:10px;
+	text-align:center;
+}
+
+input.checkbox
+{
+	margin-right:35px;
+}
+
+input.icirelais_shipper_code
+{
+	margin:0;
+}
+
+input.predict_shipper_code
+{
+	margin:0;
+}
+
+input.classic_shipper_code
+{
+	margin:0;
+}
+
+input.icirelais_carrier_id
+{
+	margin-right:35px;
+}
+
+input.predict_carrier_id
+{
+	margin-right:35px;
+}
+
+input.classic_carrier_id
+{
+	margin-right:35px;
+}
+
+table.entete
+{
+	font-size:11px;
+	margin-left:208px;
+}
+form fieldset div {
+    font-family: Lato;
+}
+#onglets
+{
+	border-bottom:1px solid #ccc;
+	list-style-type:none;
+	margin:auto;
+	padding-bottom:26px;
+	width:720px;
+	font-size: 12px;
+    font-family: Lato;
+}
+
+#onglets li
+{
+	background-color:#fff;
+	border:1px solid #ccc;
+	border-top-left-radius:3px;
+	border-top-right-radius:3px;
+	float:left;
+	height:24px;
+	margin:1px 2px 0;
+}
+
+#onglets li.active
+{
+	background-color:transparent;
+	border-bottom:1px solid #fff;
+}
+
+#onglets a
+{
+	color:#666;
+	display:block;
+	padding:4px;
+	text-decoration:none;
+}
+#onglet0 {
+    font-family: Lato;
+    line-height: 16px;
+}
+
+#onglet1 {
+    font-family: Lato;
+    line-height: 16px;
+}
+
+#onglet2 {
+    font-family: Lato;
+    line-height: 16px;
+}
+
+#onglet3 {
+    font-family: Lato;
+    line-height: 16px;
+}
+
+#onglet4 {
+    font-family: Lato;
+    line-height: 16px;
+}
+
+#onglet5 {
+    font-family: Lato;
+    line-height: 16px;
+}
+td.h_carrierid
+{
+	padding-left:145px;
+}
+
+div.conf.confirm
+{
+	background-color:#dff0d8!important;
+	border-bottom-left-radius:3px!important;
+	border-bottom-right-radius:3px!important;
+	border-color:#3c763d #3c763d #3c763d #7cc67c !important;
+	border-image-outset:0!important;
+	border-image-repeat:stretch!important;
+	border-image-slice:100%!important;
+	border-image-source:none!important;
+	border-image-width:1!important;
+	border-style:none none none solid !important;
+	border-top-left-radius:3px!important;
+	border-top-right-radius:3px!important;
+	border-width:0 0 0 3px !important;
+	box-sizing:border-box!important;
+	color:#3c763d!important;
+	display:block!important;
+	font-family:'Open Sans', Helvetica, Arial, sans-serif!important;
+	font-size:12px!important;
+	font-style:normal!important;
+	font-variant:normal!important;
+	font-weight:400!important;
+	height:47px!important;
+	line-height:17.142839431763px!important;
+	margin:17px 0!important;
+	padding:15px 15px 15px 50px !important;
+	position:relative!important;
+	vertical-align:baseline!important;
+	width:100%!important;
+}
+
+div.conf.confirm::before
+{
+	-moz-osx-font-smoothing:grayscale;
+	-webkit-font-smoothing:antialiased;
+	box-sizing:border-box;
+	color:#7cc67c;
+	content:"\f058";
+	display:block;
+	font-family:FontAwesome;
+	font-size:3em;
+	font-style:normal;
+	font-weight:400;
+	height:25px;
+	left:7px;
+	line-height:1;
+	position:absolute;
+	top:6px;
+	width:25px;
+}
+
+div.nobootstrap
+{
+	background-color:transparent;
+}
+
+div.nobootstrap fieldset
+{
+	-webkit-box-shadow:rgba(0,0,0,0.0980392) 0 2px 0 0 #fff 0 0 0 3px inset;
+	background-color:#fff;
+	border-bottom-left-radius:5px;
+	border-bottom-right-radius:5px;
+	border-color:#eaddcc;
+	border-image-outset:0;
+	border-image-repeat:stretch;
+	border-image-slice:100%;
+	border-image-source:none;
+	border-image-width:1;
+	border-style:solid;
+	border-top-left-radius:5px;
+	border-top-right-radius:5px;
+	border-width:1px;
+	box-shadow:rgba(0,0,0,0.0980392) 0 2px 0 0 #fff 0 0 0 3px inset;
+	box-sizing:border-box;
+	color:#555;
+	display:block;
+	float:left;
+	font-family:'Open Sans', Helvetica, Arial, sans-serif;
+	font-size:12px;
+	font-style:normal;
+	font-variant:normal;
+	font-weight:400;
+	height:auto;
+	line-height:17.142839431763px;
+	margin:0 0 20px;
+	min-height:1px;
+	padding:20px;
+	position:relative;
+	vertical-align:baseline;
+	width:100%;
+	zoom:1;
+}
+
+div.nobootstrap fieldset legend
+{
+	background-color:transparent;
+	border-color:#555 #555 #eee;
+	border-image-outset:0;
+	border-image-repeat:stretch;
+	border-image-slice:100%;
+	border-image-source:none;
+	border-image-width:1;
+	border-style:none none solid;
+	border-top-left-radius:2px;
+	border-top-right-radius:2px;
+	border-width:0 0 1px;
+	box-sizing:border-box;
+	color:#555;
+	display:block;
+	font-family:'Ubuntu Condensed', Helvetica, Arial, sans-serif;
+	font-size:14px;
+	font-style:normal;
+	font-variant:normal;
+	font-weight:200;
+	height:0;
+	line-height:30px;
+	margin:-16px -16px 15px;
+	padding:0 60px 0 5px;
+	text-overflow:ellipsis;
+	text-transform:uppercase;
+	vertical-align:baseline;
+	white-space:nowrap;
+	width:100%;
+	zoom:1;
+}
+
+fieldset legend img
+{
+	height:24px;
+}
+
+div.alert-danger
+{
+	background-color:#f3515c;
+	border:1px solid transparent;
+	border-color:#d4323d;
+	border-radius:0;
+	color:#FFF;
+	margin-bottom:18px;
+	padding:15px;
+}
+
+div.alert.alert-danger:before
+{
+	content:"\f057";
+	float:left;
+	font-family:FontAwesome;
+	font-size:32px;
+	margin:-12px -5px;
+	padding-right:15px;
+	vertical-align:-2px;
+}
+
+#accueil_wrap
+{
+	height:200px;
+	margin:auto;
+	padding:10px;
+	width:450px;
+}
+
+.client_title
+{
+	color:red;
+	font-family:Lato;
+	font-weight:700;
+	text-align:center;
+}
+
+.client_subtitle
+{
+	color:red;
+	font-family:Lato;
+	font-weight:700;
+	text-align:center;
+}
+
+#pasclient
+{
+	background-color:#FFF;
+	border-radius:10px;
+	cursor:pointer;
+	float:left;
+	height:160px;
+	padding:20px;
+	text-align:center;
+	width:160px;
+	border-style: solid;
+    border-width: 1px;
+    border-color: #ccc;
+}
+
+#client_img
+{
+	background:url(../../img/admin/client.png) no-repeat center;
+	height:96px;
+	margin:auto;
+	padding:10px;
+	width:96px;
+}
+
+#pasclient_img
+{
+	background:url(../../img/admin/pasclient.png) no-repeat center;
+	height:96px;
+	margin:auto;
+	padding:10px;
+	width:96px;
+}
+
+#client
+{
+	background-color:#FFF;
+	border-radius:10px;
+	cursor:pointer;
+	float:right;
+	height:160px;
+	padding:20px;
+	text-align:center;
+	width:160px;
+	border-style: solid;
+    border-width: 1px;
+    border-color: #ccc;
+}
+
+#accueil
+{
+	margin:auto;
+	text-align:center;
+}
+
+#donnees_exp_wrap
+{
+	margin:auto;
+	width:600px;
+}
+
+#donnees_exp
+{
+	font-family:Lato;
+	text-align:center;
+}
+
+span.section_title
+{
+	font-family:Lato;
+	font-weight:700;
+	line-height:52px;
+}
+
+#service_relais
+{
+	background-color:#FFF;
+	border-radius:10px;
+	float:left;
+    border-style: solid;
+    border-color: #ccc;
+    border-width: 1px;
+    height: 400px;
+	margin:5px;
+	padding:10px;
+	text-align:center;
+	width:230px;
+}
+
+#service_relais label
+{
+	font-family:Lato;
+	text-align:center;
+	width:96%;
+}
+
+#service_predict
+{
+	background-color:#FFF;
+	border-radius:10px;
+	float:left;
+    border-style: solid;
+    border-color: #ccc;
+    border-width: 1px;
+    height: 400px;
+	margin:5px;
+	padding:10px;
+	text-align:center;
+	width:230px;
+}
+
+#service_predict label
+{
+	font-family:Lato;
+	text-align:center;
+	width:96%;
+}
+
+#service_classic
+{
+	background-color:#FFF;
+	border-radius:10px;
+	float:left;
+    border-style: solid;
+    border-color: #ccc;
+    border-width: 1px;
+    height: 400px;
+	margin:5px;
+	padding:10px;
+	text-align:center;
+	width:230px;
+}
+
+#service_classic label
+{
+	font-family:Lato;
+	text-align:center;
+	width:100%;
+	padding: 0;
+    margin: 0;
+}
+
+#service_relais select
+{
+	font-family:Lato;
+	width:95%;
+}
+
+#service_predict select
+{
+	font-family:Lato;
+	width:95%;
+}
+
+#service_classic select
+{
+	font-family:Lato;
+	width:95%;
+}
+
+#service_relais_img
+{
+	background:url(../../img/front/icirelais/carrier_logo.jpg) no-repeat center;
+	height:96px;
+	margin:20px;
+}
+
+#service_predict_img
+{
+	background:url(../../img/front/predict/carrier_logo.jpg) no-repeat center;
+	height:96px;
+	margin:20px;
+}
+
+#service_classic_img
+{
+	background:url(../../img/front/classic/carrier_logo.jpg) no-repeat center;
+	background-size: 100px 45px;
+    height: 50px;
+	width: 100px;
+	margin: 6px 6px 46px 6px;
+	float:left;
+}
+
+#service_world_img
+{
+	background:url(../../img/front/world/carrier_logo.jpg) no-repeat center;
+	background-size: 100px 45px;
+    height: 50px;
+	width: 100px;
+	margin: 6px 6px 46px 6px;
+	float:left;
+}
+
+#modes_transport
+{
+	font-family:Lato;
+	margin:auto;
+	text-align:center;
+	width:790px;
+}
+
+#service_relais span
+{
+	font-family:Lato;
+}
+
+#service_predict span
+{
+	font-family:Lato;
+}
+
+#service_classic span
+{
+	font-family:Lato;
+}
+
+#donnees_exp_wrap label
+{
+	font-family:Lato;
+}
+
+div.margin-form input
+{
+	font-family:Lato;
+}
+
+#gestion_exp
+{
+	margin:auto;
+	width:800px;
+}
+
+#gestion_exp strong
+{
+	font-family:Lato;
+	left:41%;
+	position:relative;
+}
+
+#options_supp strong
+{
+	font-family:Lato;
+	left:41%;
+	line-height:24px;
+	position:relative;
+}
+
+#options_supp
+{
+	margin:auto;
+	width:760px;
+}
+
+#options_supp label
+{
+	font-family:Lato;
+}
+
+div.margin-form
+{
+	font-family:Lato;
+}
+
+#gestion_exp label
+{
+	font-family:Lato;
+}
+
+div.margin-form select
+{
+	font-family:Lato;
+}
+
+div.margin-form p
+{
+	font-family:Lato;
+}
+
+#gestion_exp div
+{
+	font-family:Lato;
+	font-size:11px;
+	line-height:24px;
+}
+
+a.button
+{
+	font-family:Lato;
+}
+
+#recap strong center
+{
+	font-family:Lato;
+}
+
+#save_settings_button
+{
+	background: white;
+	border:1px solid #ccc;
+	border-radius:10px;
+	height:100px;
+	text-align:center;
+	width:220px;
+	font-size: 16px;
+    font-weight: bold;
+    color: red;
+}
+
+span.client_subtitle
+{
+	font-size:13px;
+}
+
+span.client_title
+{
+	font-size:15px;
+}
+
+input.icirelais_depot_code {
+    font-family: Lato;
+}
+
+input.icirelais_shipper_code {
+    font-family: Lato;
+}
+
+input.predict_depot_code {
+    font-family: Lato;
+}
+
+input.predict_shipper_code {
+    font-family: Lato;
+}
+
+input.classic_depot_code {
+    font-family: Lato;
+}
+
+input.classic_shipper_code {
+    font-family: Lato;
+}

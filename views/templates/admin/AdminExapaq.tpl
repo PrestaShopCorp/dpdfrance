@@ -22,10 +22,10 @@
  * @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  *}
 
-<link rel="stylesheet" type="text/css" href="../modules/exapaq/css/admin/AdminExapaq.css"/>
-<link rel="stylesheet" type="text/css" href="../modules/exapaq/js/admin/jquery/plugins/fancybox/jquery.fancybox.css" media="screen"/>
-<script type="text/javascript" src="../modules/exapaq/js/admin/jquery/plugins/fancybox/jquery.fancybox.js"></script>
-<script type="text/javascript" src="../modules/exapaq/js/admin/jquery/plugins/marquee/jquery.marquee.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../modules/exapaq/views/css/admin/AdminExapaq.css"/>
+<link rel="stylesheet" type="text/css" href="../modules/exapaq/views/js/admin/jquery/plugins/fancybox/jquery.fancybox.css" media="screen"/>
+<script type="text/javascript" src="../modules/exapaq/views/js/admin/jquery/plugins/fancybox/jquery.fancybox.js"></script>
+<script type="text/javascript" src="../modules/exapaq/views/js/admin/jquery/plugins/marquee/jquery.marquee.min.js"></script>
 
 {literal}
 <script type='text/javascript'>
@@ -104,7 +104,7 @@
 {/literal}
 
 {if $stream !== 'error'}
-	<fieldset><legend><a href="javascript:void(0)" onclick="$(&quot;#zonemarquee&quot;).toggle(&quot;fast&quot;, function() {literal}{}{/literal});"><img src="../modules/exapaq/img/admin/rss_icon.png" />{l s='EXAPAQ News (show/hide)' mod='exapaq'}</a></legend>
+	<fieldset><legend><a href="javascript:void(0)" onclick="$(&quot;#zonemarquee&quot;).toggle(&quot;fast&quot;, function() {literal}{}{/literal});"><img src="../modules/exapaq/views/img/admin/rss_icon.png" />{l s='EXAPAQ News (show/hide)' mod='exapaq'}</a></legend>
 	<div id="zonemarquee"><div id="marquee" class="marquee">
 	{foreach from=$stream item=item key=key}
 		<strong style="color:red;">{$item.category|escape:'htmlall':'UTF-8'} > {$item.title|escape:'htmlall':'UTF-8'} : </strong> {$item.description|escape:'htmlall':'UTF-8'} 
@@ -112,10 +112,10 @@
 	</div></div></fieldset><br/>
 {/if}
 
-<fieldset><legend><img src="../modules/exapaq/img/admin/admin.png"/>{l s='EXAPAQ deliveries management' mod='exapaq'}</legend>
+<fieldset><legend><img src="../modules/exapaq/views/img/admin/admin.png"/>{l s='EXAPAQ deliveries management' mod='exapaq'}</legend>
 
 {if $order_info !== 'error'}
-	<input id="tableFilter" value="{l s='Search something, separate values with ; ' mod='exapaq'}"/><img id="filtericon" src="../modules/exapaq/img/admin/search.png"/><br/><br/>
+	<input id="tableFilter" value="{l s='Search something, separate values with ; ' mod='exapaq'}"/><img id="filtericon" src="../modules/exapaq/views/img/admin/search.png"/><br/><br/>
 		<form id="exportform" action="index.php?tab=AdminExapaq&token={$token|escape:'htmlall':'UTF-8'}" method="POST" enctype="multipart/form-data">	
 		<body><table>
 				<thead>

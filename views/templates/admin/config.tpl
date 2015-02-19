@@ -22,10 +22,10 @@
  * @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  *}
 
-<link rel="stylesheet" type="text/css" href="../modules/exapaq/css/admin/exapaq_config.css"/>
-<link rel="stylesheet" type="text/css" href="../modules/exapaq/js/admin/jquery/plugins/fancybox/jquery.fancybox.css" media="screen"/>
-<script type="text/javascript" src="../modules/exapaq/js/admin/jquery/plugins/fancybox/jquery.fancybox.js"></script>
-<script type="text/javascript" src="../modules/exapaq/js/admin/jquery/plugins/validation/jquery.validate.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../modules/exapaq/views/css/admin/exapaq_config.css"/>
+<link rel="stylesheet" type="text/css" href="../modules/exapaq/views/js/admin/jquery/plugins/fancybox/jquery.fancybox.css" media="screen"/>
+<script type="text/javascript" src="../modules/exapaq/views/js/admin/jquery/plugins/fancybox/jquery.fancybox.js"></script>
+<script type="text/javascript" src="../modules/exapaq/views/js/admin/jquery/plugins/validation/jquery.validate.min.js"></script>
 
 {literal}
 	<script type="text/javascript">
@@ -140,7 +140,7 @@
 </div>
 
 <form action="{$form_submit_url|escape:'htmlall':'UTF-8'}" method="post">
-	<fieldset><legend><img src="../modules/exapaq/img/admin/admin.png" alt="" title="" />{l s='Settings' mod='exapaq'}</legend>
+	<fieldset><legend><img src="../modules/exapaq/views/img/admin/admin.png" alt="" title="" />{l s='Settings' mod='exapaq'}</legend>
 	
 		<!-- Tabs header -->
 		<div id="exapaq_menu">
@@ -157,7 +157,7 @@
 		<!-- Tab Accueil -->
 		<div id="accueil" style="display:block;">
 			<br/><span class="section_title">{l s='Welcome to EXAPAQ' mod='exapaq'}</span><br/>
-			<div>{l s='Please configure the EXAPAQ module. Documentation is available here : ' mod='exapaq'}<a target="_blank" href="../modules/exapaq/docs/readme_exapaq_prestashop.pdf"><img src ="../modules/exapaq/img/admin/pdf.png" alt="PDF"/></a></div><br/>
+			<div>{l s='Please configure the EXAPAQ module. Documentation is available here : ' mod='exapaq'}<a target="_blank" href="../modules/exapaq/docs/readme_exapaq_prestashop.pdf"><img src ="../modules/exapaq/views/img/admin/pdf.png" alt="PDF"/></a></div><br/>
 			<div id="accueil_wrap">
 				<div id="pasclient"><a id="open_pasclient" href="#exapaq_contact_form" style="text-decoration:none;"><span class="client_title">{l s='Not a customer yet?' mod='exapaq'}</span><div id="pasclient_img"></div><span class="client_subtitle">{l s='Click here to get in touch with our sales team' mod='exapaq'}</span></a></div>
 				<div id="client" href="javascript:void(0)" onclick="$(&quot;#accueil,#modes_transport,#options_supp,#gestion_exp&quot;).fadeOut(0, function() {literal}{{/literal}$(&quot;#donnees_exp&quot;).fadeIn(&quot;slow&quot;){literal}}{/literal});"><span class="client_title">{l s='I\'m already a customer' mod='exapaq'}</span><div id="client_img"></div><span class="client_subtitle">{l s='Proceed to the plugin configuration' mod='exapaq'}</span></div>
@@ -211,7 +211,7 @@
 				</select><br/><br/>
 
 				<span>{l s='Carrier creation' mod='exapaq'}</span><br/><br/>
-				<input type="submit" name="submitCreateCarrierRelais" value="{l s='Create ICI relais carrier' mod='exapaq'}" class="button"/> 
+				<input type="submit" name="submitCreateCarrierIcirelais" value="{l s='Create ICI relais carrier' mod='exapaq'}" class="button"/> 
 			</div>
 
 			<!-- Predict -->

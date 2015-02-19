@@ -114,12 +114,13 @@ class AdminExapaq extends AdminTab
 	}
 
 	/* Formats GSM numbers */
-	public function formatGSM($gsm_dest, $code_iso) 
+	public function formatGSM($gsm_dest, $code_iso)
 	{
-		if ($code_iso == 'F') {
-			$gsm_dest = str_replace(array(' ', '.', '-', ',', ';', '/', '\\', '(', ')'),'',$gsm_dest);
-			$gsm_dest = str_replace('+33','0',$gsm_dest);
-			if (substr($gsm_dest, 0, 2) == 33) // Chrome autofill fix
+		if ($code_iso == 'F')
+		{
+			$gsm_dest = str_replace(array(' ', '.', '-', ',', ';', '/', '\\', '(', ')'), '', $gsm_dest);
+			$gsm_dest = str_replace('+33', '0', $gsm_dest);
+			if (Tools::substr($gsm_dest, 0, 2) == 33) // Chrome autofill fix
 				$gsm_dest = substr_replace($gsm_dest, '0', 0, 2);
 		}
 		return $gsm_dest;
@@ -428,7 +429,7 @@ class AdminExapaq extends AdminTab
 		}
 		// Add jQuery for Prestashop before 1.4
 		if (_PS_VERSION_ < '1.4')
-			echo '<script type="text/javascript" src="../modules/'.$this->name.'/js/admin/jquery/jquery-1.11.0.min.js"></script>';
+			echo '<script type="text/javascript" src="../modules/'.$this->name.'/views/js/admin/jquery/jquery-1.11.0.min.js"></script>';
 		// Calls function to get orders
 		$order_info = '';
 		$statuses_array = array();
@@ -496,7 +497,7 @@ class AdminExapaq extends AdminTab
 							$dernierstatutcolis = 'Accéder à la trace';
 							break;
 						case Configuration::get('EXAPAQ_ETAPE_EXPEDIEE', null, null, (int)$order->id_shop):
-							$dernierstatutcolis = '<img src="../modules/exapaq/img/admin/tracking.png" title="Trace du colis"/>';
+							$dernierstatutcolis = '<img src="../modules/exapaq/views/img/admin/tracking.png" title="Trace du colis"/>';
 					}
 					$weight = number_format($order->getTotalWeight(), 2, '.', '.').' '.Configuration::get('PS_WEIGHT_UNIT', null, null, (int)$order->id_shop);
 					$amount = number_format($order->total_paid, 2, '.', '.').' €';
@@ -504,19 +505,19 @@ class AdminExapaq extends AdminTab
 					switch (self::getService($order->id_cart, $order->id_carrier))
 					{
 						case 'PRE':
-							$type = 'Predict<img src="../modules/exapaq/img/admin/service_predict.png" title="Predict"/>';
+							$type = 'Predict<img src="../modules/exapaq/views/img/admin/service_predict.png" title="Predict"/>';
 							$compte_chargeur = Configuration::get('EXAPAQ_PREDICT_SHIPPER_CODE', null, null, (int)$order->id_shop);
 							$depot_code = Configuration::get('EXAPAQ_PREDICT_DEPOT_CODE', null, null, (int)$order->id_shop);
 							$address = '<a class="popup" href="http://maps.google.com/maps?f=q&hl=fr&geocode=&q='.str_replace(' ', '+', $address_delivery->address1).','.str_replace(' ', '+', $address_delivery->postcode).'+'.str_replace(' ', '+', $address_delivery->city).'&output=embed" target="_blank">'.($address_delivery->company ? $address_delivery->company.'<br/>' : '').$address_delivery->address1.'<br/>'.$address_delivery->postcode.' '.$address_delivery->city.'</a>';
 							break;
 						case 'REL':
-							$type = 'ICI relais<img src="../modules/exapaq/img/admin/service_relais.png" title="ICI relais"/>';
+							$type = 'ICI relais<img src="../modules/exapaq/views/img/admin/service_relais.png" title="ICI relais"/>';
 							$compte_chargeur = Configuration::get('EXAPAQ_ICIRELAIS_SHIPPER_CODE', null, null, (int)$order->id_shop);
 							$depot_code = Configuration::get('EXAPAQ_ICIRELAIS_DEPOT_CODE', null, null, (int)$order->id_shop);
 							$address = '<a class="popup" href="http://www.icirelais.com/pages_module_recherche/point_direct.php?point_id='.Tools::substr($address_delivery->company, -7, 6).'" target="_blank">'.$address_delivery->company.'<br/>'.$address_delivery->postcode.' '.$address_delivery->city.'</a>';
 							break;
 						default:
-							$type = 'Classic<img src="../modules/exapaq/img/admin/service_dom.png" title="Classic"/>';
+							$type = 'Classic<img src="../modules/exapaq/views/img/admin/service_dom.png" title="Classic"/>';
 							$compte_chargeur = Configuration::get('EXAPAQ_CLASSIC_SHIPPER_CODE', null, null, (int)$order->id_shop);
 							$depot_code = Configuration::get('EXAPAQ_CLASSIC_DEPOT_CODE', null, null, (int)$order->id_shop);
 							$address = '<a class="popup" href="http://maps.google.com/maps?f=q&hl=fr&geocode=&q='.str_replace(' ', '+', $address_delivery->address1).','.str_replace(' ', '+', $address_delivery->postcode).'+'.str_replace(' ', '+', $address_delivery->city).'&output=embed" target="_blank">'.($address_delivery->company ? $address_delivery->company.'<br/>' : '').$address_delivery->address1.'<br/>'.$address_delivery->postcode.' '.$address_delivery->city.'</a>';
@@ -543,7 +544,7 @@ class AdminExapaq extends AdminTab
 				}
 			}
 			else
-				$order_info = 'error';			
+				$order_info = 'error';
 		}
 		else
 			$order_info = 'error';

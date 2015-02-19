@@ -126,7 +126,7 @@ for (i=1; i<6; i++){
 	<div class="icirelaisboxclose" onclick="
 		document.getElementById('relaydetail{$smarty.foreach.iciLoop.index+1|escape:'htmlall':'UTF-8'}').style.display='none';
 		document.getElementById('filter').style.display='none'">
-		<img src="{if $ssl}{$base_dir_ssl|escape:'htmlall':'UTF-8'}{else}{$base_dir|escape:'htmlall':'UTF-8'}{/if}modules/exapaq/img/front/icirelais/box-close.png"/>
+		<img src="{if $ssl}{$base_dir_ssl|escape:'htmlall':'UTF-8'}{else}{$base_dir|escape:'htmlall':'UTF-8'}{/if}modules/exapaq/views/img/front/icirelais/box-close.png"/>
 	</div>
 
 	<div class="icirelaisboxcarto" id="map_canvas{$smarty.foreach.iciLoop.index+1|escape:'htmlall':'UTF-8'}"></div>
@@ -244,7 +244,7 @@ for (i=1; i<6; i++){
 				<h5>{l s='Distance in km' mod='exapaq'} : </h5>{$points.distance|escape:'htmlall':'UTF-8'} km <br/>
 				<h5>{l s='ICI relais code' mod='exapaq'} : </h5>{$points.relay_id|escape:'htmlall':'UTF-8'} <br/>
 				{if isset($points.closing_period[0])}
-					<h4><img src="{if $ssl}{$base_dir_ssl|escape:'htmlall':'UTF-8'}{else}{$base_dir|escape:'htmlall':'UTF-8'}{/if}modules/exapaq/img/front/icirelais/warning.png"/> {l s='Closing period' mod='exapaq'} : </h4>{$points.closing_period[0]|escape:'htmlall':'UTF-8'} <br/>
+					<h4><img src="{if $ssl}{$base_dir_ssl|escape:'htmlall':'UTF-8'}{else}{$base_dir|escape:'htmlall':'UTF-8'}{/if}modules/exapaq/views/img/front/icirelais/warning.png"/> {l s='Closing period' mod='exapaq'} : </h4>{$points.closing_period[0]|escape:'htmlall':'UTF-8'} <br/>
 				{/if}
 				{if isset($points.closing_period[1])}
 					<h4></h4>{$points.closing_period[1]|escape:'htmlall':'UTF-8'} <br/>

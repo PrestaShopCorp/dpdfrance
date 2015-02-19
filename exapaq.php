@@ -322,7 +322,7 @@ class Exapaq extends CarrierModule
 		$output = '<h2>'.$this->displayName.'</h2>';
 
 		if (_PS_VERSION_ < '1.4')
-			$output .= '<script type="text/javascript" src="../modules/'.$this->name.'/js/admin/jquery/jquery-1.11.0.min.js"></script>';
+			$output .= '<script type="text/javascript" src="../modules/'.$this->name.'/views/js/admin/jquery/jquery-1.11.0.min.js"></script>';
 
 		// Contact form if not customer
 		if (Tools::isSubmit('submitContactForm'))
@@ -474,9 +474,9 @@ class Exapaq extends CarrierModule
 	/* Calls CSS and JS files on header of front-office pages */
 	public function hookHeader()
 	{
-		$this->context->controller->addCSS($this->_path.'css/front/icirelais/exapaq_icirelais.css');
-		$this->context->controller->addCSS($this->_path.'css/front/predict/exapaq_predict.css');
-		$this->context->controller->addJS($this->_path.'js/front/icirelais/exapaq_icirelais.js');
+		$this->context->controller->addCSS($this->_path.'views/css/front/icirelais/exapaq_icirelais.css');
+		$this->context->controller->addCSS($this->_path.'views/css/front/predict/exapaq_predict.css');
+		$this->context->controller->addJS($this->_path.'views/js/front/icirelais/exapaq_icirelais.js');
 		$this->context->controller->addJS('https://maps.googleapis.com/maps/api/js?sensor=false');
 	}
 
@@ -915,7 +915,7 @@ class Exapaq extends CarrierModule
 			else
 				$range_weight->delimiter2 = '30';
 			$range_weight->add();
-			// Assign carrier to France zone but DPD World carrier
+			// Assign carrier to France zone but DPD Intercontinental carrier
 			if ($type == 'world')
 				$sql = 'SELECT id_zone FROM '._DB_PREFIX_.'zone WHERE name NOT LIKE \'%France%\'';
 			else
@@ -928,7 +928,7 @@ class Exapaq extends CarrierModule
 				Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'delivery (id_carrier, id_range_price, id_range_weight, id_zone, price) VALUE (\''.(int)$carrier->id.'\',NULL,\''.(int)$range_weight->id.'\',\''.(int)$zone['id_zone'].'\',\'5.95\')');
 			}
 			// Logo copy
-			if (!copy(dirname(__FILE__).'/img/front/'.$type.'/carrier_logo.jpg', _PS_SHIP_IMG_DIR_.'/'.$carrier->id.'.jpg'))
+			if (!copy(dirname(__FILE__).'/views/img/front/'.$type.'/carrier_logo.jpg', _PS_SHIP_IMG_DIR_.'/'.$carrier->id.'.jpg'))
 				return false;
 			return true;
 		}
