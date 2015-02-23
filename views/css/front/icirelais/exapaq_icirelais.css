@@ -544,6 +544,6 @@ div.icirelaisboxinfos h4 {
 
 /* Condition verticale (Smartphone) */
 
-@media only screen and (max-height: 679px) {
+@media only screen and (max-height: 610px) {
 	.icirelaisboxcarto {display:none;}
 }
