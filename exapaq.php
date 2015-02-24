@@ -287,6 +287,8 @@ class Exapaq extends CarrierModule
 			foreach ($res as $zone)
 				$id_zone_france = $zone['id_zone'];
 		}
+		else
+			$id_zone_france = '';
 
 		// If France zone ID is empty : Create a France zone, fetch its ID, and assign the France country to this zone
 		if (!$id_zone_france)
@@ -485,7 +487,7 @@ class Exapaq extends CarrierModule
 	{
 		$address = new Address((int)$this->context->cart->id_address_delivery);
 		$address_details = $address->getFields();
-		$delivery_infos = $this->getDeliveryInfos((int)$this->context->cart->id);
+		$delivery_infos = self::getDeliveryInfos((int)$this->context->cart->id);
 
 		if (_PS_VERSION_ < '1.5')
 			$this->context->country->iso_code = Db::getInstance()->getValue('SELECT iso_code FROM '._DB_PREFIX_.'country WHERE id_country = '.(int)$address_details['id_country'].'');
@@ -541,14 +543,14 @@ class Exapaq extends CarrierModule
 			switch ($this->context->cart->id_carrier)
 			{
 				case Configuration::get('EXAPAQ_ICIRELAIS_CARRIER_ID'):
-					$delivery_infos = $this->getDeliveryInfos((int)$this->context->cart->id);
+					$delivery_infos = self::getDeliveryInfos((int)$this->context->cart->id);
 					if ($delivery_infos['relay_id'])
 						return $this->display(__FILE__, 'views/templates/front/ps15/icirelais/showhookpayment.tpl');
 					else
 						return $this->display(__FILE__, 'views/templates/front/ps15/icirelais/icirelaiserror.tpl');
 					break;
 				case Configuration::get('EXAPAQ_PREDICT_CARRIER_ID'):
-					$delivery_infos = $this->getDeliveryInfos((int)$this->context->cart->id);
+					$delivery_infos = self::getDeliveryInfos((int)$this->context->cart->id);
 					if ($delivery_infos['gsm_dest'])
 						return $this->display(__FILE__, 'views/templates/front/ps15/predict/showhookpayment.tpl');
 					else
