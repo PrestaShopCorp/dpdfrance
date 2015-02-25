@@ -367,7 +367,7 @@ div.icirelaisboxbottom {
 	font-size:12px;
 	text-align:center;
 	border-style: none;
-    margin: 0;
+    margin: 5px 0 0 0;
     padding-bottom: 0;
     line-height: 32px;
     padding-top: 32px;
@@ -412,7 +412,7 @@ div.icirelaisboxhoraires {
 	font-size:12px;
 	text-align:center;
 	border-style: none;
-    margin: 0;
+    margin: 5px 0 0 0;
     padding-bottom: 0;
     line-height: 32px;
     padding-top: 32px;
@@ -460,7 +460,7 @@ div.icirelaisboxhoraires p {
 	font-size:12px;
 	text-align:center;
 	border-style: none;
-    margin: 0;
+    margin: 5px 0 0 0;
     padding-bottom: 0;
     line-height: 32px;
     padding-top: 32px;
