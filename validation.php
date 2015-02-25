@@ -56,13 +56,14 @@ switch ((int)$delivery_option)
 	else
 		$relay_id = Tools::getValue('relay_id_opc');
 
-	if (!empty(Context::getContext()->cookie->$relay_id))
+	if (!empty(Context::getContext()->cookie->exapaq_icirelais_cookie))
 	{
 		if (version_compare(_PS_VERSION_, '1.4.2.4', '>='))
-			$detail_relais = Tools::jsonDecode(Context::getContext()->cookie->$relay_id, true); /* Retrieve details of chosen relaypoint in the cookie */
+			$cookiedata = Tools::jsonDecode(Context::getContext()->cookie->exapaq_icirelais_cookie, true); /* Retrieve details of chosen relaypoint in the cookie */
 		else
-			$detail_relais = json_decode(Context::getContext()->cookie->$relay_id, true);
+			$cookiedata = json_decode(Context::getContext()->cookie->exapaq_icirelais_cookie, true);
 
+		$detail_relais = $cookiedata[$relay_id];
 		Db::getInstance()->delete(_DB_PREFIX_.'exapaq_france', 'id_cart = "'.$cart->id.'"'); /* Delete previous entry in database */
 
 		$address1 = (isset($detail_relais['address1']))?$detail_relais['address1']:'';

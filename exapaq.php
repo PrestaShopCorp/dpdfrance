@@ -800,10 +800,10 @@ class Exapaq extends CarrierModule
 						$point['postal_code']	 = $item['ZIPCODE'];
 						$point['city']			 = self::stripAccents($item['CITY']);
 						$point['id_country']	 = $input['id_country'];
-						if (version_compare(_PS_VERSION_, '1.4.2.4', '>='))
-							Context::getContext()->cookie->$point['relay_id'] = Tools::jsonEncode($point);
-						else
-							Context::getContext()->cookie->$point['relay_id'] = json_encode($point);
+
+						// Prepare cookie data with only necessary informations
+						$cookiedata[$point['relay_id']] = $point;
+
 						$point['distance']		 = number_format($item['DISTANCE'] / 1000, 2);
 						$point['coord_lat']		 = (float)strtr($item['LATITUDE'], ',', '.');
 						$point['coord_long']	 = (float)strtr($item['LONGITUDE'], ',', '.');
@@ -826,6 +826,11 @@ class Exapaq extends CarrierModule
 						if (++$i == 5)
 							break;
 					}
+					// Push cookie data
+					if (version_compare(_PS_VERSION_, '1.4.2.4', '>='))
+						Context::getContext()->cookie->exapaq_icirelais_cookie = Tools::jsonEncode($cookiedata);
+					else
+						Context::getContext()->cookie->exapaq_icirelais_cookie = json_encode($cookiedata);
 				}
 		} catch (Exception $e){
 			$ici_relais_points['error'] = $this->l('ICI relais is not available at the moment, please try again shortly.');
