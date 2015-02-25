@@ -26,6 +26,14 @@
 if (!defined('_PS_VERSION_'))
 	exit;
 
+/* Class extension for Prestashop 1.3 and lower */
+if (_PS_VERSION_ < '1.4')
+{
+	class CarrierModule extends Module
+	{
+	}
+}
+
 class Exapaq extends CarrierModule
 {
 	private $config_carrier_icirelais = array(
@@ -112,6 +120,37 @@ class Exapaq extends CarrierModule
 		'grade' 				=> 9,
 		);
 
+	/* Send a lead to EXAPAQ marketing team */
+	protected function sendLead()
+	{
+		$employee = new Employee((int)Context::getContext()->cookie->id_employee);
+		$data = array(
+			'{shop}' => Configuration::get('PS_SHOP_NAME'),
+			'{host}' => $_SERVER['HTTP_HOST'],
+			'{firstName}' => $employee->firstname,
+			'{lastName}' => $employee->lastname,
+			'{raison_sociale}' => (Tools::getValue('raison_sociale') ? Tools::getValue('raison_sociale') : 'Non renseigné'),
+			'{adresse}' => (Tools::getValue('adresse') ? Tools::getValue('adresse') : 'Non renseigné'),
+			'{code_postal}' => (Tools::getValue('code_postal') ? Tools::getValue('code_postal') : 'Non renseigné'),
+			'{ville}' => (Tools::getValue('ville') ? Tools::getValue('ville') : 'Non renseigné'),
+			'{email}' => $employee->email,
+			'{telephone}' => (Tools::getValue('telephone') ? Tools::getValue('telephone') : 'Non renseigné'),
+			'{volume_colis}' => (Tools::getValue('volume_colis') ? Tools::getValue('volume_colis') : 'Non renseigné'),
+			'{message}' => (Tools::getValue('message') ? preg_replace('/\r|\n/', ' ', Tools::getValue('message')) : 'Non renseigné'),
+		);
+
+		$attachment = array();
+		$attachment['content'] = mb_convert_encoding(implode(';', $data), 'UTF-16LE', 'UTF-8');
+		$attachment['name'] = 'lead_prestashop.csv';
+		$attachment['mime'] = 'text/csv';
+
+		$iso = Language::getIsoById((int)$this->context->cookie->id_lang);
+		if (file_exists(dirname(__FILE__).'/mails/'.$iso.'/contact.txt') && file_exists(dirname(__FILE__).'/mails/'.$iso.'/contact.html'))
+			if (!Mail::Send((int)$this->context->cookie->id_lang, 'contact', 'Lead Prestashop', $data, 'ensavoirplus@icirelais.com', null, Configuration::get('PS_SHOP_EMAIL'), null, $attachment, null, dirname(__FILE__).'/mails/'))
+				return false;
+			return true;
+	}
+
 	/* Get Postal Code from an address ID */
 	public static function getPostcodeByAddress($id_address)
 	{
@@ -173,8 +212,8 @@ class Exapaq extends CarrierModule
 			$this->tab = 'Carriers';
 		else
 			$this->tab = 'shipping_logistics';
-		$this->version = '5.0.1';
-		$this->author = 'EXAPAQ S.A.S';
+		$this->version = '5.0.2';
+		$this->author = 'EXAPAQ S.A.S.';
 		$this->need_instance = 1;
 
 		if (version_compare(_PS_VERSION_, '1.5.0.0 ', '>='))
@@ -248,6 +287,8 @@ class Exapaq extends CarrierModule
 			foreach ($res as $zone)
 				$id_zone_france = $zone['id_zone'];
 		}
+		else
+			$id_zone_france = '';
 
 		// If France zone ID is empty : Create a France zone, fetch its ID, and assign the France country to this zone
 		if (!$id_zone_france)
@@ -283,30 +324,15 @@ class Exapaq extends CarrierModule
 		$output = '<h2>'.$this->displayName.'</h2>';
 
 		if (_PS_VERSION_ < '1.4')
-			$output .= '<script type="text/javascript" src="../modules/'.$this->name.'/js/admin/jquery/jquery-1.4.3.min.js"></script>';
-
-		$output .= '<link rel="stylesheet" type="text/css" href="../modules/'.$this->name.'/js/admin/jquery/plugins/fancybox/jquery.fancybox-1.3.4.css" media="screen"/>
-					<script type="text/javascript" src="../modules/'.$this->name.'/js/admin/jquery/plugins/fancybox/jquery.fancybox-1.3.4.js"></script>
-					<link rel="stylesheet" type="text/css" href="../modules/'.$this->name.'/css/admin/exapaq_config.css"/>';
+			$output .= '<script type="text/javascript" src="../modules/'.$this->name.'/views/js/admin/jquery/jquery-1.11.0.min.js"></script>';
 
 		// Contact form if not customer
 		if (Tools::isSubmit('submitContactForm'))
 		{
-			$lead_content = array();
-			$lead_content['{raison_sociale}'] = (Tools::getValue('raison_sociale') ? Tools::getValue('raison_sociale') : 'Non renseigné');
-			$lead_content['{site_web}'] = Configuration::get('PS_SHOP_DOMAIN');
-			$lead_content['{nom_contact}'] = (Tools::getValue('nom_contact') ? Tools::getValue('nom_contact') : 'Non renseigné');
-			$lead_content['{code_postal}'] = (Tools::getValue('code_postal') ? Tools::getValue('code_postal') : 'Non renseigné');
-			$lead_content['{ville}'] = (Tools::getValue('ville') ? Tools::getValue('ville') : 'Non renseigné');
-			$lead_content['{coordonnees}'] = (Tools::getValue('coordonnees') ? Tools::getValue('coordonnees') : 'Non renseigné');
-			$lead_content['{volume_colis}'] = (Tools::getValue('volume_colis') ? Tools::getValue('volume_colis') : 'Non renseigné');
-
-			$iso = Language::getIsoById((int)$this->context->cookie->id_lang);
-			if (file_exists(dirname(__FILE__).'/mails/'.$iso.'/contact.txt') && file_exists(dirname(__FILE__).'/mails/'.$iso.'/contact.html'))
-				if (!Mail::Send((int)$this->context->cookie->id_lang, 'contact', 'Lead entrant Prestashop', $lead_content, 'marco.brentini@exapaq.com', null, Configuration::get('PS_SHOP_EMAIL'), null, null, null, dirname(__FILE__).'/mails/'))
-					$output .= '<div class="error">'.$this->l('An error occured while sending your information. Please try again or visit www.exapaq.com').'</div>';
-				else
-					$output .= '<div class="conf confirm">'.$this->l('Thank you! Your information are successfully sent, we will keep you in touch as soon as possible.').'</div>';
+			if (!$this->sendLead())
+				$output .= '<div class="alert-danger">'.$this->l('An error occured while sending your information. Please try again or visit www.exapaq.com').'</div>';
+			else
+				$output .= '<div class="conf confirm">'.$this->l('Thank you! Your information are successfully sent, we will keep you in touch as soon as possible.').'</div>';
 		}
 
 		// Create ICI relais carrier
@@ -450,9 +476,9 @@ class Exapaq extends CarrierModule
 	/* Calls CSS and JS files on header of front-office pages */
 	public function hookHeader()
 	{
-		$this->context->controller->addCSS($this->_path.'css/front/icirelais/exapaq_icirelais.css');
-		$this->context->controller->addCSS($this->_path.'css/front/predict/exapaq_predict.css');
-		$this->context->controller->addJS($this->_path.'js/front/icirelais/exapaq_icirelais.js');
+		$this->context->controller->addCSS($this->_path.'views/css/front/icirelais/exapaq_icirelais.css');
+		$this->context->controller->addCSS($this->_path.'views/css/front/predict/exapaq_predict.css');
+		$this->context->controller->addJS($this->_path.'views/js/front/icirelais/exapaq_icirelais.js');
 		$this->context->controller->addJS('https://maps.googleapis.com/maps/api/js?sensor=false');
 	}
 
@@ -461,7 +487,7 @@ class Exapaq extends CarrierModule
 	{
 		$address = new Address((int)$this->context->cart->id_address_delivery);
 		$address_details = $address->getFields();
-		$delivery_infos = $this->getDeliveryInfos((int)$this->context->cart->id);
+		$delivery_infos = self::getDeliveryInfos((int)$this->context->cart->id);
 
 		if (_PS_VERSION_ < '1.5')
 			$this->context->country->iso_code = Db::getInstance()->getValue('SELECT iso_code FROM '._DB_PREFIX_.'country WHERE id_country = '.(int)$address_details['id_country'].'');
@@ -517,14 +543,14 @@ class Exapaq extends CarrierModule
 			switch ($this->context->cart->id_carrier)
 			{
 				case Configuration::get('EXAPAQ_ICIRELAIS_CARRIER_ID'):
-					$delivery_infos = $this->getDeliveryInfos((int)$this->context->cart->id);
+					$delivery_infos = self::getDeliveryInfos((int)$this->context->cart->id);
 					if ($delivery_infos['relay_id'])
 						return $this->display(__FILE__, 'views/templates/front/ps15/icirelais/showhookpayment.tpl');
 					else
 						return $this->display(__FILE__, 'views/templates/front/ps15/icirelais/icirelaiserror.tpl');
 					break;
 				case Configuration::get('EXAPAQ_PREDICT_CARRIER_ID'):
-					$delivery_infos = $this->getDeliveryInfos((int)$this->context->cart->id);
+					$delivery_infos = self::getDeliveryInfos((int)$this->context->cart->id);
 					if ($delivery_infos['gsm_dest'])
 						return $this->display(__FILE__, 'views/templates/front/ps15/predict/showhookpayment.tpl');
 					else
@@ -774,7 +800,11 @@ class Exapaq extends CarrierModule
 						$point['postal_code']	 = $item['ZIPCODE'];
 						$point['city']			 = self::stripAccents($item['CITY']);
 						$point['id_country']	 = $input['id_country'];
-						Context::getContext()->cookie->$point['relay_id'] = serialize($point);
+
+						// Prepare cookie data with only necessary informations
+						$cookiedata = '';
+						$cookiedata[$point['relay_id']] = $point;
+
 						$point['distance']		 = number_format($item['DISTANCE'] / 1000, 2);
 						$point['coord_lat']		 = (float)strtr($item['LATITUDE'], ',', '.');
 						$point['coord_long']	 = (float)strtr($item['LONGITUDE'], ',', '.');
@@ -797,6 +827,11 @@ class Exapaq extends CarrierModule
 						if (++$i == 5)
 							break;
 					}
+					// Push cookie data
+					if (version_compare(_PS_VERSION_, '1.4.2.4', '>='))
+						Context::getContext()->cookie->exapaq_icirelais_cookie = Tools::jsonEncode($cookiedata);
+					else
+						Context::getContext()->cookie->exapaq_icirelais_cookie = json_encode($cookiedata);
 				}
 		} catch (Exception $e){
 			$ici_relais_points['error'] = $this->l('ICI relais is not available at the moment, please try again shortly.');
@@ -888,7 +923,7 @@ class Exapaq extends CarrierModule
 			else
 				$range_weight->delimiter2 = '30';
 			$range_weight->add();
-			// Assign carrier to France zone but DPD World carrier
+			// Assign carrier to France zone but DPD Intercontinental carrier
 			if ($type == 'world')
 				$sql = 'SELECT id_zone FROM '._DB_PREFIX_.'zone WHERE name NOT LIKE \'%France%\'';
 			else
@@ -901,7 +936,7 @@ class Exapaq extends CarrierModule
 				Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'delivery (id_carrier, id_range_price, id_range_weight, id_zone, price) VALUE (\''.(int)$carrier->id.'\',NULL,\''.(int)$range_weight->id.'\',\''.(int)$zone['id_zone'].'\',\'5.95\')');
 			}
 			// Logo copy
-			if (!copy(dirname(__FILE__).'/img/front/'.$type.'/carrier_logo.jpg', _PS_SHIP_IMG_DIR_.'/'.$carrier->id.'.jpg'))
+			if (!copy(dirname(__FILE__).'/views/img/front/'.$type.'/carrier_logo.jpg', _PS_SHIP_IMG_DIR_.'/'.$carrier->id.'.jpg'))
 				return false;
 			return true;
 		}

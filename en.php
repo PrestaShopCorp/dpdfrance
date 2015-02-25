@@ -1,6 +1,6 @@
 <?php
 
-global $_MODULE, $_LANGADM;;
+global $_MODULE, $_LANGADM;
 $_MODULE = array();
 $_MODULE['<{exapaq}prestashop>adminexapaq_13009ccb7fed41ede072ba8e6b1615c8'] = 'Delivered orders statuses were updated';
 $_MODULE['<{exapaq}prestashop>adminexapaq_08842ceb98d0897350d52fee3e3a736a'] = 'No EXAPAQ trackings to generate.';
@@ -9,9 +9,19 @@ $_MODULE['<{exapaq}prestashop>adminexapaq_785f714b43235833940220531b249ea1'] = '
 $_MODULE['<{exapaq}prestashop>adminexapaq_7d28c2e987d4d6957e47c1c2f9aea4a8'] = 'No trackings to generate.';
 $_MODULE['<{exapaq}prestashop>adminexapaq_f45708853e5bf2e08466d596b2f56b20'] = 'No orders to export.';
 $_MODULE['<{exapaq}prestashop>adminexapaq_5dfb6f301a59b8f4b4d704384f4fb2d8'] = 'Warning! Your EXAPAQ Depot code and contract number are missing. You must configure the EXAPAQ plugin in order to use the export and tracking features.';
+
+$_LANGADM['AdminExapaq13009ccb7fed41ede072ba8e6b1615c8'] = 'Delivered orders statuses were updated';
+$_LANGADM['AdminExapaq08842ceb98d0897350d52fee3e3a736a'] = 'No EXAPAQ trackings to generate.';
+$_LANGADM['AdminExapaq867bdad392034670cb3f1eee575d47a9'] = 'No order selected.';
+$_LANGADM['AdminExapaq785f714b43235833940220531b249ea1'] = 'Shipped orders statuses were updated and tracking numbers added.';
+$_LANGADM['AdminExapaq7d28c2e987d4d6957e47c1c2f9aea4a8'] = 'No trackings to generate.';
+$_LANGADM['AdminExapaqf45708853e5bf2e08466d596b2f56b20'] = 'No orders to export.';
+$_LANGADM['AdminExapaq5dfb6f301a59b8f4b4d704384f4fb2d8'] = 'Warning! Your EXAPAQ Depot code and contract number are missing. You must configure the EXAPAQ plugin in order to use the export and tracking features.';
+
+
 $_MODULE['<{exapaq}prestashop>adminexapaq_2f01ece0d67a20d74dd14f64f2f43dcb'] = 'EXAPAQ News (show/hide)';
 $_MODULE['<{exapaq}prestashop>adminexapaq_2d06b96ea0c54ac858cca761fbfa544d'] = 'EXAPAQ deliveries management';
-$_MODULE['<{exapaq}prestashop>adminexapaq_52fd47039ca566bfba927a84bf988275'] = 'Export selected orders to EXA-Print';
+$_MODULE['<{exapaq}prestashop>adminexapaq_52fd47039ca566bfba927a84bf988275'] = 'Export selected orders';
 $_MODULE['<{exapaq}prestashop>adminexapaq_a2cd7f293767bac88b613ebad32a9a4f'] = 'Update shipped orders';
 $_MODULE['<{exapaq}prestashop>adminexapaq_232b8cc49e8e304a14e6a4e5f49a34d0'] = 'Update delivered orders';
 $_MODULE['<{exapaq}prestashop>adminexapaq_a2a766bbe77f829bc18ad9dc039c6d40'] = 'Search something, separate values with ;';
@@ -25,32 +35,25 @@ $_MODULE['<{exapaq}prestashop>adminexapaq_b2f40690858b404ed10e62bdf422c704'] = '
 $_MODULE['<{exapaq}prestashop>adminexapaq_628053f676981e60ad4802aefbfd1959'] = '(tick to insure this parcel)';
 $_MODULE['<{exapaq}prestashop>adminexapaq_57297718fdb439175177cf6b196172d1'] = 'Order status';
 $_MODULE['<{exapaq}prestashop>adminexapaq_2d3576829e23eb0937932e4775dfd223'] = 'Parcel trace';
-$_MODULE['<{exapaq}prestashop>adminexapaq_31609f5792fd624a568a474306c0173b'] = 'There are no orders.';
+$_MODULE['<{exapaq}prestashop>adminexapaq_c5bb9f36bc3c50417e6c199108e7a5d0'] = 'There are no orders.';
 
-$_LANGADM['AdminExapaq13009ccb7fed41ede072ba8e6b1615c8'] = 'Delivered orders statuses were updated';
-$_LANGADM['AdminExapaq08842ceb98d0897350d52fee3e3a736a'] = 'No EXAPAQ trackings to generate.';
-$_LANGADM['AdminExapaq867bdad392034670cb3f1eee575d47a9'] = 'No order selected.';
-$_LANGADM['AdminExapaq785f714b43235833940220531b249ea1'] = 'Shipped orders statuses were updated and tracking numbers added.';
-$_LANGADM['AdminExapaq7d28c2e987d4d6957e47c1c2f9aea4a8'] = 'No trackings to generate.';
-$_LANGADM['AdminExapaqf45708853e5bf2e08466d596b2f56b20'] = 'No orders to export.';
-$_LANGADM['AdminExapaq5dfb6f301a59b8f4b4d704384f4fb2d8'] = 'Warning! Your EXAPAQ Depot code and contract number are missing. You must configure the EXAPAQ plugin in order to use the export and tracking features.';
-$_LANGADM['AdminExapaq2f01ece0d67a20d74dd14f64f2f43dcb'] = 'EXAPAQ News (show/hide)';
-$_LANGADM['AdminExapaq2d06b96ea0c54ac858cca761fbfa544d'] = 'EXAPAQ deliveries management';
-$_LANGADM['AdminExapaq52fd47039ca566bfba927a84bf988275'] = 'Export selected orders to EXA-Print';
-$_LANGADM['AdminExapaqa2cd7f293767bac88b613ebad32a9a4f'] = 'Update shipped orders';
-$_LANGADM['AdminExapaq232b8cc49e8e304a14e6a4e5f49a34d0'] = 'Update delivered orders';
-$_LANGADM['AdminExapaqa2a766bbe77f829bc18ad9dc039c6d40'] = 'Search something, separate values with ;';
-$_LANGADM['AdminExapaq63d5049791d9d79d86e9a108b0a999ca'] = 'Reference';
-$_LANGADM['AdminExapaq9c5ad9829a7aa4223a0c72de5ff475a5'] = 'Date of order';
-$_LANGADM['AdminExapaq5d6103b662f41b07e10687f03aca8fdc'] = 'Recipient';
-$_LANGADM['AdminExapaqc2ba7e785c49050f48da9aacc45c2b85'] = 'Service';
-$_LANGADM['AdminExapaq12007e1d59f4d09c87dbe2c438256244'] = 'Destination';
-$_LANGADM['AdminExapaq8c489d0946f66d17d73f26366a4bf620'] = 'Weight';
-$_LANGADM['AdminExapaqb2f40690858b404ed10e62bdf422c704'] = 'Amount';
-$_LANGADM['AdminExapaq628053f676981e60ad4802aefbfd1959'] = '(tick to insure this parcel)';
-$_LANGADM['AdminExapaq57297718fdb439175177cf6b196172d1'] = 'Order status';
-$_LANGADM['AdminExapaq2d3576829e23eb0937932e4775dfd223'] = 'Parcel trace';
-$_LANGADM['AdminExapaq31609f5792fd624a568a474306c0173b'] = 'There are no orders.';
+$_MODULE['<{exapaq}prestashop>AdminExapaq_2f01ece0d67a20d74dd14f64f2f43dcb'] = 'EXAPAQ News (show/hide)';
+$_MODULE['<{exapaq}prestashop>AdminExapaq_2d06b96ea0c54ac858cca761fbfa544d'] = 'EXAPAQ deliveries management';
+$_MODULE['<{exapaq}prestashop>AdminExapaq_52fd47039ca566bfba927a84bf988275'] = 'Export selected orders';
+$_MODULE['<{exapaq}prestashop>AdminExapaq_a2cd7f293767bac88b613ebad32a9a4f'] = 'Update shipped orders';
+$_MODULE['<{exapaq}prestashop>AdminExapaq_232b8cc49e8e304a14e6a4e5f49a34d0'] = 'Update delivered orders';
+$_MODULE['<{exapaq}prestashop>AdminExapaq_a2a766bbe77f829bc18ad9dc039c6d40'] = 'Search something, separate values with ;';
+$_MODULE['<{exapaq}prestashop>AdminExapaq_63d5049791d9d79d86e9a108b0a999ca'] = 'Reference';
+$_MODULE['<{exapaq}prestashop>AdminExapaq_9c5ad9829a7aa4223a0c72de5ff475a5'] = 'Date of order';
+$_MODULE['<{exapaq}prestashop>AdminExapaq_5d6103b662f41b07e10687f03aca8fdc'] = 'Recipient';
+$_MODULE['<{exapaq}prestashop>AdminExapaq_c2ba7e785c49050f48da9aacc45c2b85'] = 'Service';
+$_MODULE['<{exapaq}prestashop>AdminExapaq_12007e1d59f4d09c87dbe2c438256244'] = 'Destination';
+$_MODULE['<{exapaq}prestashop>AdminExapaq_8c489d0946f66d17d73f26366a4bf620'] = 'Weight';
+$_MODULE['<{exapaq}prestashop>AdminExapaq_b2f40690858b404ed10e62bdf422c704'] = 'Amount';
+$_MODULE['<{exapaq}prestashop>AdminExapaq_628053f676981e60ad4802aefbfd1959'] = '(tick to insure this parcel)';
+$_MODULE['<{exapaq}prestashop>AdminExapaq_57297718fdb439175177cf6b196172d1'] = 'Order status';
+$_MODULE['<{exapaq}prestashop>AdminExapaq_2d3576829e23eb0937932e4775dfd223'] = 'Parcel trace';
+$_MODULE['<{exapaq}prestashop>AdminExapaq_c5bb9f36bc3c50417e6c199108e7a5d0'] = 'There are no orders.';
 
 $_MODULE['<{exapaq}prestashop>exapaq_ddc2c3afd9c88c63b7c2b85901823d34'] = 'EXAPAQ';
 $_MODULE['<{exapaq}prestashop>exapaq_9a9f8fa331892e65fae6eb10fc82d2b1'] = 'Offer EXAPAQ\'s fast and reliable delivery services to your customers';
@@ -68,19 +71,26 @@ $_MODULE['<{exapaq}prestashop>exapaq_55c06953df0cd6b995861dc7efe9b560'] = 'Integ
 $_MODULE['<{exapaq}prestashop>exapaq_6965437ce70f991afd02e13dd66f0a8b'] = 'Ad Valorem insurance service';
 $_MODULE['<{exapaq}prestashop>exapaq_35e9890a6590c63d8e6406bd385a04d9'] = 'Postal code in missing in the address. Please, modify it.';
 $_MODULE['<{exapaq}prestashop>exapaq_eaf9ff6889fb013fc287b11a295a1f45'] = 'ICI relais is not available at the moment, please try again shortly.';
+
 $_MODULE['<{exapaq}prestashop>config_75a1f29da22745ed6dd4308640b18e2e'] = 'Get in touch with us!';
 $_MODULE['<{exapaq}prestashop>config_0c81b389d6ee9d0fc93937590cee1740'] = 'By choosing EXAPAQ, you will enjoy innovative delivery solutions: home appointment with our Predict service, to more than 5.000 relaypoints with ICI relais, on workplace with EXAPAQ Classic and worldwide with the DPD Classic Intercontinental services.';
 $_MODULE['<{exapaq}prestashop>config_0180786130254f5d2ecaa96f599dbd50'] = 'Before starting our partnership, it is necessary to sign a contract with one of our sales representatives who will guide you and meet your expectations (parcel picking schedules, pricing conditions, number of shipments, labeling solution, packaging supplies...)';
 $_MODULE['<{exapaq}prestashop>config_91ae3bf9293701e4ef5f4eadb39fac0d'] = 'Thank you in advance for completing this form so a sales representative can contact you as soon as possible.';
+$_MODULE['<{exapaq}prestashop>config_c1112e73196b6c2a1452909ad8f3353b'] = 'Please enter your';
+$_MODULE['<{exapaq}prestashop>config_22155c288087c94ee4c8f6814663d73e'] = 'Minimum digits required';
+$_MODULE['<{exapaq}prestashop>config_33c2b7cd50c5ef2d69cc52776d219723'] = 'Digits only';
+$_MODULE['<{exapaq}prestashop>config_1181e54e0e8dd0ac0178ee072063d93b'] = 'Your message can\'t exceed 200 characters';
 $_MODULE['<{exapaq}prestashop>config_e7b47c58815acf1d3afa59a84b5db7fb'] = 'Company Name';
-$_MODULE['<{exapaq}prestashop>config_7cfd883d5d55fccfcfb13b3fcf29e3a6'] = 'Contact Name';
+$_MODULE['<{exapaq}prestashop>config_dd7bf230fde8d4836917806aff6a6b27'] = 'Address';
 $_MODULE['<{exapaq}prestashop>config_572ed696f21038e6cc6c86bb272a3222'] = 'Postal code';
 $_MODULE['<{exapaq}prestashop>config_57d056ed0984166336b7879c2af3657f'] = 'City';
 $_MODULE['<{exapaq}prestashop>config_226ae292670dae03ce48df62d194c0a8'] = 'Phone and/or e-mail';
 $_MODULE['<{exapaq}prestashop>config_188f19afec76e0a3a1336a14ae8b455a'] = 'Mean number of parcels';
+$_MODULE['<{exapaq}prestashop>config_f579f90a8a222bb302e801d5866ccd33'] = 'I\'m starting my business';
 $_MODULE['<{exapaq}prestashop>config_c073ceb2756138ea54cf6f1f4258496c'] = '< 100 parcels / month';
 $_MODULE['<{exapaq}prestashop>config_f8ae12c82a81c4e262a59d9c0c2d1486'] = '100 to 500 parcels / month';
 $_MODULE['<{exapaq}prestashop>config_e5ec6161e72e678bc9459c7cdf8f5949'] = '> 500 parcels / month';
+$_MODULE['<{exapaq}prestashop>config_cfe1b4b75fb8dc152b124f9305835a11'] = 'Your message';
 $_MODULE['<{exapaq}prestashop>config_70d9be9b139893aa6c69b5e77e614311'] = 'Confirm';
 $_MODULE['<{exapaq}prestashop>config_f4f70727dc34561dfde1a3c529b6205c'] = 'Settings';
 $_MODULE['<{exapaq}prestashop>config_a6122a65eaa676f700ae68d393054a37'] = 'Start';

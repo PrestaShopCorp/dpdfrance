@@ -1,0 +1,549 @@
+/**
+ * 2007-2014 PrestaShop
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@prestashop.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
+ * versions in the future. If you wish to customize PrestaShop for your
+ * needs please refer to http://www.prestashop.com for more information.
+ *
+ * @author    EXAPAQ S.A.S. <support@icirelais.com>
+ * @copyright 2015 EXAPAQ S.A.S.
+ * @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+/* Google Fonts import - Lato */
+@import url(https://fonts.googleapis.com/css?family=Lato:400);
+
+ /* Table */
+#icirelais_point_table {
+	padding-bottom:5px;
+	margin-top:0px;
+	text-rendering: optimizelegibility;
+}
+
+div.icirelais_error {
+    background-color: white;
+    padding-left: 10px;
+	padding-bottom: 0px;
+    font-size: 14px;
+    color: red;
+    line-height: 20px;
+}
+
+table.icitable {
+	border-style: none;
+	border-width: 0px; 
+	padding:0px;
+	width: 100%;
+	background-color: #d7e9ff;
+	border-collapse: separate;
+    border-spacing: 0px 0px; /* Nombre de pixels d'espace horizontal (5px), vertical (8px) */
+	font-family: 'Lato', sans-serif;
+}
+
+table.icirelais_container {
+	width:100%;
+}
+
+div.icirelais_error {
+    background-color: #ffffff;
+    color: #ff0000;
+    text-align:center;
+	line-height: 24px;
+    border: 1px solid #ff0000;
+}
+
+/* Lignes choix PR */
+#div_icirelais_header {
+    width: 100%;
+    height: 24px;
+    line-height: 24px;
+    padding: 0px;
+    background-color: #fff;
+    border-bottom: 1px solid #2E93CB;
+}
+
+#div_icirelais_header p {
+    color: #333;
+    font-weight: 400;
+    font-size: 14px;
+    font-style: normal;
+    text-transform: none;
+    font-variant: normal;
+    text-decoration: none;
+	text-align: left !important;
+    font-family: 'Lato', sans-serif;
+    margin: 0px;
+    padding-left: 10px;
+	letter-spacing: -0.3px;
+}
+
+tr.lignepr {
+    width: 98%;
+	height: 60px;
+    background-color: #d7e9ff;
+	display: inline-block;
+	border-color: #cedff5;
+    border-style: none;
+	border-width: 0px;
+	margin: 1% 0% 0.5% 1%;
+	padding-bottom:0px;
+}
+
+td.logoicirelais {
+	border-style: none !important;
+	border-width: 0px;
+    min-width: 40px;
+    width: 8%;
+	background: #fff url(../../../img/front/icirelais/icirelais_picto.png) no-repeat center;
+	-webkit-border-radius: 5px 0px 0px 5px;
+	-moz-border-radius: 5px 0px 0px 5px;
+	-ms-border-radius: 5px 0px 0px 5px;
+	 -o-border-radius: 5px 0px 0px 5px;
+		border-radius: 5px 0px 0px 5px;
+}
+
+td.adressepr {
+    background-color: #fff;
+    width: 60%;
+    font-size: 12px;
+	font-weight: 400;
+	height: 50px;
+    line-height: 14px;
+	text-align: left !important;
+    color: #333;
+	padding: 0;
+    margin: 0;
+    padding-top: 5px;
+    padding-bottom: 5px;
+	border-style: none !important;
+	border-width: 0px;
+}
+
+td.distancepr {
+    background-color: #fff;
+	border-style: none !important;
+    width: 15%;
+	padding-right: 10px !important;
+	line-height: 14px;
+    font-weight: 400;
+	font-size: 12px;
+    color: #444;
+}
+
+td.popinpr {
+    background-color: #fff;
+	border-style: none !important;
+	line-height: 14px;
+    font-weight: 300;
+	font-variant: normal;
+    font-size: 12px;
+    color: #2E93CB;
+	padding: 0px;
+	width:17.5%;
+}
+
+td.radiopr{
+    background-color: #fff;
+	border-style: none !important;
+	border-width: 0px;
+    width: 10%;
+	padding-right: 5px;
+	padding-left: 10px;
+	text-align: left !important;
+	-webkit-border-radius: 0px 5px 5px 0px;
+	-moz-border-radius: 0px 5px 5px 0px;
+	-ms-border-radius: 0px 5px 5px 0px;
+	 -o-border-radius: 0px 5px 5px 0px;
+		border-radius: 0px 5px 5px 0px;
+}
+
+input.icibuttonok { 
+	width:35px; 
+	height:25px; 
+	margin-top:0px;
+	margin-left:15px;
+	margin-right: 15px;
+	border: none !important; 
+	background: transparent url(../../../img/front/icirelais/icibuttonok.png) no-repeat center;
+	font-size: 0;
+	line-height: 0;
+	overflow:hidden;
+	text-indent: -999px; 
+	display:block; 
+}
+
+input.icibuttonchoose { 
+	cursor:pointer;
+	width:35px; 
+	height:25px; 
+	margin-top:0px;
+	margin-left:15px;
+	margin-right: 15px;
+	border: none !important; 
+	background: transparent url(../../../img/front/icirelais/icibuttonchoose.png) no-repeat center;
+	font-size: 0;
+	line-height: 0;
+	overflow:hidden;
+	text-indent: -999px; 
+	display:block; 
+}
+
+input.icibuttonchoose:hover { 
+	cursor:pointer;
+	width:35px; 
+	height:25px; 
+	margin-top:0px;
+	margin-left:15px;
+	margin-right: 15px;
+	border: none !important; 
+	background: transparent url(../../../img/front/icirelais/icibuttonhover.png) no-repeat center;
+	font-size: 0;
+	line-height: 0;
+	overflow:hidden;
+	text-indent: -999px; 
+	display:block; 
+}
+
+input[name="relay_id"]:not(old) {
+  width     : 2em;
+  margin    : 0;
+  padding   : 0;
+  font-size : 1em;
+  opacity   : 0;
+}
+
+/* Bouton */
+input[name="relay_id"]:not(old) + label {
+  display      : inline-block;
+  margin-left  : 0px;
+  line-height  : 1.5em;
+  margin-top: -15px
+}
+
+input[name="relay_id"]:not(old) + label > span {
+  display          : inline-block;
+  width            : 35px;
+  height           : 25px;
+  margin           : 0.25em 0.25em 0.25em 0.25em;
+  border           : 0.0625em solid rgb(192,192,192);
+  border-radius    : 0.25em;
+  background       : rgb(224,224,224);
+  background-image :    -moz-linear-gradient(rgb(240,240,240),rgb(224,224,224));
+  background-image :     -ms-linear-gradient(rgb(240,240,240),rgb(224,224,224));
+  background-image :      -o-linear-gradient(rgb(240,240,240),rgb(224,224,224));
+  background-image : -webkit-linear-gradient(rgb(240,240,240),rgb(224,224,224));
+  background-image :         linear-gradient(rgb(240,240,240),rgb(224,224,224));
+  vertical-align   : bottom;
+}
+
+/* Bouton gris normal */
+input[name="relay_id"]:not(old):checked + label > span {
+  background-image :    -moz-linear-gradient(rgb(224,224,224),rgb(240,240,240));
+  background-image :     -ms-linear-gradient(rgb(224,224,224),rgb(240,240,240));
+  background-image :      -o-linear-gradient(rgb(224,224,224),rgb(240,240,240));
+  background-image : -webkit-linear-gradient(rgb(224,224,224),rgb(240,240,240));
+  background-image :         linear-gradient(rgb(224,224,224),rgb(240,240,240));
+}
+
+/* Texte ICI blanc sur bouton checked*/
+input[name="relay_id"]:not(old):checked + label > span:before {
+  content     : 'ICI';
+  display     : block;
+  width       : 35px;
+  color       : white;
+  font-size   : 14px;
+  line-height : 25px;
+  text-align  : center;
+  text-shadow : 0 0 0.0714em rgb(77,115,153);
+  font-weight : 300;
+}
+
+/* Overlay bleu sur bouton checked */
+input[name="relay_id"]:not(old):checked +  label > span > span {
+  display          : block;
+  width            : 35px;
+  height           : 25px;
+  margin-top	   : -25px;
+  margin-right	   : 0px;
+  border           : 0.0625em solid rgb(77,115,153);
+  border-radius    : 0.25em;
+    background-color: #2E93CB;
+    background-image: -webkit-linear-gradient(top, rgba(0,0,0,0.1), rgba(0,0,0,0));
+    background-image:    -moz-linear-gradient(top, rgba(0,0,0,0.1), rgba(0,0,0,0));
+    background-image:      -o-linear-gradient(top, rgba(0,0,0,0.1), rgba(0,0,0,0));
+    background-image:         linear-gradient(top, rgba(0,0,0,0.1), rgba(0,0,0,0));
+}
+
+/* Texte ICI gris sur bouton normal */
+input[name="relay_id"]:not(old) + label > span:before {
+  content     : 'ICI';
+  display     : block;
+  width       : 35px;
+  color       : rgb(160,160,160);
+  font-size   : 14px;
+  line-height : 25px;
+  text-align  : center;
+  text-shadow : 0 0 0.0714em rgb(180,180,180);
+  font-weight : 300;
+}
+
+/* Masquer le label ICI */
+td.radiopr label b {
+    display: none;
+}
+
+td.radiopr label span:hover
+{
+	cursor:pointer;
+}
+/* Pop-in details */
+
+#filter {
+	display:none;
+	position:fixed;
+	width:100%;
+	height:100%;
+	background-color:black;
+	top:0;
+	left:0;
+	padding:14px;
+	text-align:left;
+	z-index:1000;
+	opacity:0.85;
+	filter:alpha(opacity=85); /*IE8 et avant */
+}
+
+.icirelaisbox {
+	font-family: 'Lato', sans-serif;
+	text-rendering: optimizelegibility;
+	display:block;
+	border-radius: 6px;
+	position:fixed;
+	width:60%;
+	height:90%;
+	background-color:white;
+	top:5%;
+	left:20%;
+	padding: 0px;
+	text-align:left;
+	z-index:1110;
+}
+
+.icirelaisboxcarto {
+	width:100%;
+	min-height: 66%; 
+	top: 0px;
+	left: 0px;
+	border-radius: 6px 6px 0px 0px;
+}
+
+div.gm-style-cc div {
+    display: none;
+}
+
+div.icirelaisboxbottom {
+    position: relative;
+    margin: 0 auto;
+    width: 800px;
+}
+
+.icirelaisboxadresseheader { 
+    width: 240px;
+    height: 14px;
+    background: #fff url(../../../img/front/icirelais/pointrelais.png) no-repeat center;
+	font-weight:300;
+	font-size:12px;
+	text-align:center;
+	border-style: none;
+    margin: 5px 0 0 0;
+    padding-bottom: 0;
+    line-height: 32px;
+    padding-top: 32px;
+}
+
+.icirelaisboxadresse {
+	min-height:88px;
+	height:auto;
+	line-height: 22px;
+    font-size: 11px;
+    width: 240px;
+	margin-bottom: 0;
+	position: absolute;
+	left:0%;
+}
+
+div.icirelaisboxadresse p {
+    padding: 0;
+    font-style: italic;
+    font-size: 12px;
+	line-height: 12px;
+    margin: 0;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+div.icirelaisboxhoraires {
+	text-align:left;
+	background: #FFF;
+	height:auto;
+	line-height: 22px;
+    font-size: 11px;
+    width: 240px;
+	left: 260px;
+	position: absolute;
+}
+.icirelaisboxhorairesheader { 
+    width: 240px;
+    height: 14px;
+    background: #fff url(../../../img/front/icirelais/horaires.png) no-repeat center;
+	font-weight:300;
+	font-size:12px;
+	text-align:center;
+	border-style: none;
+    margin: 5px 0 0 0;
+    padding-bottom: 0;
+    line-height: 32px;
+    padding-top: 32px;
+}
+
+div.icirelaisboxhoraires h5 {
+	font-family: 'Lato', sans-serif;
+    display: inline-block;
+    background: #2E93CB;
+	color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+	min-width:250px;
+	padding:5px;
+	margin-top:10px;
+	margin-bottom:5px;
+	text-align:center;
+}
+
+div.icirelaisboxhoraires p {
+    padding: 0;
+    padding-top: 5px;
+    padding-left: 5px;
+	line-height: 11px;
+	margin: 0 !important;
+}
+
+.icirelaisboxinfos {
+	text-align:left;
+	background: #FFF;
+	height:auto;
+	line-height: 22px;
+    font-size: 11px;
+    width: 265px;
+	margin-right: 10px;
+	position: absolute;
+	left: 520px;
+}
+
+.icirelaisboxinfosheader { 
+    width: 260px;
+    height: 14px;
+    background: #fff url(../../../img/front/icirelais/info.png) no-repeat center;
+	font-weight:300;
+	font-size:12px;
+	text-align:center;
+	border-style: none;
+    margin: 5px 0 0 0;
+    padding-bottom: 0;
+    line-height: 32px;
+    padding-top: 32px;
+}
+
+div.icirelaisboxinfos h5 {
+	font-family: 'Lato', sans-serif;
+    display: inline-block;
+    color: #2E93CB;
+    font-size: 12px;
+    font-weight: 400;
+    width: 215px;
+	margin: 0;
+}
+
+div.icirelaisboxinfos h4 {
+	font-family: 'Lato', sans-serif;
+    display: inline-block;
+    color: red;
+    font-size: 12px;
+    font-weight: 700;
+    width: 135px;
+}
+
+.icirelaisboxjour {
+	display:inline-block;
+	color:#2E93CB; 
+	font-size: 12px;
+	font-weight:400;
+	min-width:75px;
+}
+
+.icirelaisboxclose {
+	background:no-repeat;
+	cursor: pointer;
+	display:block;
+	position:fixed;
+	top:5%;
+	left:80.5%;
+	z-index:1111;
+	transition: all 0.15s;
+}
+
+.icirelaisboxclose img {
+	float:right;
+	padding-top:2px;
+	padding-right:2px;
+}
+
+.icirelaisboxclose:hover {
+	transform: rotate(90deg);
+}
+
+/* Responsive design */
+/* Condition horizontale (PC) */
+
+@media only screen and (max-width: 1350px) {
+	.icirelaisbox { width: 80%; left:10%; top:5%;}
+	.icirelaisboxclose{ left:91%; top:5%;}
+}
+
+@media only screen and (max-width: 1020px) {
+	.icirelaisboxinfos {display:none;}
+	div.icirelaisboxbottom{width:520px;}
+}
+
+@media only screen and (max-width: 750px) {
+	#div_icirelais_header	{display:none;}
+	td.logoicirelais		{display:none;}
+	td.adressepr			{padding-left:5px;font-size:10px; -webkit-border-radius: 5px 0px 0px 5px; -moz-border-radius: 5px 0px 0px 5px; -ms-border-radius: 5px 0px 0px 5px; -o-border-radius: 5px 0px 0px 5px; border-radius: 5px 0px 0px 5px;}
+	td.distancepr			{font-size:10px;}
+}
+
+@media only screen and (max-width: 680px) {
+	td.popinpr 				{display:none;}
+	.icirelaisboxcarto {min-height:40%;}
+	.icirelaisboxadresse{position: relative;}
+	div.icirelaisboxhoraires{left:0;}
+	div.icirelaisboxbottom{width:250px;}
+}
+
+/* Condition verticale (Smartphone) */
+
+@media only screen and (max-height: 610px) {
+	.icirelaisboxcarto {display:none;}
+}

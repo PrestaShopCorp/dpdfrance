@@ -178,7 +178,7 @@ if (badIE == false){
 		border-right-width: 0;
 		border-left-width: 15px;
 		background-color: #fff;
-		background: #fff url({if $ssl}{$base_dir_ssl|escape:'htmlall':'UTF-8'}{else}{$base_dir|escape:'htmlall':'UTF-8'}{/if}modules/exapaq/img/front/icirelais/icirelais_picto.png) no-repeat center;
+		background: #fff url({if $ssl}{$base_dir_ssl|escape:'htmlall':'UTF-8'}{else}{$base_dir|escape:'htmlall':'UTF-8'}{/if}modules/exapaq/views/img/front/icirelais/icirelais_picto.png) no-repeat center;
 		-webkit-border-top-left-radius: 10px;
 		-webkit-border-bottom-left-radius: 10px;
 		-moz-border-radius-topleft: 10px;
@@ -248,7 +248,7 @@ if (badIE == false){
 					margin-left:0px;
 					margin-right:10px;
 					border: none; 
-					background: transparent url({if $ssl}{$base_dir_ssl|escape:'htmlall':'UTF-8'}{else}{$base_dir|escape:'htmlall':'UTF-8'}{/if}modules/exapaq/img/front/icirelais/icibuttonok.png) no-repeat center;
+					background: transparent url({if $ssl}{$base_dir_ssl|escape:'htmlall':'UTF-8'}{else}{$base_dir|escape:'htmlall':'UTF-8'}{/if}modules/exapaq/views/img/front/icirelais/icibuttonok.png) no-repeat center;
 					font-size: 0;
 					line-height: 0;
 					overflow:hidden;
@@ -263,7 +263,7 @@ if (badIE == false){
 					margin-left:0px;
 					margin-right:10px;
 					border: none; 
-					background: transparent url({if $ssl}{$base_dir_ssl|escape:'htmlall':'UTF-8'}{else}{$base_dir|escape:'htmlall':'UTF-8'}{/if}modules/exapaq/img/front/icirelais/icibuttonchoose.png) no-repeat center;
+					background: transparent url({if $ssl}{$base_dir_ssl|escape:'htmlall':'UTF-8'}{else}{$base_dir|escape:'htmlall':'UTF-8'}{/if}modules/exapaq/views/img/front/icirelais/icibuttonchoose.png) no-repeat center;
 					font-size: 0;
 					line-height: 0;
 					overflow:hidden;

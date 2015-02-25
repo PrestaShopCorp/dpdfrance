@@ -22,9 +22,9 @@
  * @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  *}
 
-<link rel="stylesheet" type="text/css" href="{if $ssl}{$base_dir_ssl|escape:'htmlall':'UTF-8'}{else}{$base_dir|escape:'htmlall':'UTF-8'}{/if}modules/exapaq/css/front/icirelais/exapaq_icirelais.css"/>
-<link rel="stylesheet" type="text/css" href="{if $ssl}{$base_dir_ssl|escape:'htmlall':'UTF-8'}{else}{$base_dir|escape:'htmlall':'UTF-8'}{/if}modules/exapaq/css/front/predict/exapaq_predict.css"/>
-<script type="text/javascript" src="{if $ssl}{$base_dir_ssl|escape:'htmlall':'UTF-8'}{else}{$base_dir|escape:'htmlall':'UTF-8'}{/if}modules/exapaq/js/front/icirelais/exapaq_icirelais.js"></script>
+<link rel="stylesheet" type="text/css" href="{if $ssl}{$base_dir_ssl|escape:'htmlall':'UTF-8'}{else}{$base_dir|escape:'htmlall':'UTF-8'}{/if}modules/exapaq/views/css/front/icirelais/exapaq_icirelais.css"/>
+<link rel="stylesheet" type="text/css" href="{if $ssl}{$base_dir_ssl|escape:'htmlall':'UTF-8'}{else}{$base_dir|escape:'htmlall':'UTF-8'}{/if}modules/exapaq/views/css/front/predict/exapaq_predict.css"/>
+<script type="text/javascript" src="{if $ssl}{$base_dir_ssl|escape:'htmlall':'UTF-8'}{else}{$base_dir|escape:'htmlall':'UTF-8'}{/if}modules/exapaq/views/js/front/icirelais/exapaq_icirelais.js"></script>
 <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"></script>
 <script type="text/javascript">
 {literal}
@@ -100,7 +100,7 @@ iciresponse = $('#icirelais_point_table');
 		document.getElementById('relaydetail{$smarty.foreach.iciLoop.index+1|escape:'htmlall':'UTF-8'}').style.display='none';
 		document.getElementById('filter').style.display='none';
 		$('#header').css('z-index',10);">
-		<img src="{if $ssl}{$base_dir_ssl|escape:'htmlall':'UTF-8'}{else}{$base_dir|escape:'htmlall':'UTF-8'}{/if}modules/exapaq/img/front/icirelais/box-close.png"/>
+		<img src="{if $ssl}{$base_dir_ssl|escape:'htmlall':'UTF-8'}{else}{$base_dir|escape:'htmlall':'UTF-8'}{/if}modules/exapaq/views/img/front/icirelais/box-close.png"/>
 	</div>
 	
 	<div class="icirelaisboxcarto" id="map_canvas{$smarty.foreach.iciLoop.index+1|escape:'htmlall':'UTF-8'}"></div>
@@ -218,7 +218,7 @@ iciresponse = $('#icirelais_point_table');
 				<h5>{l s='Distance in km' mod='exapaq'} : </h5>{$points.distance|escape:'htmlall':'UTF-8'} km <br/>
 				<h5>{l s='ICI relais code' mod='exapaq'} : </h5>{$points.relay_id|escape:'htmlall':'UTF-8'} <br/>
 				{if isset($points.closing_period[0])}
-					<h4><img src="{if $ssl}{$base_dir_ssl|escape:'htmlall':'UTF-8'}{else}{$base_dir|escape:'htmlall':'UTF-8'}{/if}modules/exapaq/img/front/icirelais/warning.png"/> {l s='Closing period' mod='exapaq'} : </h4>{$points.closing_period[0]|escape:'htmlall':'UTF-8'} <br/>
+					<h4><img src="{if $ssl}{$base_dir_ssl|escape:'htmlall':'UTF-8'}{else}{$base_dir|escape:'htmlall':'UTF-8'}{/if}modules/exapaq/views/img/front/icirelais/warning.png"/> {l s='Closing period' mod='exapaq'} : </h4>{$points.closing_period[0]|escape:'htmlall':'UTF-8'} <br/>
 				{/if}
 				{if isset($points.closing_period[1])}
 					<h4></h4>{$points.closing_period[1]|escape:'htmlall':'UTF-8'} <br/>

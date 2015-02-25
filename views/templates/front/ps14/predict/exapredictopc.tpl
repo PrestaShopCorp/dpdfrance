@@ -109,7 +109,7 @@ $(document).ready(function(){
 	<div id="div_exapredict_logo" style="	width: 100%;
 											height: 64px;
 											padding:0px;
-											background: #f0f0f0 url({if $ssl}{$base_dir_ssl|escape:'htmlall':'UTF-8'}{else}{$base_dir|escape:'htmlall':'UTF-8'}{/if}modules/exapaq/img/front/predict/exapaq_logo.png) no-repeat center;">
+											background: #f0f0f0 url({if $ssl}{$base_dir_ssl|escape:'htmlall':'UTF-8'}{else}{$base_dir|escape:'htmlall':'UTF-8'}{/if}modules/exapaq/views/img/front/predict/exapaq_logo.png) no-repeat center;">
 	</div>
 	
 	<div id="div_exapredict_text">
@@ -122,7 +122,7 @@ $(document).ready(function(){
 												margin:10px;">
 			<div id="icon_exapredict_sms" style="   height: 64px;
 													width: 64px;
-													background: transparent url({if $ssl}{$base_dir_ssl|escape:'htmlall':'UTF-8'}{else}{$base_dir|escape:'htmlall':'UTF-8'}{/if}modules/exapaq/img/front/predict/sms.png) no-repeat center;
+													background: transparent url({if $ssl}{$base_dir_ssl|escape:'htmlall':'UTF-8'}{else}{$base_dir|escape:'htmlall':'UTF-8'}{/if}modules/exapaq/views/img/front/predict/sms.png) no-repeat center;
 													display : inline-block;
 													float:left;"></div>
 			<div id="text_exapredict_sms" style="   height: 46px;
@@ -141,7 +141,7 @@ $(document).ready(function(){
 													margin:10px;">
 			<div id="icon_exapredict_calendar" style="	height: 64px;
 														width: 64px;
-														background: transparent url({if $ssl}{$base_dir_ssl|escape:'htmlall':'UTF-8'}{else}{$base_dir|escape:'htmlall':'UTF-8'}{/if}modules/exapaq/img/front/predict/calendar.png) no-repeat center;
+														background: transparent url({if $ssl}{$base_dir_ssl|escape:'htmlall':'UTF-8'}{else}{$base_dir|escape:'htmlall':'UTF-8'}{/if}modules/exapaq/views/img/front/predict/calendar.png) no-repeat center;
 														display : inline-block;
 														float:left;">
 			</div>
@@ -162,7 +162,7 @@ $(document).ready(function(){
 												margin:10px;">
 			<div id="icon_exapredict_time" style="	height: 64px;
 													width: 64px;
-													background: transparent url({if $ssl}{$base_dir_ssl|escape:'htmlall':'UTF-8'}{else}{$base_dir|escape:'htmlall':'UTF-8'}{/if}modules/exapaq/img/front/predict/time.png) no-repeat center;
+													background: transparent url({if $ssl}{$base_dir_ssl|escape:'htmlall':'UTF-8'}{else}{$base_dir|escape:'htmlall':'UTF-8'}{/if}modules/exapaq/views/img/front/predict/time.png) no-repeat center;
 													display : inline-block;
 													float:left;">
 			</div>
@@ -200,7 +200,7 @@ $(document).ready(function(){
 					padding-top: 10px;
 					margin: 0;
 					border: none; 
-					background: transparent url({if $ssl}{$base_dir_ssl|escape:'htmlall':'UTF-8'}{else}{$base_dir|escape:'htmlall':'UTF-8'}{/if}modules/exapaq/img/front/predict/button_arrow_red.gif) no-repeat center;
+					background: transparent url({if $ssl}{$base_dir_ssl|escape:'htmlall':'UTF-8'}{else}{$base_dir|escape:'htmlall':'UTF-8'}{/if}modules/exapaq/views/img/front/predict/button_arrow_red.gif) no-repeat center;
 					font-size: 0;
 					line-height: 0;
 					overflow:hidden;
@@ -219,5 +219,5 @@ $(document).ready(function(){
 		<i style="font-size:9px;">{l s='* Standard text messaging rates apply.' mod='exapaq'} {l s='Get more info in this video ' mod='exapaq'} <a class="more" href="https://www.youtube.com/watch?v=vLHThZDE8Ac"><img style="    display:inline-block; height: 13px;
     width: 16px;
 	border-style:none;
-    background: transparent url({if $ssl}{$base_dir_ssl|escape:'htmlall':'UTF-8'}{else}{$base_dir|escape:'htmlall':'UTF-8'}{/if}modules/exapaq/img/front/predict/video.png) no-repeat center;"/></a></i>
+    background: transparent url({if $ssl}{$base_dir_ssl|escape:'htmlall':'UTF-8'}{else}{$base_dir|escape:'htmlall':'UTF-8'}{/if}modules/exapaq/views/img/front/predict/video.png) no-repeat center;"/></a></i>
 </td>
