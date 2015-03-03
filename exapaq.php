@@ -802,7 +802,6 @@ class Exapaq extends CarrierModule
 						$point['id_country']	 = $input['id_country'];
 
 						// Prepare cookie data with only necessary informations
-						$cookiedata = '';
 						$cookiedata[$point['relay_id']] = $point;
 
 						$point['distance']		 = number_format($item['DISTANCE'] / 1000, 2);
