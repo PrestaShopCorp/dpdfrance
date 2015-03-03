@@ -422,7 +422,7 @@ class AdminExapaq extends AdminTab
 
 		// Display section
 		// Error message if shipper info is missing
-		if ((Configuration::get('EXAPAQ_ICIRELAIS_SHIPPER_CODE', null, null, (int)$this->context->shop->id) == '') && (Configuration::get('EXAPAQ_PREDICT_SHIPPER_CODE', null, null, (int)$this->context->shop->id) == '') && (Configuration::get('EXAPAQ_CLASSIC_SHIPPER_CODE', null, null, (int)$this->context->shop->id) == ''))
+		if (Configuration::get('EXAPAQ_PARAM') == 0)
 		{
 			echo '<div class="alert-danger">'.$this->l('Warning! Your EXAPAQ Depot code and contract number are missing. You must configure the EXAPAQ plugin in order to use the export and tracking features.').'</div>';
 			exit;
