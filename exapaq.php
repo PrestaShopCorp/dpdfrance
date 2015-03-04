@@ -212,7 +212,7 @@ class Exapaq extends CarrierModule
 			$this->tab = 'Carriers';
 		else
 			$this->tab = 'shipping_logistics';
-		$this->version = '5.0.2';
+		$this->version = '5.0.3';
 		$this->author = 'EXAPAQ S.A.S.';
 		$this->need_instance = 1;
 
@@ -784,6 +784,7 @@ class Exapaq extends CarrierModule
 					$relais_items = $xml->PUDO_ITEMS;
 					// Loop through each pudo
 					$i = 0;
+					$cookiedata = '';
 					foreach ($relais_items->PUDO_ITEM as $item)
 					{
 						$point = array();

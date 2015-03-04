@@ -31,28 +31,31 @@
 	
 $(document).ready(function(){
 
-$('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'htmlall':'UTF-8'}{literal}).parent().parent().after("<tr><td colspan='4' style='padding:0; display:none' id='tr_carrier_icirelais'></td></tr>");
-iciresponse = $('#icirelais_point_table');
+	$('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'htmlall':'UTF-8'}{literal}).parent().parent().after("<tr><td colspan='4' style='padding:0; display:none' id='tr_carrier_icirelais'></td></tr>");
+	iciresponse = $('#icirelais_point_table');
+	checkedCarrier = $("input[name*='id_carrier']:checked").val();
+
+	if ($('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'htmlall':'UTF-8'}{literal}).attr('checked')){
+		document.getElementById('icirelais_point_table').style.display = "";
+		$("#form").attr("action", baseDir+'modules/exapaq/validation.php?exa_carrier=' + checkedCarrier);
+		$("#tr_carrier_icirelais").html(iciresponse);
+		$("#tr_carrier_icirelais").fadeIn('slow');
+	}
 	
-   if ($('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'htmlall':'UTF-8'}{literal}).attr('checked')){
-						document.getElementById('icirelais_point_table').style.display = "";
-						document.forms['form'].action = '{/literal}{$urlIci}{literal}';
-						$("#tr_carrier_icirelais").html(iciresponse);
-						$("#tr_carrier_icirelais").fadeIn('slow');
-					}
-	
-	$('#id_carrier' + {/literal}{$icirelais_carrier_id}{literal}).click(function(){
-						document.getElementById('icirelais_point_table').style.display = "";
-						document.forms['form'].action = '{/literal}{$urlIci}{literal}';
-						$("#tr_carrier_icirelais").html(iciresponse);
-						$("#tr_carrier_icirelais").fadeIn('slow');
-					});
+	$('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'htmlall':'UTF-8'}{literal}).click(function(){
+		document.getElementById('icirelais_point_table').style.display = "";
+		$("#form").attr("action", baseDir+'modules/exapaq/validation.php?exa_carrier=' + checkedCarrier);
+		$("#tr_carrier_icirelais").html(iciresponse);
+		$("#tr_carrier_icirelais").fadeIn('slow');
+	});
 					
 	$("input[name='id_carrier']").change(function(){
+		checkedCarrier = $("input[name*='id_carrier']:checked").val();
 		if (!$('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'htmlall':'UTF-8'}{literal}).attr('checked')){
 			$("#tr_carrier_icirelais").fadeOut('fast');
-			}
-		});
+			$("#form").attr("action", baseDir+'order.php');
+		}
+	});
 });
 
 {/literal}
@@ -88,7 +91,11 @@ iciresponse = $('#icirelais_point_table');
 		</td>
 		<td align="center" class="radiopr">
 			<p class="radio-group">
-				<input type="radio" name="relay_id" id="{$points.relay_id}" value="{$points.relay_id}" {if $smarty.foreach.iciLoop.first} checked="checked" {/if}>
+			{if $selectedrelay == $points.relay_id}
+				<input type='submit' name="relay_id_opc" id="{$points.relay_id|escape:'htmlall':'UTF-8'}" value="{$points.relay_id|escape:'htmlall':'UTF-8'}" class="icibuttonok" onMouseOver="javascript:this.style.cursor='pointer';" onMouseOut="javascript:this.style.cursor='auto';"></input>
+			{else}
+				<input type='submit' name="relay_id_opc" id="{$points.relay_id|escape:'htmlall':'UTF-8'}" value="{$points.relay_id|escape:'htmlall':'UTF-8'}" class="icibuttonchoose" onMouseOver="javascript:this.style.cursor='pointer';" onMouseOut="javascript:this.style.cursor='auto';"></input>
+			{/if}
 				<label for="{$points.relay_id|escape:'htmlall':'UTF-8'}"><span><span></span></span><b>ICI</b></label>
 			</p>
 		</td>
@@ -242,28 +249,31 @@ iciresponse = $('#icirelais_point_table');
 
 $(document).ready(function(){
 
-$('#id_carrier' + {/literal}{$predict_carrier_id}{literal}).parent().parent().after("<tr><td colspan='4' style='padding:0; display:none;' id='tr_carrier_exapredict'></td></tr>");
-exapredictresponse = $('#div_exapredict_block');
-
-   if ($('#id_carrier' + {/literal}{$predict_carrier_id}{literal}).attr('checked')){
-   						document.getElementById('div_exapredict_block').style.display = "";
-						document.forms['form'].action = '{/literal}{$urlExaPredict}{literal}';
-						$("#tr_carrier_exapredict").html(exapredictresponse);
-						$("#tr_carrier_exapredict").fadeIn('slow');
-					}		
+	$('#id_carrier' + {/literal}{$predict_carrier_id}{literal}).parent().parent().after("<tr><td colspan='4' style='padding:0; display:none;' id='tr_carrier_exapredict'></td></tr>");
+	exapredictresponse = $('#div_exapredict_block');
+	checkedCarrier = $("input[name*='id_carrier']:checked").val();
+	
+	if ($('#id_carrier' + {/literal}{$predict_carrier_id}{literal}).attr('checked')){
+		document.getElementById('div_exapredict_block').style.display = "";
+		$("#form").attr("action", baseDir+'modules/exapaq/validation.php?exa_carrier=' + checkedCarrier);
+		$("#tr_carrier_exapredict").html(exapredictresponse);
+		$("#tr_carrier_exapredict").fadeIn('slow');
+	}		
 					
 	$('#id_carrier' + {/literal}{$predict_carrier_id}{literal}).click(function(){
-						document.getElementById('div_exapredict_block').style.display = "";
-						document.forms['form'].action = '{/literal}{$urlExaPredict}{literal}';
-						$("#tr_carrier_exapredict").html(exapredictresponse);
-						$("#tr_carrier_exapredict").fadeIn('slow');
-					});
+		document.getElementById('div_exapredict_block').style.display = "";
+		$("#form").attr("action", baseDir+'modules/exapaq/validation.php?exa_carrier=' + checkedCarrier);
+		$("#tr_carrier_exapredict").html(exapredictresponse);
+		$("#tr_carrier_exapredict").fadeIn('slow');
+	});
 					
 	$("input[name='id_carrier']").change(function(){
+		checkedCarrier = $("input[name*='id_carrier']:checked").val();
 		if (!$('#id_carrier' + {/literal}{$predict_carrier_id}{literal}).attr('checked')){
 			$("#tr_carrier_exapredict").fadeOut('fast');
-			}
-		});
+			$("#form").attr("action", baseDir+'order.php');
+		}
+	});
 });
 
 {/literal}

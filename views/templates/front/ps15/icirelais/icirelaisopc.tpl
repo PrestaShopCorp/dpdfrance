@@ -36,7 +36,7 @@ function icirelais_redirect() {
 			$("#tr_carrier_icirelais").remove();
 		$("#icirelais_container").remove();
 	} else {
-		$('#form').attr("action", baseDir+'modules/exapaq/validation.php?id_carrier=' + checkedCarrier);
+		$('#form').attr("action", baseDir+'modules/exapaq/validation.php?exa_carrier=' + checkedCarrier);
 		if (document.getElementById("icirelais_point_table"))
 			document.getElementById('icirelais_point_table').style.display = "";
 		$("#tr_carrier_icirelais").html(iciresponse);

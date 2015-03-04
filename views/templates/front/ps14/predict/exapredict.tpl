@@ -23,7 +23,22 @@
  *}
  
 <script type="text/javascript"> 
+var predictCarrierId = "{$predict_carrier_id|escape:'htmlall':'UTF-8'}";
 {literal}
+
+function predict_redirect() {
+	checkedCarrier = $("input[name*='id_carrier']:checked").val();
+	if (checkedCarrier != predictCarrierId) {
+		$("#form").attr("action", baseDir+'order.php');
+		$("#tr_carrier_exapredict").fadeOut('fast');
+	} else {
+		$("#form").attr("action", baseDir+'modules/exapaq/validation.php?exa_carrier=' + checkedCarrier);
+		if (document.getElementById("div_exapredict_block"))
+			document.getElementById('div_exapredict_block').style.display = "";
+		$("#tr_carrier_exapredict").html(exapredictresponse);
+		$("#tr_carrier_exapredict").fadeIn('fast');
+	}
+}
 
 $(document).ready(function(){
 	$("a.more").click(function() {
@@ -48,26 +63,28 @@ $(document).ready(function(){
 	});
 	
 	$('#id_carrier' + {/literal}{$predict_carrier_id}{literal}).parent().parent().after("<tr><td colspan='4' style='padding:0; display:none;' id='tr_carrier_exapredict'></td></tr>");
-	
 	exapredictresponse = $('#div_exapredict_block');
+	checkedCarrier = $("input[name*='id_carrier']:checked").val();
 
 	if ($('#id_carrier' + {/literal}{$predict_carrier_id}{literal}).attr('checked')){
 		document.getElementById('div_exapredict_block').style.display = "";
-		document.forms['form'].action = '{/literal}{$urlExaPredict}{literal}';
+		$("#form").attr("action", baseDir+'modules/exapaq/validation.php?exa_carrier=' + checkedCarrier);
 		$("#tr_carrier_exapredict").html(exapredictresponse);
 		$("#tr_carrier_exapredict").fadeIn('slow');
 	}		
 					
 	$('#id_carrier' + {/literal}{$predict_carrier_id}{literal}).click(function(){
 		document.getElementById('div_exapredict_block').style.display = "";
-		document.forms['form'].action = '{/literal}{$urlExaPredict}{literal}';
+		$("#form").attr("action", baseDir+'modules/exapaq/validation.php?exa_carrier=' + checkedCarrier);
 		$("#tr_carrier_exapredict").html(exapredictresponse);
 		$("#tr_carrier_exapredict").fadeIn('slow');
 	});
 					
 	$("input[name='id_carrier']").change(function(){
+		checkedCarrier = $("input[name*='id_carrier']:checked").val();
 		if (!$('#id_carrier' + {/literal}{$predict_carrier_id}{literal}).attr('checked')){
 			$("#tr_carrier_exapredict").fadeOut('fast');
+			$("#form").attr("action", baseDir+'order.php');
 		}
 	});
 });

@@ -35,7 +35,7 @@ function predict_redirect(){
 			$("#tr_carrier_predict").remove();
 		$("#exapredict_container").remove();
 	} else {
-		$('#form').attr("action", baseDir+'modules/exapaq/validation.php?id_carrier=' + checkedCarrier);
+		$('#form').attr("action", baseDir+'modules/exapaq/validation.php?exa_carrier=' + checkedCarrier);
 		if (document.getElementById("div_exapredict_block"))
 			document.getElementById('div_exapredict_block').style.display = "";
 		$("#tr_carrier_predict").html(predictresponse);
