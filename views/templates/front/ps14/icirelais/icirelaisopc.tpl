@@ -207,7 +207,6 @@ if (badIE == false){
 		{else}
 			<input type='submit' name="relay_id_opc" id="{$points.relay_id|escape:'htmlall':'UTF-8'}" value="{$points.relay_id|escape:'htmlall':'UTF-8'}" class="icibuttonchoose" onMouseOver="javascript:this.style.cursor='pointer';" onMouseOut="javascript:this.style.cursor='auto';"></input>
 		{/if}
-			{/if}
 		</form>	
 	</td>
 </tr>
