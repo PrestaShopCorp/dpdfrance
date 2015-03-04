@@ -34,28 +34,48 @@ $(document).ready(function(){
 	$('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'htmlall':'UTF-8'}{literal}).parent().parent().after("<tr><td colspan='4' style='padding:0; display:none' id='tr_carrier_icirelais'></td></tr>");
 	iciresponse = $('#icirelais_point_table');
 	checkedCarrier = $("input[name*='id_carrier']:checked").val();
-
-	if ($('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'htmlall':'UTF-8'}{literal}).attr('checked')){
-		document.getElementById('icirelais_point_table').style.display = "";
-		$("#form").attr("action", baseDir+'modules/exapaq/validation.php?exa_carrier=' + checkedCarrier);
-		$("#tr_carrier_icirelais").html(iciresponse);
-		$("#tr_carrier_icirelais").fadeIn('slow');
-	}
-	
-	$('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'htmlall':'UTF-8'}{literal}).click(function(){
-		document.getElementById('icirelais_point_table').style.display = "";
-		$("#form").attr("action", baseDir+'modules/exapaq/validation.php?exa_carrier=' + checkedCarrier);
-		$("#tr_carrier_icirelais").html(iciresponse);
-		$("#tr_carrier_icirelais").fadeIn('slow');
-	});
-					
-	$("input[name='id_carrier']").change(function(){
-		checkedCarrier = $("input[name*='id_carrier']:checked").val();
-		if (!$('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'htmlall':'UTF-8'}{literal}).attr('checked')){
-			$("#tr_carrier_icirelais").fadeOut('fast');
-			$("#form").attr("action", baseDir+'order.php');
+	if ($("#div_icirelais_error").length==0){
+		if ($('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'htmlall':'UTF-8'}{literal}).attr('checked')){
+			document.getElementById('icirelais_point_table').style.display = "";
+			$("#form").attr("action", baseDir+'modules/exapaq/validation.php?exa_carrier=' + checkedCarrier);
+			$("#tr_carrier_icirelais").html(iciresponse);
+			$("#tr_carrier_icirelais").fadeIn('slow');
 		}
-	});
+		
+		$('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'htmlall':'UTF-8'}{literal}).click(function(){
+			document.getElementById('icirelais_point_table').style.display = "";
+			$("#form").attr("action", baseDir+'modules/exapaq/validation.php?exa_carrier=' + checkedCarrier);
+			$("#tr_carrier_icirelais").html(iciresponse);
+			$("#tr_carrier_icirelais").fadeIn('slow');
+		});
+						
+		$("input[name='id_carrier']").change(function(){
+			checkedCarrier = $("input[name*='id_carrier']:checked").val();
+			if (!$('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'htmlall':'UTF-8'}{literal}).attr('checked')){
+				$("#tr_carrier_icirelais").fadeOut('fast');
+				$("#form").attr("action", baseDir+'order.php');
+			}
+		});
+	}
+	else
+	{
+		if ($('#id_carrier' + {/literal}{$icirelais_carrier_id}{literal}).attr('checked')){
+			$("#div_icirelais_error").fadeIn('slow');
+			$("#form").attr("action", baseDir+'modules/exapaq/validation.php?exa_carrier=' + checkedCarrier);
+		}
+
+		$('#id_carrier' + {/literal}{$icirelais_carrier_id}{literal}).click(function(){
+			$("#div_icirelais_error").fadeIn('slow');
+			$("#form").attr("action", baseDir+'modules/exapaq/validation.php?exa_carrier=' + checkedCarrier);			
+		});
+
+		$("input[name='id_carrier']").change(function(){
+			if (!$('#id_carrier' + {/literal}{$icirelais_carrier_id}{literal}).attr('checked')){
+				$("#div_icirelais_error").fadeOut('fast');
+				$("#form").attr("action", baseDir+'order.php');
+			}
+		});
+	}
 });
 
 {/literal}
@@ -71,7 +91,7 @@ $(document).ready(function(){
 
 {if isset($error)}
 	<tr>
-		<td colspan="5"><div class="alert warning"> {$error|escape:'htmlall':'UTF-8'} </div></td>
+		<td colspan="5" id="div_icirelais_error" style="display:none;"><div class="alert warning"> {$error|escape:'htmlall':'UTF-8'} </div></td>
 	</tr>
 {else}
 
@@ -92,9 +112,9 @@ $(document).ready(function(){
 		<td align="center" class="radiopr">
 			<p class="radio-group">
 			{if $selectedrelay == $points.relay_id}
-				<input type='submit' name="relay_id_opc" id="{$points.relay_id|escape:'htmlall':'UTF-8'}" value="{$points.relay_id|escape:'htmlall':'UTF-8'}" class="icibuttonok" onMouseOver="javascript:this.style.cursor='pointer';" onMouseOut="javascript:this.style.cursor='auto';"></input>
+				<input type="radio" name="relay_id" id="{$points.relay_id|escape:'htmlall':'UTF-8'}" value="{$points.relay_id|escape:'htmlall':'UTF-8'}" checked="checked">
 			{else}
-				<input type='submit' name="relay_id_opc" id="{$points.relay_id|escape:'htmlall':'UTF-8'}" value="{$points.relay_id|escape:'htmlall':'UTF-8'}" class="icibuttonchoose" onMouseOver="javascript:this.style.cursor='pointer';" onMouseOut="javascript:this.style.cursor='auto';"></input>
+				<input type="radio" name="relay_id" id="{$points.relay_id|escape:'htmlall':'UTF-8'}" value="{$points.relay_id|escape:'htmlall':'UTF-8'}" {if $smarty.foreach.iciLoop.first} checked="checked" {/if}>
 			{/if}
 				<label for="{$points.relay_id|escape:'htmlall':'UTF-8'}"><span><span></span></span><b>ICI</b></label>
 			</p>

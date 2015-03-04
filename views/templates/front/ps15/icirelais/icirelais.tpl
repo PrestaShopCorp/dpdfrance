@@ -118,7 +118,7 @@ for (i=1; i<6; i++){
 			<input type="radio" name="relay_id" id="{$points.relay_id|escape:'htmlall':'UTF-8'}" value="{$points.relay_id|escape:'htmlall':'UTF-8'}" checked="checked">
 		{else}
 			<input type="radio" name="relay_id" id="{$points.relay_id|escape:'htmlall':'UTF-8'}" value="{$points.relay_id|escape:'htmlall':'UTF-8'}" {if $smarty.foreach.iciLoop.first} checked="checked" {/if}>
-		{/if}	
+		{/if}
 			<label for="{$points.relay_id|escape:'htmlall':'UTF-8'}"><span><span></span></span><b>ICI</b></label>
 		</td>
 </tr>

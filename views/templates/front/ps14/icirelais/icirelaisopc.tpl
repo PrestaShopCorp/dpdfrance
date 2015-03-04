@@ -71,6 +71,20 @@ if (badIE == false){
 				}
 			});
 		}
+		else
+		{
+			if ($('#id_carrier' + {/literal}{$icirelais_carrier_id}{literal}).attr('checked'))
+				$("#div_icirelais_header").fadeIn('slow');
+			
+			$('#id_carrier' + {/literal}{$icirelais_carrier_id}{literal}).click(function(){
+				$("#div_icirelais_header").fadeIn('slow');
+			});
+							
+			$("input[name='id_carrier']").change(function(){
+				if (!$('#id_carrier' + {/literal}{$icirelais_carrier_id}{literal}).attr('checked'))
+					$("#div_icirelais_header").fadeOut('fast');
+			});
+		}
 	});
 	{/literal}
 	
@@ -126,32 +140,43 @@ if (badIE == false){
 				}
 			});
 		}
+		else
+		{
+			if ($('#id_carrier' + {/literal}{$icirelais_carrier_id}{literal}).attr('checked'))
+				$("#div_icirelais_header").fadeIn('slow');
+			
+			$('#id_carrier' + {/literal}{$icirelais_carrier_id}{literal}).click(function(){
+				$("#div_icirelais_header").fadeIn('slow');
+			});
+							
+			$("input[name='id_carrier']").change(function(){
+				if (!$('#id_carrier' + {/literal}{$icirelais_carrier_id}{literal}).attr('checked'))
+					$("#div_icirelais_header").fadeOut('fast');
+			});
+		}
 	});
 {/literal}
 }
 </script>
 
+<tr id="div_icirelais_header" style="display:none;">
+	{if isset($error)}
+		<td colspan="4" id="div_icirelais_error" class="alert warning"> {$error|escape:'htmlall':'UTF-8'}</td>
+			<tr>
+				<td colspan="4" style="display:none;">&nbsp;</td>
+			</tr>
+	{else}
+		<td colspan="4">
+				<p>
+				{l s='Please select your ICI relais parcelshop among this list' mod='exapaq'}
+				</p>
+		</td>
 
-
-<tr>
-{if isset($error)}
-	<td colspan="4" id="div_icirelais_error" class="alert warning"> {$error|escape:'htmlall':'UTF-8'}</td>
-		<tr>
-			<td colspan="4" style="display:none;">&nbsp;</td>
-		</tr>
-
-{else}
 	{if $icirelais_status == 'error'}
 		<tr>
 			<td colspan="5" style="padding:0px;"><div class="icirelais_error"><p>{l s='It seems that you haven\'t selected an ICI relais point, please pick one from this list' mod='exapaq'}</p></div></td>
 		</tr>
 	{/if}
-	
-	<td colspan="4" id="div_icirelais_header">
-			<p>
-			{l s='Please select your ICI relais parcelshop among this list' mod='exapaq'}
-			</p>
-	</td>
 </tr>
 
 {foreach from=$ici_relais_points item=points name=iciLoop} 
@@ -177,12 +202,11 @@ if (badIE == false){
 	<td align="right" class="icirelais_radio radio">
 			
 		<form method='post' action='{if $ssl}{$base_dir_ssl|escape:'htmlall':'UTF-8'}{else}{$base_dir|escape:'htmlall':'UTF-8'}{/if}modules/exapaq/validation.php' style="width:15%;">
-			{if $selectedrelay == $points.relay_id}
-				<input type='submit' name="relay_id_opc" id="{$points.relay_id|escape:'htmlall':'UTF-8'}" value="{$points.relay_id|escape:'htmlall':'UTF-8'}" class="icibuttonok" onMouseOver="javascript:this.style.cursor='pointer';" onMouseOut="javascript:this.style.cursor='auto';">
-				</input>
-			{else}
-				<input type='submit' name="relay_id_opc" id="{$points.relay_id|escape:'htmlall':'UTF-8'}" value="{$points.relay_id|escape:'htmlall':'UTF-8'}" class="icibuttonchoose" onMouseOver="javascript:this.style.cursor='pointer';" onMouseOut="javascript:this.style.cursor='auto';">
-				</input>
+		{if $selectedrelay == $points.relay_id}
+			<input type='submit' name="relay_id_opc" id="{$points.relay_id|escape:'htmlall':'UTF-8'}" value="{$points.relay_id|escape:'htmlall':'UTF-8'}" class="icibuttonok" onMouseOver="javascript:this.style.cursor='pointer';" onMouseOut="javascript:this.style.cursor='auto';"></input>
+		{else}
+			<input type='submit' name="relay_id_opc" id="{$points.relay_id|escape:'htmlall':'UTF-8'}" value="{$points.relay_id|escape:'htmlall':'UTF-8'}" class="icibuttonchoose" onMouseOver="javascript:this.style.cursor='pointer';" onMouseOut="javascript:this.style.cursor='auto';"></input>
+		{/if}
 			{/if}
 		</form>	
 	</td>
