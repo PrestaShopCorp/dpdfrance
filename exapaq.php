@@ -29,8 +29,11 @@ if (!defined('_PS_VERSION_'))
 /* Class extension for Prestashop 1.3 and lower */
 if (_PS_VERSION_ < '1.4')
 {
-	class CarrierModule extends Module
+	if (!class_exists('CarrierModule', false))
 	{
+		class CarrierModule extends Module
+		{
+		}
 	}
 }
 
