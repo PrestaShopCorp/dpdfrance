@@ -511,7 +511,7 @@ class Exapaq extends CarrierModule
 				'selectedrelay' => (isset($delivery_infos['relay_id']) ? $delivery_infos['relay_id'] : null),
 				'icirelais_status' => (Tools::getValue('icirelais') ? Tools::getValue('icirelais') : null),
 				'icirelais_carrier_id' => (int)Configuration::get('EXAPAQ_ICIRELAIS_CARRIER_ID'),
-				'exapredict_gsm_dest' => (isset($delivery_infos['gsm_dest']) ? $delivery_infos['gsm_dest'] : null),
+				'exapredict_gsm_dest' => (isset($delivery_infos['gsm_dest']) ? $delivery_infos['gsm_dest'] : $address_details['phone_mobile']),
 				'predict_status' => (Tools::getValue('predict') ? Tools::getValue('predict') : null),
 				'predict_carrier_id' => (int)Configuration::get('EXAPAQ_PREDICT_CARRIER_ID')));
 			if (_PS_VERSION_ < '1.4') // PS 1.3
