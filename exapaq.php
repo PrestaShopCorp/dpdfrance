@@ -272,6 +272,7 @@ class Exapaq extends CarrierModule
 		`service` varchar(3) DEFAULT NULL,
 		`relay_id` varchar(8) DEFAULT NULL,
 		`company` varchar(23) DEFAULT NULL,
+		`address1` varchar(128) DEFAULT NULL,
 		`address2` varchar(128) DEFAULT NULL,
 		`postcode` varchar(10) DEFAULT NULL,
 		`city` varchar(100) DEFAULT NULL,
