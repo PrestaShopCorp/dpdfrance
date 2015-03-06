@@ -55,7 +55,7 @@ $(document).ready(function() {
 			+'</table>'
 		+'</div>');
 	
-	$('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'htmlall':'UTF-8'}{literal}).parent().parent().after("<tr><td colspan='4' style='padding:0; display:none;' id='tr_carrier_icirelais'></td></tr>");
+	$('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'javascript':'UTF-8'}{literal}).parent().parent().after("<tr><td colspan='4' style='padding:0; display:none;' id='tr_carrier_icirelais'></td></tr>");
 
 	iciresponse = $('#icirelais_point_table');
 

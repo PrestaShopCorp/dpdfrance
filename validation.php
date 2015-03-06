@@ -59,7 +59,7 @@ switch ((int)$delivery_option)
 			$cookiedata = json_decode(Context::getContext()->cookie->exapaq_icirelais_cookie, true);
 
 		$detail_relais = $cookiedata[$relay_id];
-		Db::getInstance()->delete(_DB_PREFIX_.'exapaq_france', 'id_cart = "'.$cart->id.'"'); /* Delete previous entry in database */
+		Db::getInstance()->delete(_DB_PREFIX_.'exapaq_france', 'id_cart = "'.psQL($cart->id).'"'); /* Delete previous entry in database */
 
 		$address1 = (isset($detail_relais['address1']))?$detail_relais['address1']:'';
 		$address2 = (isset($detail_relais['address2']))?$detail_relais['address2']:'';
@@ -70,13 +70,13 @@ switch ((int)$delivery_option)
 				'".(int)$cart->id."',
 				'".(int)$cart->id_carrier."',
 				'REL',
-				'$relay_id',
-				'".$detail_relais['shop_name']."',
+				'".pSQL($relay_id)."',
+				'".pSQL($detail_relais['shop_name'])."',
 				'$address1',
 				'$address2',
-				'".$detail_relais['postal_code']."',
-				'".$detail_relais['city']."',
-				'".$detail_relais['id_country']."',
+				'".pSQL($detail_relais['postal_code'])."',
+				'".pSQL($detail_relais['city'])."',
+				'".pSQL($detail_relais['id_country'])."',
 				''
 				)";
 
@@ -145,7 +145,7 @@ switch ((int)$delivery_option)
 		}
 		else
 		{ /* All right, delete previous entry of GSM for this cart and write the new one */
-			Db::getInstance()->delete(_DB_PREFIX_.'exapaq_france', 'id_cart = "'.$cart->id.'"');
+			Db::getInstance()->delete(_DB_PREFIX_.'exapaq_france', 'id_cart = "'.pSQL($cart->id).'"');
 			$sql = 'INSERT IGNORE INTO '._DB_PREFIX_."exapaq_france 
 						(id_customer, id_cart, id_carrier, service, relay_id, company, address1, address2, postcode, city, id_country, gsm_dest) 
 						VALUES (
@@ -160,7 +160,7 @@ switch ((int)$delivery_option)
 						'',
 						'',
 						'',
-						'$gsm'
+						'".pSQL($gsm)."'
 						)";
 
 			if (!Db::getInstance()->Execute($sql)) /* If error while writing in database : display an error message */

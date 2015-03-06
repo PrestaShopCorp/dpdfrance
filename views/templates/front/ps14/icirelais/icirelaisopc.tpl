@@ -45,11 +45,11 @@ if (badIE == false){
 				document.getElementById("ligneici").id = 'ligneici'+i;
 			}
 			
-			$('#id_carrier' + {/literal}{$icirelais_carrier_id}{literal}).parent().parent().after("<tr><td colspan='4' style='padding:0; display:none' id='tr_carrier_icirelais'></td></tr>");
+			$('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'javascript':'UTF-8'}{literal}).parent().parent().after("<tr><td colspan='4' style='padding:0; display:none' id='tr_carrier_icirelais'></td></tr>");
 
 			iciresponse = [div_icirelais_header,ligneici0,ligneici1,ligneici2,ligneici3,ligneici4]
 		   
-			if ($('#id_carrier' + {/literal}{$icirelais_carrier_id}{literal}).attr('checked')){
+			if ($('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'javascript':'UTF-8'}{literal}).attr('checked')){
 				$.when($('#div_icirelais_header,#ligneici0,#ligneici1,#ligneici2,#ligneici3,#ligneici4').show('fast')).done(function() {
 					$("#tr_carrier_icirelais").html(iciresponse);
 					$("#tr_carrier_icirelais").fadeIn('slow');
@@ -57,7 +57,7 @@ if (badIE == false){
 				});
 			}
 			
-			$('#id_carrier' + {/literal}{$icirelais_carrier_id}{literal}).click(function(){
+			$('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'javascript':'UTF-8'}{literal}).click(function(){
 				$.when($('#div_icirelais_header,#ligneici0,#ligneici1,#ligneici2,#ligneici3,#ligneici4').show('fast')).done(function() {
 					$("#tr_carrier_icirelais").html(iciresponse);
 					$("#tr_carrier_icirelais").fadeIn('slow');
@@ -66,22 +66,22 @@ if (badIE == false){
 			});
 							
 			$("input[name='id_carrier']").change(function(){
-				if (!$('#id_carrier' + {/literal}{$icirelais_carrier_id}{literal}).attr('checked')){
+				if (!$('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'javascript':'UTF-8'}{literal}).attr('checked')){
 					$("#tr_carrier_icirelais").fadeOut('fast');
 				}
 			});
 		}
 		else
 		{
-			if ($('#id_carrier' + {/literal}{$icirelais_carrier_id}{literal}).attr('checked'))
+			if ($('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'javascript':'UTF-8'}{literal}).attr('checked'))
 				$("#div_icirelais_header").fadeIn('slow');
 			
-			$('#id_carrier' + {/literal}{$icirelais_carrier_id}{literal}).click(function(){
+			$('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'javascript':'UTF-8'}{literal}).click(function(){
 				$("#div_icirelais_header").fadeIn('slow');
 			});
 							
 			$("input[name='id_carrier']").change(function(){
-				if (!$('#id_carrier' + {/literal}{$icirelais_carrier_id}{literal}).attr('checked'))
+				if (!$('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'javascript':'UTF-8'}{literal}).attr('checked'))
 					$("#div_icirelais_header").fadeOut('fast');
 			});
 		}
@@ -102,7 +102,7 @@ if (badIE == false){
 				document.getElementById("ligneici").id = 'ligneici'+i;
 			}
 			
-			if ($('#id_carrier' + {/literal}{$icirelais_carrier_id}{literal}).attr('checked')){
+			if ($('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'javascript':'UTF-8'}{literal}).attr('checked')){
 				document.getElementById('ligneici0').style.display = "";
 				document.getElementById('ligneici1').style.display = "";
 				document.getElementById('ligneici2').style.display = "";
@@ -119,7 +119,7 @@ if (badIE == false){
 				$('#div_icirelais_header').fadeOut('fast', function() {});
 			}
 			
-			$('#id_carrier' + {/literal}{$icirelais_carrier_id}{literal}).click(function(){
+			$('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'javascript':'UTF-8'}{literal}).click(function(){
 				document.getElementById('ligneici0').style.display = "";
 				document.getElementById('ligneici1').style.display = "";
 				document.getElementById('ligneici2').style.display = "";
@@ -130,7 +130,7 @@ if (badIE == false){
 			});
 							
 			$("input[name='id_carrier']").change(function(){
-				if (!$('#id_carrier' + {/literal}{$icirelais_carrier_id}{literal}).attr('checked')){
+				if (!$('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'javascript':'UTF-8'}{literal}).attr('checked')){
 					document.getElementById('ligneici0').style.display = "none";
 					document.getElementById('ligneici1').style.display = "none";
 					document.getElementById('ligneici2').style.display = "none";
@@ -142,15 +142,15 @@ if (badIE == false){
 		}
 		else
 		{
-			if ($('#id_carrier' + {/literal}{$icirelais_carrier_id}{literal}).attr('checked'))
+			if ($('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'javascript':'UTF-8'}{literal}).attr('checked'))
 				$("#div_icirelais_header").fadeIn('slow');
 			
-			$('#id_carrier' + {/literal}{$icirelais_carrier_id}{literal}).click(function(){
+			$('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'javascript':'UTF-8'}{literal}).click(function(){
 				$("#div_icirelais_header").fadeIn('slow');
 			});
 							
 			$("input[name='id_carrier']").change(function(){
-				if (!$('#id_carrier' + {/literal}{$icirelais_carrier_id}{literal}).attr('checked'))
+				if (!$('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'javascript':'UTF-8'}{literal}).attr('checked'))
 					$("#div_icirelais_header").fadeOut('fast');
 			});
 		}

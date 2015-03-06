@@ -140,12 +140,12 @@
 				<td class="ref">{$order.reference|escape:'htmlall':'UTF-8'}</td>
 				<td class="date">{$order.date|escape:'htmlall':'UTF-8'}</td>
 				<td class="nom">{$order.nom|escape:'htmlall':'UTF-8'}</td>
-				<td class="type">{$order.type}</td>
-				<td class="pr">{$order.address}</td>
+				<td class="type">{$order.type|escape:'quotes':'UTF-8'}</td>
+				<td class="pr">{$order.address|escape:'quotes':'UTF-8'}</td>
 				<td class="poids">{$order.poids|escape:'htmlall':'UTF-8'}</td>
 				<td class="prix" align="right">{$order.prix|escape:'htmlall':'UTF-8'}</td>
 				<td class="advalorem"><input class="advalorem" type="checkbox" name="advalorem[]" {$order.advalorem_checked|escape:'htmlall':'UTF-8'} value="{$order.prix|escape:'htmlall':'UTF-8'}"></td>
-				<td class="statutcommande" align="center">{$order.statut}</td>
+				<td class="statutcommande" align="center">{$order.statut|escape:'quotes':'UTF-8'}</td>
 				<td class="statutcolis" align="center"><a href="javascript:void(0)" onclick="window.open('http://webtrace.exapaq.com/exa-webtrace/webclients.aspx?verknr={$order.reference|escape:'htmlall':'UTF-8'}&amp;kund_mandnr={$order.depot_code|escape:'htmlall':'UTF-8'}&amp;kundenr={$order.shipper_code|escape:'htmlall':'UTF-8'}&amp;cmd=VERKNR_SEARCH','','width=1024,height=768,top=30,left=20')">{$order.dernier_statut_colis}</a></td>
 			</tr>
 		{/foreach}

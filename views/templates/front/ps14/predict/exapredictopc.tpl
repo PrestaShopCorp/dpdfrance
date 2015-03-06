@@ -23,7 +23,7 @@
  *}
 
 <script type="text/javascript"> 
-var predictCarrierId = "{$predict_carrier_id|escape:'htmlall':'UTF-8'}";
+var predictCarrierId = "{$predict_carrier_id|escape:'javascript':'UTF-8'}";
 {literal}
 
 function predict_redirect() {
@@ -61,7 +61,7 @@ $(document).ready(function(){
 	return false;
 	});
 	
-	$('#id_carrier' + {/literal}{$predict_carrier_id}{literal}).parent().parent().after("<tr><td colspan='4' style='padding:0; display:none;' id='tr_carrier_exapredict'></td></tr>");
+	$('#id_carrier' + {/literal}{$predict_carrier_id|escape:'javascript':'UTF-8'}{literal}).parent().parent().after("<tr><td colspan='4' style='padding:0; display:none;' id='tr_carrier_exapredict'></td></tr>");
 	exapredictresponse = $('#div_exapredict_block');
 
 	$("input[name*='id_carrier").change(function() {

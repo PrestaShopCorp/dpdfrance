@@ -75,7 +75,7 @@ $(document).ready(function() {
 			+'</table>'
 		+'</div>');
 	
-	$('#id_carrier' + {/literal}{$predict_carrier_id|escape:'htmlall':'UTF-8'}{literal}).parent().parent().after("<tr><td colspan='4' style='padding:0; display:none;' id='tr_carrier_predict'></td></tr>");
+	$('#id_carrier' + {/literal}{$predict_carrier_id|escape:'javascript':'UTF-8'}{literal}).parent().parent().after("<tr><td colspan='4' style='padding:0; display:none;' id='tr_carrier_predict'></td></tr>");
 
 	predictresponse = $('#div_exapredict_block');
 	

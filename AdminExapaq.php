@@ -81,7 +81,7 @@ class AdminExapaq extends AdminTab
 		if ($id_shop == 0)
 			$id_shop = 'LIKE "%"';
 		else
-			$id_shop = '= '.$id_shop;
+			$id_shop = '= '.(int)$id_shop;
 
 		$sql14 = '	SELECT id_order
 					FROM '._DB_PREFIX_.'orders o
@@ -166,7 +166,7 @@ class AdminExapaq extends AdminTab
 						FROM 	'._DB_PREFIX_.'orders AS O, 
 								'._DB_PREFIX_.'carrier AS CA 
 						WHERE 	CA.id_carrier=O.id_carrier AND 
-								id_order IN ('.implode(',', $orders).')';
+								id_order IN ('.implode(',', array_map('intval', $orders)).')';
 
 				$orderlist = Db::getInstance()->ExecuteS($sql);
 
@@ -206,7 +206,7 @@ class AdminExapaq extends AdminTab
 						FROM 	'._DB_PREFIX_.'orders AS O, 
 								'._DB_PREFIX_.'carrier AS CA 
 						WHERE 	CA.id_carrier=O.id_carrier AND 
-								id_order IN ('.implode(',', $orders).')';
+								id_order IN ('.implode(',', array_map('intval', $orders)).')';
 
 				$orderlist = Db::getInstance()->ExecuteS($sql);
 
@@ -246,9 +246,9 @@ class AdminExapaq extends AdminTab
 							$customer = new Customer((int)$order->id_customer);
 
 							$order->shipping_number = $internalref_cleaned.'&kund_mandnr='.$depot_code.'&kundenr='.$compte_chargeur;
-							Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'orders SET shipping_number = "'.$order->shipping_number.'" WHERE id_order = "'.$id_order.'"');
+							Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'orders SET shipping_number = "'.pSQL($order->shipping_number).'" WHERE id_order = "'.$id_order.'"');
 							if (_PS_VERSION_ >= '1.5')
-								Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'order_carrier SET tracking_number = "'.$order->shipping_number.'" WHERE id_order = "'.$id_order.'"');
+								Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'order_carrier SET tracking_number = "'.pSQL($order->shipping_number).'" WHERE id_order = "'.$id_order.'"');
 							$order->update();
 
 							$history = new OrderHistory();
@@ -288,7 +288,7 @@ class AdminExapaq extends AdminTab
 			{
 				$orders = Tools::getValue('checkbox');
 
-				$liste_expeditions = 'O.id_order IN ('.implode(',', $orders).')';
+				$liste_expeditions = 'O.id_order IN ('.implode(',', array_map('intval', $orders)).')';
 
 				if (!empty($orders))
 				{
@@ -444,11 +444,11 @@ class AdminExapaq extends AdminTab
 		$predict_carrier_log = $classic_carrier_log = $icirelais_carrier_log = $europe_carrier_log = '';
 
 		if (Configuration::get('EXAPAQ_PREDICT_CARRIER_LOG', null, null, (int)$this->context->shop->id))
-			$predict_carrier_log = 'CA.id_carrier IN ('.implode(',', explode('|', Tools::substr(Configuration::get('EXAPAQ_PREDICT_CARRIER_LOG', null, null, (int)$this->context->shop->id), 1))).') OR ';
+			$predict_carrier_log = 'CA.id_carrier IN ('.implode(',', array_map('intval', explode('|', Tools::substr(Configuration::get('EXAPAQ_PREDICT_CARRIER_LOG', null, null, (int)$this->context->shop->id), 1)))).') OR ';
 		if (Configuration::get('EXAPAQ_CLASSIC_CARRIER_LOG', null, null, (int)$this->context->shop->id))
-			$classic_carrier_log = 'CA.id_carrier IN ('.implode(',', explode('|', Tools::substr(Configuration::get('EXAPAQ_CLASSIC_CARRIER_LOG', null, null, (int)$this->context->shop->id), 1))).') OR ';
+			$classic_carrier_log = 'CA.id_carrier IN ('.implode(',', array_map('intval', explode('|', Tools::substr(Configuration::get('EXAPAQ_CLASSIC_CARRIER_LOG', null, null, (int)$this->context->shop->id), 1)))).') OR ';
 		if (Configuration::get('EXAPAQ_ICIRELAIS_CARRIER_LOG', null, null, (int)$this->context->shop->id))
-			$icirelais_carrier_log = 'CA.id_carrier IN ('.implode(',', explode('|', Tools::substr(Configuration::get('EXAPAQ_ICIRELAIS_CARRIER_LOG', null, null, (int)$this->context->shop->id), 1))).') OR ';
+			$icirelais_carrier_log = 'CA.id_carrier IN ('.implode(',', array_map('intval', explode('|', Tools::substr(Configuration::get('EXAPAQ_ICIRELAIS_CARRIER_LOG', null, null, (int)$this->context->shop->id), 1)))).') OR ';
 		$europe_carrier_log = 'CA.name LIKE \'%DPD%\'';
 
 		if (!empty($orders))
