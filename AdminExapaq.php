@@ -394,7 +394,7 @@ class AdminExapaq extends AdminTab
 							$record->add(str_pad($compte_chargeur, 8, '0', STR_PAD_LEFT), 911, 8); 						//	N° de compte chargeur EXAPAQ
 							$record->add($order->id, 919, 35);															//	Code à barres
 							$record->add($order->id, 954, 35);        													//	N° de commande - Id Order Prestashop
-							if (in_array($order->id, Tools::getValue('advalorem')))
+							if (Tools::getIsset('advalorem') && in_array($order->id, Tools::getValue('advalorem')))
 								$record->add(str_pad(number_format($order->total_paid, 2, '.', ''), 9, '0', STR_PAD_LEFT), 1018, 9); // Montant valeur colis
 							$record->add($order->id, 1035, 35);       													//	Référence client N°2 - Id Order Prestashop
 							$record->add($email_exp, 1116, 80);        													//	E-mail expéditeur
