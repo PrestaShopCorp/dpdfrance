@@ -35,7 +35,7 @@ function predict_redirect(){
 			$("#tr_carrier_predict").remove();
 		$("#exapredict_container").remove();
 	} else {
-		$('#form').attr("action", baseDir+'modules/exapaq/validation.php?id_carrier=' + checkedCarrier);
+		$('#form').attr("action", baseDir+'modules/exapaq/validation.php?exa_carrier=' + checkedCarrier);
 		if (document.getElementById("div_exapredict_block"))
 			document.getElementById('div_exapredict_block').style.display = "";
 		$("#tr_carrier_predict").html(predictresponse);
@@ -75,7 +75,7 @@ $(document).ready(function() {
 			+'</table>'
 		+'</div>');
 	
-	$('#id_carrier' + {/literal}{$predict_carrier_id|escape:'htmlall':'UTF-8'}{literal}).parent().parent().after("<tr><td colspan='4' style='padding:0; display:none;' id='tr_carrier_predict'></td></tr>");
+	$('#id_carrier' + {/literal}{$predict_carrier_id|escape:'javascript':'UTF-8'}{literal}).parent().parent().after("<tr><td colspan='4' style='padding:0; display:none;' id='tr_carrier_predict'></td></tr>");
 
 	predictresponse = $('#div_exapredict_block');
 	

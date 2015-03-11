@@ -32,15 +32,10 @@ if (_PS_VERSION_ < '1.5')
 
 $cart = (isset($cart) ? $cart : '');
 
-if (version_compare(_PS_VERSION_, '1.5', '<'))
-{
-	if ((int)Configuration::get('PS_ORDER_PROCESS_TYPE') == 0)
-		$delivery_option = Tools::getValue('id_carrier');
-	else
-		$delivery_option = $cart->id_carrier;
-}
+if (version_compare(_PS_VERSION_, '1.5', '<') && (int)Configuration::get('PS_ORDER_PROCESS_TYPE') == 1)
+	$delivery_option = $cart->id_carrier;
 else
-	$delivery_option = (Context::getContext()->cart->id_carrier == 0 ? Tools::getValue('id_carrier') : Context::getContext()->cart->id_carrier);
+	$delivery_option = Tools::getValue('exa_carrier');
 
 $cart->id_carrier = (int)$delivery_option;
 $cart->gift = Tools::getValue('gift');
@@ -64,7 +59,7 @@ switch ((int)$delivery_option)
 			$cookiedata = json_decode(Context::getContext()->cookie->exapaq_icirelais_cookie, true);
 
 		$detail_relais = $cookiedata[$relay_id];
-		Db::getInstance()->delete(_DB_PREFIX_.'exapaq_france', 'id_cart = "'.$cart->id.'"'); /* Delete previous entry in database */
+		Db::getInstance()->delete(_DB_PREFIX_.'exapaq_france', 'id_cart = "'.psQL($cart->id).'"'); /* Delete previous entry in database */
 
 		$address1 = (isset($detail_relais['address1']))?$detail_relais['address1']:'';
 		$address2 = (isset($detail_relais['address2']))?$detail_relais['address2']:'';
@@ -75,40 +70,45 @@ switch ((int)$delivery_option)
 				'".(int)$cart->id."',
 				'".(int)$cart->id_carrier."',
 				'REL',
-				'$relay_id',
-				'".$detail_relais['shop_name']."',
-				'$address1',
-				'$address2',
-				'".$detail_relais['postal_code']."',
-				'".$detail_relais['city']."',
-				'".$detail_relais['id_country']."',
+				'".pSQL($relay_id)."',
+				'".pSQL($detail_relais['shop_name'])."',
+				'".pSQL($address1)."',
+				'".pSQL($address2)."',
+				'".pSQL($detail_relais['postal_code'])."',
+				'".pSQL($detail_relais['city'])."',
+				'".pSQL($detail_relais['id_country'])."',
 				''
 				)";
 
 		if (!Db::getInstance()->Execute($sql)) /* If error while writing in database : display an error message */
 		{
-			echo '<div class="alert error">Un problème est survenu lors de la sélection de votre point relais, merci de réessayer</div>';
-			echo '<a href="javascript:history.back()">Retour</a>';
+			if (version_compare(_PS_VERSION_, '1.5', '<'))
+				if ((int)Configuration::get('PS_ORDER_PROCESS_TYPE') == 0)
+					Tools::redirect('order.php?step=2&cgv=1&icirelais=error'); /* PS 1.4 STD */
+				else
+					Tools::redirect('order-opc.php?cgv=1&icirelais=error#opc_delivery_methods'); /* PS 1.4 OPC */
+			else
+				if ((int)Configuration::get('PS_ORDER_PROCESS_TYPE') == 0)
+					Tools::redirect('index.php?controller=order&step=2&cgv=1&icirelais=error'); /* PS 1.5 STD */
+				else
+					Tools::redirect('index.php?controller=order-opc&isPaymentStep=true&cgv=1&icirelais=error#carrier_area'); /* PS 1.5 OPC */
 		}
-		if (version_compare(_PS_VERSION_, '1.5', '<'))
-			if ((int)Configuration::get('PS_ORDER_PROCESS_TYPE') == 0)
-				Tools::redirect('order.php?step=3&cgv=1&icirelais=ok'); /* PS 1.4 STD */
+		else /* All right, redirect to payment page */
+		{
+			if (version_compare(_PS_VERSION_, '1.5', '<'))
+				if ((int)Configuration::get('PS_ORDER_PROCESS_TYPE') == 0)
+					Tools::redirect('order.php?step=3&cgv=1&icirelais=ok'); /* PS 1.4 STD */
+				else
+					Tools::redirect('order-opc.php?cgv=1&icirelais=ok#opc_delivery_methods'); /* PS 1.4 OPC */
 			else
-				Tools::redirect('order-opc.php?cgv=1&icirelais=ok#opc_delivery_methods'); /* PS 1.4 OPC */
-		else
-			if ((int)Configuration::get('PS_ORDER_PROCESS_TYPE') == 0)
-				Tools::redirect('index.php?controller=order&step=3&cgv=1&icirelais=ok'); /* PS 1.5 STD */
-			else
-				Tools::redirect('index.php?controller=order-opc&isPaymentStep=true&cgv=1&icirelais=ok#carrier_area'); /* PS 1.5 OPC */
+				if ((int)Configuration::get('PS_ORDER_PROCESS_TYPE') == 0)
+					Tools::redirect('index.php?controller=order&step=3&cgv=1&icirelais=ok'); /* PS 1.5 STD */
+				else
+					Tools::redirect('index.php?controller=order-opc&isPaymentStep=true&cgv=1&icirelais=ok#carrier_area'); /* PS 1.5 OPC */
+		}
 	}
-	else
-	{ /* While entering payment step, we check if relaypoint data is written. If it's OK then go to payment page. Else, redirect to carriers page */
-		$sql = 'SELECT relay_id FROM '._DB_PREFIX_.'exapaq_france WHERE id_cart = '.$cart->id;
-		$res = Db::getInstance()->ExecuteS($sql);
-		foreach ($res as $relays) /* All right, go to payment page */
-			Tools::redirect('index.php?controller=order&step=3&cgv=1&icirelais=ok');
-
-		/* Else, set error parameter and redirect to carriers page */
+	else /* If cookie is empty : redirect to carrier step with error parameter */
+	{
 		if (version_compare(_PS_VERSION_, '1.5', '<'))
 			if ((int)Configuration::get('PS_ORDER_PROCESS_TYPE') == 0)
 				Tools::redirect('order.php?step=2&cgv=1&icirelais=error'); /* PS 1.4 STD */
@@ -121,6 +121,7 @@ switch ((int)$delivery_option)
 				Tools::redirect('index.php?controller=order-opc&isPaymentStep=true&cgv=1&icirelais=error#carrier_area'); /* PS 1.5 OPC */
 	}
 	break;
+
 	case (int)Configuration::get('EXAPAQ_PREDICT_CARRIER_ID') : /* If Predict carrier is selected */
 		$exapredict_gsm_dest = Tools::getValue('exapredict_gsm_dest');
 		$input_tel = Tools::getValue('exapredict_gsm_dest'); /* Get customer's mobile phone number entered */
@@ -144,7 +145,7 @@ switch ((int)$delivery_option)
 		}
 		else
 		{ /* All right, delete previous entry of GSM for this cart and write the new one */
-			Db::getInstance()->delete(_DB_PREFIX_.'exapaq_france', 'id_cart = "'.$cart->id.'"');
+			Db::getInstance()->delete(_DB_PREFIX_.'exapaq_france', 'id_cart = "'.pSQL($cart->id).'"');
 			$sql = 'INSERT IGNORE INTO '._DB_PREFIX_."exapaq_france 
 						(id_customer, id_cart, id_carrier, service, relay_id, company, address1, address2, postcode, city, id_country, gsm_dest) 
 						VALUES (
@@ -159,7 +160,7 @@ switch ((int)$delivery_option)
 						'',
 						'',
 						'',
-						'$gsm'
+						'".pSQL($gsm)."'
 						)";
 
 			if (!Db::getInstance()->Execute($sql)) /* If error while writing in database : display an error message */
@@ -179,6 +180,7 @@ switch ((int)$delivery_option)
 					Tools::redirect('index.php?controller=order-opc&isPaymentStep=true&cgv=1&predict=ok#carrier_area'); /* PS 1.5 OPC */
 		}
 		break;
+
 	default :
 	/* If the selected carrier is not one of ours : then go straight to payment page */
 		if (version_compare(_PS_VERSION_, '1.5', '<'))

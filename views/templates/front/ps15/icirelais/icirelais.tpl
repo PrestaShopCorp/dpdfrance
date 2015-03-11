@@ -36,7 +36,7 @@ function icirelais_redirect() {
 			$("#tr_carrier_icirelais").remove();
 		$("#icirelais_container").remove();
 	} else {
-		$("#form").attr("action", baseDir+'modules/exapaq/validation.php?id_carrier=' + checkedCarrier);
+		$("#form").attr("action", baseDir+'modules/exapaq/validation.php?exa_carrier=' + checkedCarrier);
 		if (document.getElementById("icirelais_point_table"))
 			document.getElementById('icirelais_point_table').style.display = "";
 		$("#tr_carrier_icirelais").html(iciresponse);
@@ -55,7 +55,7 @@ $(document).ready(function() {
 			+'</table>'
 		+'</div>');
 	
-	$('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'htmlall':'UTF-8'}{literal}).parent().parent().after("<tr><td colspan='4' style='padding:0; display:none;' id='tr_carrier_icirelais'></td></tr>");
+	$('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'javascript':'UTF-8'}{literal}).parent().parent().after("<tr><td colspan='4' style='padding:0; display:none;' id='tr_carrier_icirelais'></td></tr>");
 
 	iciresponse = $('#icirelais_point_table');
 
@@ -78,7 +78,6 @@ if (psVer >= 1.6)
 }
 {/literal}
 </script>
-
 <div id="filter" onclick="
 var i = 1;
 for (i=1; i<6; i++){
@@ -87,7 +86,6 @@ for (i=1; i<6; i++){
 }"></div>
 
 <table align="center" id="icirelais_point_table" class="icitable" style="display:none;">
-
 {if isset($error)}
 	<tr>
 		<td colspan="5"><div class="icirelais_error"> {$error|escape:'htmlall':'UTF-8'} </div></td>
@@ -116,7 +114,11 @@ for (i=1; i<6; i++){
 			</span>
 		</td>
 		<td align="center" class="radiopr">
+		{if $selectedrelay == $points.relay_id}
+			<input type="radio" name="relay_id" id="{$points.relay_id|escape:'htmlall':'UTF-8'}" value="{$points.relay_id|escape:'htmlall':'UTF-8'}" checked="checked">
+		{else}
 			<input type="radio" name="relay_id" id="{$points.relay_id|escape:'htmlall':'UTF-8'}" value="{$points.relay_id|escape:'htmlall':'UTF-8'}" {if $smarty.foreach.iciLoop.first} checked="checked" {/if}>
+		{/if}
 			<label for="{$points.relay_id|escape:'htmlall':'UTF-8'}"><span><span></span></span><b>ICI</b></label>
 		</td>
 </tr>

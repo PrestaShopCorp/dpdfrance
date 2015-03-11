@@ -22,12 +22,26 @@
  * @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  *}
 
-<script type="text/javascript">
+<script type="text/javascript"> 
+var predictCarrierId = "{$predict_carrier_id|escape:'javascript':'UTF-8'}";
 {literal}
+
+function predict_redirect() {
+	checkedCarrier = $("input[name*='id_carrier']:checked").val();
+	if (checkedCarrier != predictCarrierId) {
+		$("#tr_carrier_exapredict").fadeOut('fast');
+	} else {
+		$("#submit_predict_gsm").attr("action", baseDir+'modules/exapaq/validation.php?exa_carrier=' + checkedCarrier);
+		if (document.getElementById("div_exapredict_block"))
+			document.getElementById('div_exapredict_block').style.display = "";
+		$("#tr_carrier_exapredict").html(exapredictresponse);
+		$("#tr_carrier_exapredict").fadeIn('fast');
+	}
+}
 
 $(document).ready(function(){
 	$("a.more").click(function() {
-    $.fancybox({
+		$.fancybox({
             'padding'       : 0,
             'autoScale'     : false,
             'openEffect'  	: 'elastic',
@@ -44,31 +58,16 @@ $(document).ready(function(){
             'allowfullscreen'   : 'true'
             }
         });
-
-    return false;
+	return false;
 	});
 	
-	$('#id_carrier' + {/literal}{$predict_carrier_id}{literal}).parent().parent().after("<tr><td colspan='4' style='padding:0; display:none;' id='tr_carrier_exapredict'></td></tr>");
-	
+	$('#id_carrier' + {/literal}{$predict_carrier_id|escape:'javascript':'UTF-8'}{literal}).parent().parent().after("<tr><td colspan='4' style='padding:0; display:none;' id='tr_carrier_exapredict'></td></tr>");
 	exapredictresponse = $('#div_exapredict_block');
 
-	if ($('#id_carrier' + {/literal}{$predict_carrier_id}{literal}).attr('checked')){
-		document.getElementById('div_exapredict_block').style.display = "";
-		$("#tr_carrier_exapredict").html(exapredictresponse);
-		$("#tr_carrier_exapredict").fadeIn('slow');
-	}		
-					
-	$('#id_carrier' + {/literal}{$predict_carrier_id}{literal}).click(function(){
-		document.getElementById('div_exapredict_block').style.display = "";
-		$("#tr_carrier_exapredict").html(exapredictresponse);
-		$("#tr_carrier_exapredict").fadeIn('slow');
+	$("input[name*='id_carrier").change(function() {
+		predict_redirect();
 	});
-					
-	$("input[name='id_carrier']").change(function(){
-		if (!$('#id_carrier' + {/literal}{$predict_carrier_id}{literal}).attr('checked')){
-			$("#tr_carrier_exapredict").fadeOut('fast');
-		}
-	});
+	predict_redirect();
 });
 
 {/literal}
@@ -181,15 +180,11 @@ $(document).ready(function(){
 	<div id="div_exapredict_gsm" style="	width: auto; 
 											padding-bottom:10px; 
 											font-weight:bold;">
-		<form method='post' action='{if $ssl}{$base_dir_ssl|escape:'htmlall':'UTF-8'}{else}{$base_dir|escape:'htmlall':'UTF-8'}{/if}modules/exapaq/validation.php' style="    
-																					line-height: 18px;
-																					height: 16px;
-																					width: auto;
-																					display: inline-block;">
+		<form id='submit_predict_gsm' method='post' style="	line-height: 18px;height: 16px; width: auto; display: inline-block;">
 			<p>
 			{l s='Get all the advantages of EXAPAQ\'s Predict service by providing a french GSM number here and click on the icon to confirm ' mod='exapaq'}
 
-			<input type='text' name="exapredict_gsm_dest" id="input_exapredict_gsm_dest" value="{$exapredict_gsm_dest|escape:'htmlall':'UTF-8'}" style="    width: 90px;
+			<input type='text' name="exapredict_gsm_dest" id="input_exapredict_gsm_dest" value="{$exapredict_gsm_dest|escape:'htmlall':'UTF-8'}" style="width: 90px;
 	border-style: solid;
     border-color: #999;
     border-width: 1px;

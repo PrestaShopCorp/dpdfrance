@@ -25,31 +25,35 @@
 <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 <script type="text/javascript">
 {literal}
-	
+
+
 $(document).ready(function(){
 
-$('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'htmlall':'UTF-8'}{literal}).parent().parent().after("<tr><td colspan='4' style='padding:0; display:none' id='tr_carrier_icirelais'></td></tr>");
-iciresponse = $('#icirelais_point_table');
+	$('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'javascript':'UTF-8'}{literal}).parent().parent().after("<tr><td colspan='4' style='padding:0; display:none' id='tr_carrier_icirelais'></td></tr>");
+	iciresponse = $('#icirelais_point_table');
+	checkedCarrier = $("input[name*='id_carrier']:checked").val();
 
-   if ($('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'htmlall':'UTF-8'}{literal}).attr('checked')){
-						document.getElementById('icirelais_point_table').style.display = "";
-						document.forms['form'].action = '{/literal}{$urlIci}{literal}';
-						$("#tr_carrier_icirelais").html(iciresponse);
-						$("#tr_carrier_icirelais").fadeIn('slow');
-					}
+	if ($('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'javascript':'UTF-8'}{literal}).attr('checked')){
+		document.getElementById('icirelais_point_table').style.display = "";
+		$("#form").attr("action", baseDir+'modules/exapaq/validation.php?exa_carrier=' + checkedCarrier);
+		$("#tr_carrier_icirelais").html(iciresponse);
+		$("#tr_carrier_icirelais").fadeIn('slow');
+	}
 	
-	$('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'htmlall':'UTF-8'}{literal}).click(function(){
-						document.getElementById('icirelais_point_table').style.display = "";
-						document.forms['form'].action = '{/literal}{$urlIci}{literal}';
-						$("#tr_carrier_icirelais").html(iciresponse);
-						$("#tr_carrier_icirelais").fadeIn('slow');
-					});
+	$('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'javascript':'UTF-8'}{literal}).click(function(){
+		document.getElementById('icirelais_point_table').style.display = "";
+		$("#form").attr("action", baseDir+'modules/exapaq/validation.php?exa_carrier=' + checkedCarrier);
+		$("#tr_carrier_icirelais").html(iciresponse);
+		$("#tr_carrier_icirelais").fadeIn('slow');
+	});
 					
 	$("input[name='id_carrier']").change(function(){
-		if (!$('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'htmlall':'UTF-8'}{literal}).attr('checked')){
+		checkedCarrier = $("input[name*='id_carrier']:checked").val();
+		if (!$('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'javascript':'UTF-8'}{literal}).attr('checked')){
 			$("#tr_carrier_icirelais").fadeOut('fast');
-			}
-		});
+			$("#form").attr("action", baseDir+'order.php');
+		}
+	});
 });
 
 {/literal}
@@ -93,7 +97,11 @@ for (i=1; i<6; i++){
 			</span>
 		</td>
 		<td align="center" class="radiopr">
-			<input type="radio" name="relay_id" id="{$points.relay_id}" value="{$points.relay_id}" {if $smarty.foreach.iciLoop.first} checked="checked" {/if}>
+		{if $selectedrelay == $points.relay_id}
+			<input type="radio" name="relay_id" id="{$points.relay_id|escape:'htmlall':'UTF-8'}" value="{$points.relay_id|escape:'htmlall':'UTF-8'}" checked="checked">
+		{else}
+			<input type="radio" name="relay_id" id="{$points.relay_id|escape:'htmlall':'UTF-8'}" value="{$points.relay_id|escape:'htmlall':'UTF-8'}" {if $smarty.foreach.iciLoop.first} checked="checked" {/if}>
+		{/if}
 			<label for="{$points.relay_id|escape:'htmlall':'UTF-8'}"><span><span></span></span><b>ICI</b></label>
 		</td>
 </tr>

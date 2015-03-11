@@ -31,28 +31,51 @@
 	
 $(document).ready(function(){
 
-$('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'htmlall':'UTF-8'}{literal}).parent().parent().after("<tr><td colspan='4' style='padding:0; display:none' id='tr_carrier_icirelais'></td></tr>");
-iciresponse = $('#icirelais_point_table');
-	
-   if ($('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'htmlall':'UTF-8'}{literal}).attr('checked')){
-						document.getElementById('icirelais_point_table').style.display = "";
-						document.forms['form'].action = '{/literal}{$urlIci}{literal}';
-						$("#tr_carrier_icirelais").html(iciresponse);
-						$("#tr_carrier_icirelais").fadeIn('slow');
-					}
-	
-	$('#id_carrier' + {/literal}{$icirelais_carrier_id}{literal}).click(function(){
-						document.getElementById('icirelais_point_table').style.display = "";
-						document.forms['form'].action = '{/literal}{$urlIci}{literal}';
-						$("#tr_carrier_icirelais").html(iciresponse);
-						$("#tr_carrier_icirelais").fadeIn('slow');
-					});
-					
-	$("input[name='id_carrier']").change(function(){
-		if (!$('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'htmlall':'UTF-8'}{literal}).attr('checked')){
-			$("#tr_carrier_icirelais").fadeOut('fast');
+	$('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'javascript':'UTF-8'}{literal}).parent().parent().after("<tr><td colspan='4' style='padding:0; display:none' id='tr_carrier_icirelais'></td></tr>");
+	iciresponse = $('#icirelais_point_table');
+	checkedCarrier = $("input[name*='id_carrier']:checked").val();
+	if ($("#div_icirelais_error").length==0){
+		if ($('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'javascript':'UTF-8'}{literal}).attr('checked')){
+			document.getElementById('icirelais_point_table').style.display = "";
+			$("#form").attr("action", baseDir+'modules/exapaq/validation.php?exa_carrier=' + checkedCarrier);
+			$("#tr_carrier_icirelais").html(iciresponse);
+			$("#tr_carrier_icirelais").fadeIn('slow');
+		}
+		
+		$('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'javascript':'UTF-8'}{literal}).click(function(){
+			document.getElementById('icirelais_point_table').style.display = "";
+			$("#form").attr("action", baseDir+'modules/exapaq/validation.php?exa_carrier=' + checkedCarrier);
+			$("#tr_carrier_icirelais").html(iciresponse);
+			$("#tr_carrier_icirelais").fadeIn('slow');
+		});
+						
+		$("input[name='id_carrier']").change(function(){
+			checkedCarrier = $("input[name*='id_carrier']:checked").val();
+			if (!$('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'javascript':'UTF-8'}{literal}).attr('checked')){
+				$("#tr_carrier_icirelais").fadeOut('fast');
+				$("#form").attr("action", baseDir+'order.php');
 			}
 		});
+	}
+	else
+	{
+		if ($('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'javascript':'UTF-8'}{literal}).attr('checked')){
+			$("#div_icirelais_error").fadeIn('slow');
+			$("#form").attr("action", baseDir+'modules/exapaq/validation.php?exa_carrier=' + checkedCarrier);
+		}
+
+		$('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'javascript':'UTF-8'}{literal}).click(function(){
+			$("#div_icirelais_error").fadeIn('slow');
+			$("#form").attr("action", baseDir+'modules/exapaq/validation.php?exa_carrier=' + checkedCarrier);			
+		});
+
+		$("input[name='id_carrier']").change(function(){
+			if (!$('#id_carrier' + {/literal}{$icirelais_carrier_id|escape:'javascript':'UTF-8'}{literal}).attr('checked')){
+				$("#div_icirelais_error").fadeOut('fast');
+				$("#form").attr("action", baseDir+'order.php');
+			}
+		});
+	}
 });
 
 {/literal}
@@ -68,7 +91,7 @@ iciresponse = $('#icirelais_point_table');
 
 {if isset($error)}
 	<tr>
-		<td colspan="5"><div class="alert warning"> {$error|escape:'htmlall':'UTF-8'} </div></td>
+		<td colspan="5" id="div_icirelais_error" style="display:none;"><div class="alert warning"> {$error|escape:'htmlall':'UTF-8'} </div></td>
 	</tr>
 {else}
 
@@ -88,7 +111,11 @@ iciresponse = $('#icirelais_point_table');
 		</td>
 		<td align="center" class="radiopr">
 			<p class="radio-group">
-				<input type="radio" name="relay_id" id="{$points.relay_id}" value="{$points.relay_id}" {if $smarty.foreach.iciLoop.first} checked="checked" {/if}>
+			{if $selectedrelay == $points.relay_id}
+				<input type="radio" name="relay_id" id="{$points.relay_id|escape:'htmlall':'UTF-8'}" value="{$points.relay_id|escape:'htmlall':'UTF-8'}" checked="checked">
+			{else}
+				<input type="radio" name="relay_id" id="{$points.relay_id|escape:'htmlall':'UTF-8'}" value="{$points.relay_id|escape:'htmlall':'UTF-8'}" {if $smarty.foreach.iciLoop.first} checked="checked" {/if}>
+			{/if}
 				<label for="{$points.relay_id|escape:'htmlall':'UTF-8'}"><span><span></span></span><b>ICI</b></label>
 			</p>
 		</td>
@@ -242,28 +269,31 @@ iciresponse = $('#icirelais_point_table');
 
 $(document).ready(function(){
 
-$('#id_carrier' + {/literal}{$predict_carrier_id}{literal}).parent().parent().after("<tr><td colspan='4' style='padding:0; display:none;' id='tr_carrier_exapredict'></td></tr>");
-exapredictresponse = $('#div_exapredict_block');
-
-   if ($('#id_carrier' + {/literal}{$predict_carrier_id}{literal}).attr('checked')){
-   						document.getElementById('div_exapredict_block').style.display = "";
-						document.forms['form'].action = '{/literal}{$urlExaPredict}{literal}';
-						$("#tr_carrier_exapredict").html(exapredictresponse);
-						$("#tr_carrier_exapredict").fadeIn('slow');
-					}		
+	$('#id_carrier' + {/literal}{$predict_carrier_id|escape:'javascript':'UTF-8'}{literal}).parent().parent().after("<tr><td colspan='4' style='padding:0; display:none;' id='tr_carrier_exapredict'></td></tr>");
+	exapredictresponse = $('#div_exapredict_block');
+	checkedCarrier = $("input[name*='id_carrier']:checked").val();
+	
+	if ($('#id_carrier' + {/literal}{$predict_carrier_id|escape:'javascript':'UTF-8'}{literal}).attr('checked')){
+		document.getElementById('div_exapredict_block').style.display = "";
+		$("#form").attr("action", baseDir+'modules/exapaq/validation.php?exa_carrier=' + checkedCarrier);
+		$("#tr_carrier_exapredict").html(exapredictresponse);
+		$("#tr_carrier_exapredict").fadeIn('slow');
+	}		
 					
-	$('#id_carrier' + {/literal}{$predict_carrier_id}{literal}).click(function(){
-						document.getElementById('div_exapredict_block').style.display = "";
-						document.forms['form'].action = '{/literal}{$urlExaPredict}{literal}';
-						$("#tr_carrier_exapredict").html(exapredictresponse);
-						$("#tr_carrier_exapredict").fadeIn('slow');
-					});
+	$('#id_carrier' + {/literal}{$predict_carrier_id|escape:'javascript':'UTF-8'}{literal}).click(function(){
+		document.getElementById('div_exapredict_block').style.display = "";
+		$("#form").attr("action", baseDir+'modules/exapaq/validation.php?exa_carrier=' + checkedCarrier);
+		$("#tr_carrier_exapredict").html(exapredictresponse);
+		$("#tr_carrier_exapredict").fadeIn('slow');
+	});
 					
 	$("input[name='id_carrier']").change(function(){
-		if (!$('#id_carrier' + {/literal}{$predict_carrier_id}{literal}).attr('checked')){
+		checkedCarrier = $("input[name*='id_carrier']:checked").val();
+		if (!$('#id_carrier' + {/literal}{$predict_carrier_id|escape:'javascript':'UTF-8'}{literal}).attr('checked')){
 			$("#tr_carrier_exapredict").fadeOut('fast');
-			}
-		});
+			$("#form").attr("action", baseDir+'order.php');
+		}
+	});
 });
 
 {/literal}

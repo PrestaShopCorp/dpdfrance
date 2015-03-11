@@ -29,8 +29,11 @@ if (!defined('_PS_VERSION_'))
 /* Class extension for Prestashop 1.3 and lower */
 if (_PS_VERSION_ < '1.4')
 {
-	class CarrierModule extends Module
+	if (!class_exists('CarrierModule', false))
 	{
+		class CarrierModule extends Module
+		{
+		}
 	}
 }
 
@@ -212,7 +215,7 @@ class Exapaq extends CarrierModule
 			$this->tab = 'Carriers';
 		else
 			$this->tab = 'shipping_logistics';
-		$this->version = '5.0.2';
+		$this->version = '5.0.3';
 		$this->author = 'EXAPAQ S.A.S.';
 		$this->need_instance = 1;
 
@@ -269,6 +272,7 @@ class Exapaq extends CarrierModule
 		`service` varchar(3) DEFAULT NULL,
 		`relay_id` varchar(8) DEFAULT NULL,
 		`company` varchar(23) DEFAULT NULL,
+		`address1` varchar(128) DEFAULT NULL,
 		`address2` varchar(128) DEFAULT NULL,
 		`postcode` varchar(10) DEFAULT NULL,
 		`city` varchar(100) DEFAULT NULL,
@@ -508,7 +512,7 @@ class Exapaq extends CarrierModule
 				'selectedrelay' => (isset($delivery_infos['relay_id']) ? $delivery_infos['relay_id'] : null),
 				'icirelais_status' => (Tools::getValue('icirelais') ? Tools::getValue('icirelais') : null),
 				'icirelais_carrier_id' => (int)Configuration::get('EXAPAQ_ICIRELAIS_CARRIER_ID'),
-				'exapredict_gsm_dest' => (isset($delivery_infos['gsm_dest']) ? $delivery_infos['gsm_dest'] : null),
+				'exapredict_gsm_dest' => (!empty($delivery_infos['gsm_dest']) ? $delivery_infos['gsm_dest'] : $address_details['phone_mobile']),
 				'predict_status' => (Tools::getValue('predict') ? Tools::getValue('predict') : null),
 				'predict_carrier_id' => (int)Configuration::get('EXAPAQ_PREDICT_CARRIER_ID')));
 			if (_PS_VERSION_ < '1.4') // PS 1.3
@@ -784,6 +788,7 @@ class Exapaq extends CarrierModule
 					$relais_items = $xml->PUDO_ITEMS;
 					// Loop through each pudo
 					$i = 0;
+					$cookiedata = '';
 					foreach ($relais_items->PUDO_ITEM as $item)
 					{
 						$point = array();
@@ -935,8 +940,11 @@ class Exapaq extends CarrierModule
 				Db::getInstance()->execute('INSERT INTO '._DB_PREFIX_.'delivery (id_carrier, id_range_price, id_range_weight, id_zone, price) VALUE (\''.(int)$carrier->id.'\',NULL,\''.(int)$range_weight->id.'\',\''.(int)$zone['id_zone'].'\',\'5.95\')');
 			}
 			// Logo copy
-			if (!copy(dirname(__FILE__).'/views/img/front/'.$type.'/carrier_logo.jpg', _PS_SHIP_IMG_DIR_.'/'.$carrier->id.'.jpg'))
-				return false;
+			if (in_array($type, array('icirelais','predict','classic','world')))
+			{
+				if (!copy(dirname(__FILE__).'/views/img/front/'.$type.'/carrier_logo.jpg', _PS_SHIP_IMG_DIR_.'/'.$carrier->id.'.jpg'))
+					return false;
+			}
 			return true;
 		}
 		return false;
