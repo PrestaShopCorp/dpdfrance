@@ -1,0 +1,521 @@
+/**
+ * 2007-2014 PrestaShop
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@prestashop.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
+ * versions in the future. If you wish to customize PrestaShop for your
+ * needs please refer to http://www.prestashop.com for more information.
+ *
+ * @author    DPD S.A.S. <ensavoirplus.ecommerce@dpd.fr>
+ * @copyright 2015 DPD S.A.S.
+ * @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+@font-face
+{
+	font-family:DPDPlutoSansExtraLight;
+	src:url(../../fonts/PlutoSansDPDExtraLight-Web.ttf);
+}
+
+@font-face
+{
+	font-family:DPDPlutoSansLight;
+	src:url(../../fonts/PlutoSansDPDLight-Web.ttf);
+}
+
+@font-face
+{
+	font-family:DPDPlutoSansRegular;
+	src:url(../../fonts/PlutoSansDPDRegular-Web.ttf);
+}
+
+#fieldset_rss {
+    background-color: #e6e7e7 !important;
+}
+
+#fieldset_grid {
+    background-color: white !important;
+}
+
+#zonemarquee {
+    padding: 0;
+    margin: 0;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+
+}
+div.js-marquee {
+    font-family: DPDPlutoSansExtraLight;
+}
+
+div.js-marquee strong {
+    font-family: DPDPlutoSansLight;
+	color: #dc0032;
+}
+.marquee {
+    display: block;
+    padding: 10px;
+    width: 800px;
+    color: #424143;
+}
+
+#tableFilter {
+    height: 5px;
+    padding: 10px;
+    width: 50%;
+	color: #808285 !important;
+	font-family: "DPDPlutoSansLight";
+	font-size : 11px;
+	border-style: none;
+	background-color: #e6e7e7;
+}
+
+#filtericon {
+    height: 25px;
+    width: 25px;
+	padding-left: 3px;
+	background-color: #424143;
+}
+
+tbody tr td {
+    width: 20px;
+	font-size: 12px;
+	border-color: #bfbfbf;
+    border-bottom-width: 1px;
+    border-left-width: 0;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-style: solid;
+	font-family: DPDPlutoSansLight;
+}
+
+td.id {
+    width: 50px;
+	font-size: 12px;
+	border-color: #bfbfbf;
+    border-bottom-width: 1px;
+    border-left-width: 0;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-style: solid;
+}
+
+td.ref {
+    width: 90px;
+	font-size: 12px;
+	border-color: #bfbfbf;
+    border-bottom-width: 1px;
+    border-left-width: 0;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-style: solid;
+}
+
+td.date {
+    width: 120px;
+	font-size: 11px;
+	border-color: #bfbfbf;
+    border-bottom-width: 1px;
+    border-left-width: 0;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-style: solid;
+}
+
+td.nom {
+    width: 200px;
+	font-size: 12px;
+	border-color: #bfbfbf;
+    border-bottom-width: 1px;
+    border-left-width: 0;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-style: solid;
+}
+
+td.type {
+    width: 50px;
+	font-size: 0pc;
+	border-color: #bfbfbf;
+    border-bottom-width: 1px;
+    border-left-width: 0;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-style: solid;
+}
+
+td.pr {
+    width: 250px;
+	font-size: 12px;
+	border-color: #bfbfbf;
+    border-bottom-width: 1px;
+    border-left-width: 0;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-style: solid;
+}
+
+a.popup {
+	font-family: "DPDPlutoSansLight";
+	text-decoration: none;
+}
+
+a.popup:hover {
+    color: #dc0032;
+}
+
+td.cp {
+    width: 45px;
+	font-size: 12px;
+	border-color: #bfbfbf;
+    border-bottom-width: 1px;
+    border-left-width: 0;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-style: solid;
+}
+
+td.ville {
+    width: 200px;
+	font-size: 12px;
+	border-color: #bfbfbf;
+    border-bottom-width: 1px;
+    border-left-width: 0;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-style: solid;
+}
+
+td.prix {
+    width: 75px;
+	font-size: 12px;
+	border-color: #bfbfbf;
+    border-bottom-width: 1px;
+    border-left-width: 0;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-style: solid;
+	padding-left: 20px;
+	text-align:right;
+}
+
+td.advalorem {
+    width: 40px;
+	font-size: 12px;
+	padding-left: 10px;
+	border-color: #bfbfbf;
+    border-bottom-width: 1px;
+    border-left-width: 0;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-style: solid;
+}
+
+td.poids {
+    width: 50px;
+	font-size: 12px;
+	text-align:right;
+	border-color: #bfbfbf;
+    border-bottom-width: 1px;
+    border-left-width: 0;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-style: solid;
+}
+
+td.statutcommande {
+    width: 200px;
+	font-size: 12px;
+	border-color: #bfbfbf;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-style: solid;
+}
+
+td.statutcolis {
+    width: 90px;
+	height: 42px;
+	font-size: 12px;
+	border-color: #bfbfbf;
+    border-bottom-width: 1px;
+    border-left-width: 0;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-style: solid;
+}
+
+th {
+	font-family: DPDPlutoSansRegular;
+}
+
+th.hid {
+    width: 50px;
+	font-size: 12px;
+	border-width: 0;
+	text-align: left;
+}
+
+th.href {
+    width: 90px;
+	font-size: 12px;
+	border-width: 0;
+	text-align: left;
+}
+
+th.hdate {
+    width: 120px;
+	font-size: 12px;
+	border-width: 0;
+	text-align: left;
+}
+
+th.hnom {
+    width: 200px;
+	font-size: 12px;
+	border-width: 0;
+	text-align: left;
+}
+
+th.htype {
+    width: 50px;
+	font-size: 12px;
+	border-width: 0;
+	text-align: left;
+}
+
+th.hpr {
+    width: 250px;
+	font-size: 12px;
+	border-width: 0;
+	text-align: left;
+}
+
+th.hcp {
+    width: 45px;
+	font-size: 12px;
+	border-width: 0;
+	text-align: left;
+}
+
+th.hville {
+    width: 200px;
+	font-size: 12px;
+	border-width: 0;
+	text-align: left;
+}
+
+th.hprix {
+    width: 100px;
+	font-size: 12px;
+	padding-right: 30px;
+	border-width: 0;
+}
+
+th.hprix span {
+    font-weight: normal;
+}
+
+th.hcheckadvalorem {
+    width: 35px;
+	font-size: 12px;
+	border-width: 0;
+}
+
+th.hpoids {
+    width: 50px;
+	font-size: 12px;
+	border-width: 0;
+}
+
+th.hstatutcommande {
+    width: 200px;
+	font-size: 12px;
+	border-width: 0;
+}
+
+th.hstatutcolis {
+    width: 90px;
+	font-size: 12px;
+	border-width: 0;
+}
+
+table.h {
+    font-weight: bold;
+	font-size: 12px;
+    padding-bottom: 10px;
+}
+
+th.hcheckexport {
+    border-width: 0;
+	text-align: left;
+}
+
+div.news_box_title {
+    font-weight: bold;
+}
+
+div.news_box a {
+    text-decoration: underline;
+    font-style: italic;
+}
+
+table.orders {
+    border-collapse: collapse;
+}
+
+div.okmsg
+{
+	background-color:#dff0d8!important;
+	box-sizing:border-box!important;
+	color:#424143!important;
+	display:block!important;
+	font-family:DPDPlutoSansLight !important;
+	font-size:13px!important;
+	margin:15px 0!important;
+	padding:15px 15px 15px 50px !important;
+	position:relative!important;
+	width:100%!important;
+	-webkit-transform-style: preserve-3d;
+	-moz-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+}
+
+div.okmsg::before
+{
+	-moz-osx-font-smoothing:grayscale;
+	-webkit-font-smoothing:antialiased;
+	box-sizing:border-box;
+	color:#7cc67c;
+	content:" ";
+	background:url(../../img/admin/ok_icon.png) no-repeat center;
+	display:block;
+	font-family:DPDPlutoSansRegular;
+	font-size:42px;
+	font-style:normal;
+	font-weight:400;
+	height:48px;
+	left:15px;
+	margin:auto;
+	position:absolute;
+	width:25px;
+	top: 45%;
+  	-webkit-transform: translateY(-50%);
+  	-ms-transform: translateY(-50%);
+  	transform: translateY(-50%);
+}
+
+div.warnmsg
+{
+	background-color:#fff !important;
+	box-sizing:border-box !important;
+	border-style: solid;
+	border-color: #a90034;
+	border-width: 2px;
+	color:#a90034!important;
+	display:block!important;
+	font-family:DPDPlutoSansRegular !important;
+	font-size:13px!important;
+	font-weight:bold;
+	margin:15px 0!important;
+	padding:15px 15px 15px 50px !important;
+	position:relative!important;
+	width:100%!important;
+	-webkit-transform-style: preserve-3d;
+	-moz-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+}
+
+div.warnmsg::before
+{
+	-moz-osx-font-smoothing:grayscale;
+	-webkit-font-smoothing:antialiased;
+	box-sizing:border-box;
+	color:#a90034;
+	content:" ";
+	background:url(../../img/admin/warn_icon.png) no-repeat center;
+	display:block;
+	font-family:DPDPlutoSansRegular;
+	font-size:42px;
+	font-style:normal;
+	font-weight:400;
+	height:25px;
+	left:10px;
+	line-height:1;
+	margin:auto;
+	position:absolute;
+	width:32px;
+	top: 45%;
+  	-webkit-transform: translateY(-50%);
+  	-ms-transform: translateY(-50%);
+  	transform: translateY(-50%);
+}
+
+fieldset legend img {
+    height: 24px;
+}
+
+#content fieldset legend {
+    background: #fff;
+    color: #424143;
+    font-family: DPDPlutoSansRegular;
+}
+
+fieldset legend a {
+    color: #424143 !important;
+    font-family: DPDPlutoSansRegular;
+}
+
+#content fieldset {
+    background-color: #e6e7e7;
+}
+
+div.js-marquee strong {
+    color: #dc0032;
+}
+
+div.alert-danger {
+    padding: 15px;
+    margin-bottom: 18px;
+    border: 1px solid transparent;
+    border-radius: 0px;
+    background-color: #f3515c;
+    border-color: #d4323d;
+    color: white;
+}
+
+div.alert.alert-danger:before {
+    font-family: "FontAwesome";
+    content: "\f057";
+    font-size: 32px;
+    vertical-align: -2px;
+    padding-right: 15px;
+    margin: -12px -5px;
+    float: left;
+}
+
+#showhide {
+    width: 18px;
+    height: 18px;
+    line-height: 16px;
+    background-color: transparent;
+    color: #dc0032;
+    font-size: 28px;
+    display: inline-block;
+    margin-left: 10px;
+    text-align: center;
+    vertical-align: middle;
+}

@@ -18,8 +18,8 @@
  * versions in the future. If you wish to customize PrestaShop for your
  * needs please refer to http://www.prestashop.com for more information.
  *
- * @author    EXAPAQ S.A.S. <support@icirelais.com>
- * @copyright 2015 EXAPAQ S.A.S.
+ * @author    DPD S.A.S <ensavoirplus.ecommerce@dpd.fr>
+ * @copyright 2015 DPD S.A.S.
  * @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 
