@@ -227,7 +227,7 @@ class DPDFrance extends CarrierModule
 
 		parent::__construct();
 
-		$this->displayName = $this->l('DPD');
+		$this->displayName = $this->l('DPD France');
 		$this->description = $this->l('Offer DPD\'s fast and reliable delivery services to your customers');
 		$this->confirmUninstall = $this->l('Warning: all the data saved in your database will be deleted. Are you sure you want uninstall this module?');
 

@@ -1,6 +1,6 @@
 <?php
 
-global $_MODULE, $_LANGADM;
+global $_MODULE, $_LANGADM;;
 $_MODULE = array();
 $_MODULE['<{dpdfrance}prestashop>admindpdfrance_13009ccb7fed41ede072ba8e6b1615c8'] = 'Se han actualizado los pedidos entregados.';
 $_MODULE['<{dpdfrance}prestashop>admindpdfrance_64a49a3d4857854a092fdc763b3e922d'] = 'No hay trackings DPD que generar.';
