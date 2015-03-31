@@ -97,6 +97,10 @@ function upgrade_module_5_1_0($object)
 	if (!$query)
 		return false;
 
+	if(!Db::getInstance()->Execute('DROP TABLE ' . _DB_PREFIX_ . 'exapaq_france')){
+		return false;
+	}
+	
 	return true;
 }
 ?>
