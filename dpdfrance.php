@@ -258,12 +258,25 @@ class DPDFrance extends CarrierModule
 			return false;
 		return true;
 	}
+	
+	public static function disableByName($name)
+	{
+		if (!is_array($name))
+			$name = array($name);
+
+		foreach ($name as $k=>$v)
+			$name[$k] = '"'.pSQL($v).'"';
+
+		return Db::getInstance()->Execute('
+		UPDATE `'._DB_PREFIX_.'module`
+		SET `active` = 0
+		WHERE `name` IN ('.implode(',',$name).')');
+	}
 
 	public function upgradeFromExapaq()
 	{
-	
 		// Disable old carriers
-		if (!Db::getInstance()->Execute('UPDATE '._DB_PREFIX_.'carrier SET deleted = 1 WHERE external_module_name = "exapaq"'))
+		if (!Db::getInstance()->Execute('UPDATE '._DB_PREFIX_.'carrier SET deleted = 1 WHERE url LIKE \'%exapaq%\''))
 			return false;
 		
 		// Update DB configuration values EXAPAQ_* to DPDFRANCE_*
@@ -376,10 +389,10 @@ class DPDFrance extends CarrierModule
 		if (!Db::getInstance()->Execute($sql))
 			return false;
 			
-		if (Module::isEnabled('exapaq'))
+		if (Module::isInstalled('exapaq'))
 		{
 			$this->upgradeFromExapaq();
-			Module::disableByName('exapaq');
+			$this->disableByName('exapaq');
 		}
 		return true;
 	}
