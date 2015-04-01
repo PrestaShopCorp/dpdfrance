@@ -259,6 +259,69 @@ class DPDFrance extends CarrierModule
 		return true;
 	}
 
+	public function upgradeFromExapaq()
+	{
+	
+		// Disable old carriers
+		if (!Db::getInstance()->Execute('UPDATE '._DB_PREFIX_.'carrier SET deleted = 1 WHERE external_module_name = "exapaq"'))
+			return false;
+		
+		// Update DB configuration values EXAPAQ_* to DPDFRANCE_*
+		Configuration::updateValue('DPDFRANCE_NOM_EXP', Configuration::get('EXAPAQ_NOM_EXP'));
+		Configuration::updateValue('DPDFRANCE_ADDRESS_EXP', Configuration::get('EXAPAQ_ADDRESS_EXP'));
+		Configuration::updateValue('DPDFRANCE_ADDRESS2_EXP', Configuration::get('EXAPAQ_ADDRESS2_EXP'));
+		Configuration::updateValue('DPDFRANCE_CP_EXP', Configuration::get('EXAPAQ_CP_EXP'));
+		Configuration::updateValue('DPDFRANCE_VILLE_EXP', Configuration::get('EXAPAQ_VILLE_EXP'));
+		Configuration::updateValue('DPDFRANCE_TEL_EXP', Configuration::get('EXAPAQ_TEL_EXP'));
+		Configuration::updateValue('DPDFRANCE_EMAIL_EXP', Configuration::get('EXAPAQ_EMAIL_EXP'));
+		Configuration::updateValue('DPDFRANCE_GSM_EXP', Configuration::get('EXAPAQ_GSM_EXP'));
+		Configuration::updateValue('DPDFRANCE_RELAIS_DEPOT_CODE', Configuration::get('EXAPAQ_ICIRELAIS_DEPOT_CODE'));
+		Configuration::updateValue('DPDFRANCE_RELAIS_SHIPPER_CODE', Configuration::get('EXAPAQ_ICIRELAIS_SHIPPER_CODE'));
+		Configuration::updateValue('DPDFRANCE_PREDICT_DEPOT_CODE', Configuration::get('EXAPAQ_PREDICT_DEPOT_CODE'));
+		Configuration::updateValue('DPDFRANCE_PREDICT_SHIPPER_CODE', Configuration::get('EXAPAQ_PREDICT_SHIPPER_CODE'));
+		Configuration::updateValue('DPDFRANCE_CLASSIC_DEPOT_CODE', Configuration::get('EXAPAQ_CLASSIC_DEPOT_CODE'));
+		Configuration::updateValue('DPDFRANCE_CLASSIC_SHIPPER_CODE', Configuration::get('EXAPAQ_CLASSIC_SHIPPER_CODE'));
+		Configuration::updateValue('DPDFRANCE_SUPP_ILES', Configuration::get('EXAPAQ_SUPP_ILES'));
+		Configuration::updateValue('DPDFRANCE_SUPP_MONTAGNE', Configuration::get('EXAPAQ_SUPP_MONTAGNE'));
+		Configuration::updateValue('DPDFRANCE_ETAPE_EXPEDITION', Configuration::get('EXAPAQ_ETAPE_EXPEDITION'));
+		Configuration::updateValue('DPDFRANCE_ETAPE_EXPEDIEE', Configuration::get('EXAPAQ_ETAPE_EXPEDIEE'));
+		Configuration::updateValue('DPDFRANCE_ETAPE_LIVRE', Configuration::get('EXAPAQ_ETAPE_LIVRE'));
+		Configuration::updateValue('DPDFRANCE_AD_VALOREM', Configuration::get('EXAPAQ_AD_VALOREM'));
+		Configuration::updateValue('DPDFRANCE_RELAIS_MYPUDO_URL', Configuration::get('EXAPAQ_ICIRELAIS_MYPUDO_URL'));
+
+		// Delete old DB configuration values
+		Configuration::deleteByName('EXAPAQ_NOM_EXP');
+		Configuration::deleteByName('EXAPAQ_ADDRESS_EXP');
+		Configuration::deleteByName('EXAPAQ_ADDRESS2_EXP');
+		Configuration::deleteByName('EXAPAQ_CP_EXP');
+		Configuration::deleteByName('EXAPAQ_VILLE_EXP');
+		Configuration::deleteByName('EXAPAQ_TEL_EXP');
+		Configuration::deleteByName('EXAPAQ_EMAIL_EXP');
+		Configuration::deleteByName('EXAPAQ_GSM_EXP');
+		Configuration::deleteByName('EXAPAQ_ICIRELAIS_CARRIER_ID', '');
+		Configuration::deleteByName('EXAPAQ_ICIRELAIS_DEPOT_CODE', '');
+		Configuration::deleteByName('EXAPAQ_ICIRELAIS_SHIPPER_CODE', '');
+		Configuration::deleteByName('EXAPAQ_PREDICT_CARRIER_ID', '');
+		Configuration::deleteByName('EXAPAQ_PREDICT_DEPOT_CODE', '');
+		Configuration::deleteByName('EXAPAQ_PREDICT_SHIPPER_CODE', '');
+		Configuration::deleteByName('EXAPAQ_CLASSIC_CARRIER_ID', '');
+		Configuration::deleteByName('EXAPAQ_CLASSIC_DEPOT_CODE', '');
+		Configuration::deleteByName('EXAPAQ_CLASSIC_SHIPPER_CODE', '');
+		Configuration::deleteByName('EXAPAQ_ICIRELAIS_MYPUDO_URL');
+		Configuration::deleteByName('EXAPAQ_SUPP_ILES');
+		Configuration::deleteByName('EXAPAQ_SUPP_MONTAGNE');
+		Configuration::deleteByName('EXAPAQ_ETAPE_EXPEDITION');
+		Configuration::deleteByName('EXAPAQ_ETAPE_EXPEDIEE');
+		Configuration::deleteByName('EXAPAQ_ETAPE_LIVRE');
+		Configuration::deleteByName('EXAPAQ_AD_VALOREM');
+		Configuration::deleteByName('EXAPAQ_PARAM');
+
+		if (!Db::getInstance()->Execute('DROP TABLE IF EXISTS '._DB_PREFIX_.'exapaq_france'))
+			return false;
+
+		return true;
+	}
+
 	public function installConfigDB()
 	{
 		// Database alteration : stretching the shipping_number field from 32 to 64 chars.
@@ -312,6 +375,12 @@ class DPDFrance extends CarrierModule
 		$sql = 'UPDATE '._DB_PREFIX_.'country SET id_zone='.(int)$id_zone_france.' WHERE iso_code = \'FR\' and active = 1';
 		if (!Db::getInstance()->Execute($sql))
 			return false;
+			
+		if (Module::isEnabled('exapaq'))
+		{
+			$this->upgradeFromExapaq();
+			Module::disableByName('exapaq');
+		}
 		return true;
 	}
 
