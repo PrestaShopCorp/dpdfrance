@@ -773,6 +773,7 @@ div.copy h2
 	text-transform:none;
 	color:#424143;
 	background:transparent;
+	height: auto;
 }
 
 .copy ul li
