@@ -356,7 +356,7 @@ td.dpdfrance_radiopr label b
 .dpdfrance_relaisboxcarto
 {
 	width:100%;
-	min-height:66%;
+	min-height:62%;
 	top:0;
 	left:0;
 	border-radius:6px 6px 0 0;
@@ -891,12 +891,6 @@ a.dpdfrance_more:hover
 }
 
 /* Condition verticale (Smartphone) */
-@media only screen and (max-height: 680px) {
-	.dpdfrance_relaisboxcarto
-	{
-		min-height:30%;
-	}
-}
 @media only screen and (max-height: 610px) {
 	.dpdfrance_relaisboxcarto
 	{
