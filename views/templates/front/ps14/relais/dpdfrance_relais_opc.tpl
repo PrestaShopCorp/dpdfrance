@@ -192,7 +192,7 @@ else
 	</td>
 		
 	<td align="right" class="dpdfrance_popinpr">
-		<a class="dpdfrance_notfancy" target="_blank" href="javascript:void(0);" target="_blank" onclick="window.open(&quot;http://www.dpd.fr/dpdrelais/id_{$points.relay_id|escape:'htmlall':'UTF-8'}.html&quot;,&quot;Votre relais Pickup&quot;,&quot;menubar=no, status=no, scrollbars=no, location=no, toolbar=no, width=1024, height=640&quot;);return false;">
+		<a class="dpdfrance_notfancy" target="_blank" href="javascript:void(0);" target="_blank" onclick="window.open(&quot;http://www.dpd.fr/dpdrelais/id_{$points.relay_id|escape:'htmlall':'UTF-8'}&quot;,&quot;Votre relais Pickup&quot;,&quot;menubar=no, status=no, scrollbars=no, location=no, toolbar=no, width=1024, height=640&quot;);return false;">
 			<span onMouseOver="javascript:this.style.cursor='pointer';" onMouseOut="javascript:this.style.cursor='auto';">
 				</u>{$points.distance|escape:'htmlall':'UTF-8'} km<br/>{l s='More details' mod='dpdfrance'}</u>
 			</span>

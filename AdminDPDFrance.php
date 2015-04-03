@@ -243,7 +243,7 @@ class AdminDPDFrance extends AdminTab
 									break;
 							}
 
-							$url = 'http://www.dpd.fr/tracer_'.$internalref_cleaned.'_'.$depot_code.$compte_chargeur.'.html';
+							$url = 'http://www.dpd.fr/tracer_'.$internalref_cleaned.'_'.$depot_code.$compte_chargeur;
 
 							$customer = new Customer((int)$order->id_customer);
 
@@ -513,7 +513,7 @@ class AdminDPDFrance extends AdminTab
 							$type = 'Relais<img src="../modules/dpdfrance/views/img/admin/service_relais.png" title="Relais"/>';
 							$compte_chargeur = Configuration::get('DPDFRANCE_RELAIS_SHIPPER_CODE', null, null, (int)$order->id_shop);
 							$depot_code = Configuration::get('DPDFRANCE_RELAIS_DEPOT_CODE', null, null, (int)$order->id_shop);
-							$address = '<a class="popup" href="http://www.dpd.fr/dpdrelais/id_'.Tools::substr($address_delivery->company, -7, 6).'.html" target="_blank">'.$address_delivery->company.'<br/>'.$address_delivery->postcode.' '.$address_delivery->city.'</a>';
+							$address = '<a class="popup" href="http://www.dpd.fr/dpdrelais/id_'.Tools::substr($address_delivery->company, -7, 6).'" target="_blank">'.$address_delivery->company.'<br/>'.$address_delivery->postcode.' '.$address_delivery->city.'</a>';
 							break;
 						default:
 							if ($order_var['name'] == 'DPD CLASSIC Delivery')

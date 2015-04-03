@@ -146,7 +146,7 @@
 				<td class="prix" align="right">{$order.prix|escape:'htmlall':'UTF-8'}</td>
 				<td class="advalorem"><input class="advalorem" type="checkbox" name="advalorem[]" {$order.advalorem_checked|escape:'htmlall':'UTF-8'} value="{$order.id|escape:'htmlall':'UTF-8'}"></td>
 				<td class="statutcommande" align="center">{$order.statut|escape:'quotes':'UTF-8'}</td>
-				<td class="statutcolis" align="center"><a href="javascript:void(0)" onclick="window.open('http://www.dpd.fr/tracer_{$order.reference|escape:'htmlall':'UTF-8'}_{$order.depot_code|escape:'htmlall':'UTF-8'}{$order.shipper_code|escape:'htmlall':'UTF-8'}.html','','width=1024,height=768,top=30,left=20')">{$order.dernier_statut_colis|escape:'quotes':'UTF-8'}</a></td>
+				<td class="statutcolis" align="center"><a href="javascript:void(0)" onclick="window.open('http://www.dpd.fr/tracer_{$order.reference|escape:'htmlall':'UTF-8'}_{$order.depot_code|escape:'htmlall':'UTF-8'}{$order.shipper_code|escape:'htmlall':'UTF-8'}','','width=1024,height=768,top=30,left=20')">{$order.dernier_statut_colis|escape:'quotes':'UTF-8'}</a></td>
 			</tr>
 		{/foreach}
 	</tbody></table>

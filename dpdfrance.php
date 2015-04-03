@@ -42,7 +42,7 @@ class DPDFrance extends CarrierModule
 	private $config_carrier_relais = array(
 		'name' 					=> 'Livraison en relais Pickup',
 		'id_tax_rules_group' 	=> 0,
-		'url' 					=> 'http://www.dpd.fr/tracer_@.html',
+		'url' 					=> 'http://www.dpd.fr/tracer_@',
 		'active' 				=> true,
 		'deleted' 				=> 0,
 		'shipping_handling' 	=> false,
@@ -63,7 +63,7 @@ class DPDFrance extends CarrierModule
 	private $config_carrier_predict = array(
 		'name' 					=> 'Livraison à domicile Predict sur rendez-vous',
 		'id_tax_rules_group' 	=> 0,
-		'url' 					=> 'http://www.dpd.fr/tracer_@.html',
+		'url' 					=> 'http://www.dpd.fr/tracer_@',
 		'active' 				=> true,
 		'deleted' 				=> 0,
 		'shipping_handling' 	=> false,
@@ -84,7 +84,7 @@ class DPDFrance extends CarrierModule
 	private $config_carrier_classic = array(
 		'name' 					=> 'Livraison sur lieu de travail',
 		'id_tax_rules_group' 	=> 0,
-		'url' 					=> 'http://www.dpd.fr/tracer_@.html',
+		'url' 					=> 'http://www.dpd.fr/tracer_@',
 		'active' 				=> true,
 		'deleted' 				=> 0,
 		'shipping_handling' 	=> false,
@@ -105,7 +105,7 @@ class DPDFrance extends CarrierModule
 	public $config_carrier_world = array(
 		'name' 					=> 'Livraison internationale par DPD',
 		'id_tax_rules_group' 	=> 0,
-		'url' 					=> 'http://www.dpd.fr/tracer_@.html',
+		'url' 					=> 'http://www.dpd.fr/tracer_@',
 		'active' 				=> true,
 		'deleted' 				=> 0,
 		'shipping_handling' 	=> false,
