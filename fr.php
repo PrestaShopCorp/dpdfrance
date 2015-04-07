@@ -1,6 +1,6 @@
 <?php
 
-global $_MODULE, $_LANGADM;
+global $_MODULE;
 $_MODULE = array();
 $_MODULE['<{dpdfrance}prestashop>admindpdfrance_13009ccb7fed41ede072ba8e6b1615c8'] = 'Les commandes livrées ont été mises à jour.';
 $_MODULE['<{dpdfrance}prestashop>admindpdfrance_64a49a3d4857854a092fdc763b3e922d'] = 'Aucun tracking DPD à générer.';
@@ -27,32 +27,32 @@ $_MODULE['<{dpdfrance}prestashop>admindpdfrance_57297718fdb439175177cf6b196172d1
 $_MODULE['<{dpdfrance}prestashop>admindpdfrance_2d3576829e23eb0937932e4775dfd223'] = 'Trace du colis';
 $_MODULE['<{dpdfrance}prestashop>admindpdfrance_c5bb9f36bc3c50417e6c199108e7a5d0'] = 'Aucune commande DPD.';
 
-$_LANGADM['AdminDPDFrance13009ccb7fed41ede072ba8e6b1615c8'] = 'Les commandes livrées ont été mises à jour.';
-$_LANGADM['AdminDPDFrance64a49a3d4857854a092fdc763b3e922d'] = 'Aucun tracking DPD à générer.';
-$_LANGADM['AdminDPDFrance867bdad392034670cb3f1eee575d47a9'] = 'Aucune commande sélectionnée.';
-$_LANGADM['AdminDPDFrance785f714b43235833940220531b249ea1'] = 'Les commandes expédiées ont été mises à jour, et leurs numéros de tracking ajoutés.';
-$_LANGADM['AdminDPDFrance7d28c2e987d4d6957e47c1c2f9aea4a8'] = 'Aucun tracking à générer.';
-$_LANGADM['AdminDPDFrancef45708853e5bf2e08466d596b2f56b20'] = 'Aucune commande à exporter.';
-$_LANGADM['AdminDPDFrance14e473e139af66193563849ac2595f5c'] = 'Attention! Vos numéros d\'agence et/ou numéros de contrat DPD sont manquants. Vous devez les renseigner dans la configuration du module \"DPD\" pour pouvoir utiliser les fonctions d\'export et de tracking.';
-$_LANGADM['AdminDPDFrance38ff1cbc89d2ef11019b90cdd9b195e1'] = 'Informations DPD';
-$_LANGADM['AdminDPDFranceff24aefb285d37e92ec786fb19eeeeef'] = 'Gestion des expéditions DPD';
-$_LANGADM['AdminDPDFranceb33a0e6d8ec1da29e96e82901a2f1686'] = 'Exporter les commandes selectionnées';
-$_LANGADM['AdminDPDFrancea2cd7f293767bac88b613ebad32a9a4f'] = 'Traiter les commandes expédiées';
-$_LANGADM['AdminDPDFrance232b8cc49e8e304a14e6a4e5f49a34d0'] = 'Traiter les commandes livrées';
-$_LANGADM['AdminDPDFrancea2a766bbe77f829bc18ad9dc039c6d40'] = 'Recherche par termes, séparez-les par des points-virgules ;';
-$_LANGADM['AdminDPDFrance63d5049791d9d79d86e9a108b0a999ca'] = 'Référence';
-$_LANGADM['AdminDPDFrance9c5ad9829a7aa4223a0c72de5ff475a5'] = 'Date de commande';
-$_LANGADM['AdminDPDFrance5d6103b662f41b07e10687f03aca8fdc'] = 'Destinataire';
-$_LANGADM['AdminDPDFrancec2ba7e785c49050f48da9aacc45c2b85'] = 'Service';
-$_LANGADM['AdminDPDFrance12007e1d59f4d09c87dbe2c438256244'] = 'Adresse de livraison';
-$_LANGADM['AdminDPDFrance8c489d0946f66d17d73f26366a4bf620'] = 'Poids';
-$_LANGADM['AdminDPDFranceb2f40690858b404ed10e62bdf422c704'] = 'Montant';
-$_LANGADM['AdminDPDFrance628053f676981e60ad4802aefbfd1959'] = '(cocher pour assurer ce colis)';
-$_LANGADM['AdminDPDFrance57297718fdb439175177cf6b196172d1'] = 'Statut commande';
-$_LANGADM['AdminDPDFrance2d3576829e23eb0937932e4775dfd223'] = 'Trace du colis';
-$_LANGADM['AdminDPDFrancec5bb9f36bc3c50417e6c199108e7a5d0'] = 'Aucune commande DPD.';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_13009ccb7fed41ede072ba8e6b1615c8'] = 'Les commandes livrées ont été mises à jour.';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_64a49a3d4857854a092fdc763b3e922d'] = 'Aucun tracking DPD à générer.';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_867bdad392034670cb3f1eee575d47a9'] = 'Aucune commande sélectionnée.';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_785f714b43235833940220531b249ea1'] = 'Les commandes expédiées ont été mises à jour, et leurs numéros de tracking ajoutés.';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_7d28c2e987d4d6957e47c1c2f9aea4a8'] = 'Aucun tracking à générer.';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_f45708853e5bf2e08466d596b2f56b20'] = 'Aucune commande à exporter.';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_14e473e139af66193563849ac2595f5c'] = 'Attention! Vos numéros d\'agence et/ou numéros de contrat DPD sont manquants. Vous devez les renseigner dans la configuration du module \"DPD\" pour pouvoir utiliser les fonctions d\'export et de tracking.';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_38ff1cbc89d2ef11019b90cdd9b195e1'] = 'Informations DPD (afficher/masquer)';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_ff24aefb285d37e92ec786fb19eeeeef'] = 'Gestion des expéditions';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_b33a0e6d8ec1da29e96e82901a2f1686'] = 'Exporter les commandes selectionnées';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_a2cd7f293767bac88b613ebad32a9a4f'] = 'Traiter les commandes expédiées';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_232b8cc49e8e304a14e6a4e5f49a34d0'] = 'Traiter les commandes livrées';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_a2a766bbe77f829bc18ad9dc039c6d40'] = 'Recherche par termes, séparez-les par des points-virgules ;';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_63d5049791d9d79d86e9a108b0a999ca'] = 'Référence';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_9c5ad9829a7aa4223a0c72de5ff475a5'] = 'Date de commande';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_5d6103b662f41b07e10687f03aca8fdc'] = 'Destinataire';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_c2ba7e785c49050f48da9aacc45c2b85'] = 'Service';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_12007e1d59f4d09c87dbe2c438256244'] = 'Adresse de livraison';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_8c489d0946f66d17d73f26366a4bf620'] = 'Poids';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_b2f40690858b404ed10e62bdf422c704'] = 'Montant';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_628053f676981e60ad4802aefbfd1959'] = '(cocher pour assurer ce colis)';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_57297718fdb439175177cf6b196172d1'] = 'Statut commande';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_2d3576829e23eb0937932e4775dfd223'] = 'Trace du colis';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_c5bb9f36bc3c50417e6c199108e7a5d0'] = 'Aucune commande DPD.';
 
-$_MODULE['<{dpdfrance}prestashop>dpdfrance_3b9031dce4fcf88b489a923963dd0c49'] = 'DPD';
+$_MODULE['<{dpdfrance}prestashop>dpdfrance_771b3f25f1478c2477227b94aadf9f56'] = 'DPD France';
 $_MODULE['<{dpdfrance}prestashop>dpdfrance_d0b5d5cad3d26a0fee256abe8a2d1a4e'] = 'Proposez à vos clients les services de livraison rapides et fiables de DPD';
 $_MODULE['<{dpdfrance}prestashop>dpdfrance_f85a5b520ece4108266fd3764430ccf1'] = 'Attention! Toutes les données enregistrées par ce module vont être supprimées. Etes-vous sûr de vouloir désinstaller ce module ?';
 $_MODULE['<{dpdfrance}prestashop>dpdfrance_651545b3176af523a2208a47b00badea'] = 'Veuillez procéder à la configuration du module DPD.';

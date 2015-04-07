@@ -1,6 +1,6 @@
 <?php
 
-global $_MODULE, $_LANGADM;
+global $_MODULE;
 $_MODULE = array();
 $_MODULE['<{dpdfrance}prestashop>admindpdfrance_13009ccb7fed41ede072ba8e6b1615c8'] = 'Delivered orders statuses were updated';
 $_MODULE['<{dpdfrance}prestashop>admindpdfrance_64a49a3d4857854a092fdc763b3e922d'] = 'No DPD trackings to generate.';
@@ -27,32 +27,32 @@ $_MODULE['<{dpdfrance}prestashop>admindpdfrance_57297718fdb439175177cf6b196172d1
 $_MODULE['<{dpdfrance}prestashop>admindpdfrance_2d3576829e23eb0937932e4775dfd223'] = 'Parcel trace';
 $_MODULE['<{dpdfrance}prestashop>admindpdfrance_c5bb9f36bc3c50417e6c199108e7a5d0'] = 'There are no orders.';
 
-$_LANGADM['AdminDPDFrance13009ccb7fed41ede072ba8e6b1615c8'] = 'Delivered orders statuses were updated';
-$_LANGADM['AdminDPDFrance64a49a3d4857854a092fdc763b3e922d'] = 'No DPD trackings to generate.';
-$_LANGADM['AdminDPDFrance867bdad392034670cb3f1eee575d47a9'] = 'No order selected.';
-$_LANGADM['AdminDPDFrance785f714b43235833940220531b249ea1'] = 'Shipped orders statuses were updated and tracking numbers added.';
-$_LANGADM['AdminDPDFrance7d28c2e987d4d6957e47c1c2f9aea4a8'] = 'No trackings to generate.';
-$_LANGADM['AdminDPDFrancef45708853e5bf2e08466d596b2f56b20'] = 'No orders to export.';
-$_LANGADM['AdminDPDFrance14e473e139af66193563849ac2595f5c'] = 'Warning! Your DPD Depot code and contract number are missing. You must configure the DPD plugin in order to use the export and tracking features.';
-$_LANGADM['AdminDPDFrance38ff1cbc89d2ef11019b90cdd9b195e1'] = 'DPD News (show/hide)';
-$_LANGADM['AdminDPDFranceff24aefb285d37e92ec786fb19eeeeef'] = 'DPD deliveries management';
-$_LANGADM['AdminDPDFranceb33a0e6d8ec1da29e96e82901a2f1686'] = 'Export selected orders';
-$_LANGADM['AdminDPDFrancea2cd7f293767bac88b613ebad32a9a4f'] = 'Update shipped orders';
-$_LANGADM['AdminDPDFrance232b8cc49e8e304a14e6a4e5f49a34d0'] = 'Update delivered orders';
-$_LANGADM['AdminDPDFrancea2a766bbe77f829bc18ad9dc039c6d40'] = 'Search something, separate values with ;';
-$_LANGADM['AdminDPDFrance63d5049791d9d79d86e9a108b0a999ca'] = 'Reference';
-$_LANGADM['AdminDPDFrance9c5ad9829a7aa4223a0c72de5ff475a5'] = 'Date of order';
-$_LANGADM['AdminDPDFrance5d6103b662f41b07e10687f03aca8fdc'] = 'Recipient';
-$_LANGADM['AdminDPDFrancec2ba7e785c49050f48da9aacc45c2b85'] = 'Service';
-$_LANGADM['AdminDPDFrance12007e1d59f4d09c87dbe2c438256244'] = 'Destination';
-$_LANGADM['AdminDPDFrance8c489d0946f66d17d73f26366a4bf620'] = 'Weight';
-$_LANGADM['AdminDPDFranceb2f40690858b404ed10e62bdf422c704'] = 'Amount';
-$_LANGADM['AdminDPDFrance628053f676981e60ad4802aefbfd1959'] = '(tick to insure this parcel)';
-$_LANGADM['AdminDPDFrance57297718fdb439175177cf6b196172d1'] = 'Order status';
-$_LANGADM['AdminDPDFrance2d3576829e23eb0937932e4775dfd223'] = 'Parcel trace';
-$_LANGADM['AdminDPDFrancec5bb9f36bc3c50417e6c199108e7a5d0'] = 'There are no orders.';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_13009ccb7fed41ede072ba8e6b1615c8'] = 'Delivered orders statuses were updated';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_64a49a3d4857854a092fdc763b3e922d'] = 'No DPD trackings to generate.';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_867bdad392034670cb3f1eee575d47a9'] = 'No order selected.';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_785f714b43235833940220531b249ea1'] = 'Shipped orders statuses were updated and tracking numbers added.';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_7d28c2e987d4d6957e47c1c2f9aea4a8'] = 'No trackings to generate.';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_f45708853e5bf2e08466d596b2f56b20'] = 'No orders to export.';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_14e473e139af66193563849ac2595f5c'] = 'Warning! Your DPD Depot code and contract number are missing. You must configure the DPD plugin in order to use the export and tracking features.';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_38ff1cbc89d2ef11019b90cdd9b195e1'] = 'DPD News (show/hide)';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_ff24aefb285d37e92ec786fb19eeeeef'] = 'Deliveries management';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_b33a0e6d8ec1da29e96e82901a2f1686'] = 'Export selected orders';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_a2cd7f293767bac88b613ebad32a9a4f'] = 'Update shipped orders';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_232b8cc49e8e304a14e6a4e5f49a34d0'] = 'Update delivered orders';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_a2a766bbe77f829bc18ad9dc039c6d40'] = 'Search something, separate values with ;';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_63d5049791d9d79d86e9a108b0a999ca'] = 'Reference';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_9c5ad9829a7aa4223a0c72de5ff475a5'] = 'Date of order';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_5d6103b662f41b07e10687f03aca8fdc'] = 'Recipient';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_c2ba7e785c49050f48da9aacc45c2b85'] = 'Service';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_12007e1d59f4d09c87dbe2c438256244'] = 'Destination';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_8c489d0946f66d17d73f26366a4bf620'] = 'Weight';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_b2f40690858b404ed10e62bdf422c704'] = 'Amount';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_628053f676981e60ad4802aefbfd1959'] = '(tick to insure this parcel)';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_57297718fdb439175177cf6b196172d1'] = 'Order status';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_2d3576829e23eb0937932e4775dfd223'] = 'Parcel trace';
+$_MODULE['<{dpdfrance}prestashop>AdminDPDFrance_c5bb9f36bc3c50417e6c199108e7a5d0'] = 'There are no orders.';
 
-$_MODULE['<{dpdfrance}prestashop>dpdfrance_ddc2c3afd9c88c63b7c2b85901823d34'] = 'DPD';
+$_MODULE['<{dpdfrance}prestashop>dpdfrance_771b3f25f1478c2477227b94aadf9f56'] = 'DPD France';
 $_MODULE['<{dpdfrance}prestashop>dpdfrance_d0b5d5cad3d26a0fee256abe8a2d1a4e'] = 'Offer DPD\'s fast and reliable delivery services to your customers - France vendors only';
 $_MODULE['<{dpdfrance}prestashop>dpdfrance_f85a5b520ece4108266fd3764430ccf1'] = 'Warning: all the data saved in your database will be deleted. Are you sure you want uninstall this module?';
 $_MODULE['<{dpdfrance}prestashop>dpdfrance_651545b3176af523a2208a47b00badea'] = 'Please proceed to the configuration of the DPD plugin';
