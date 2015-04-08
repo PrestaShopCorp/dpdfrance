@@ -1,0 +1,902 @@
+/**
+ * 2007-2014 PrestaShop
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@prestashop.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
+ * versions in the future. If you wish to customize PrestaShop for your
+ * needs please refer to http://www.prestashop.com for more information.
+ *
+ * @author    DPD S.A.S. <ensavoirplus.ecommerce@dpd.fr>
+ * @copyright 2015 DPD S.A.S.
+ * @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+@font-face
+{
+	font-family:DPDPlutoSansExtraLight;
+	src:url(../../fonts/PlutoSansDPDExtraLight-Web.ttf);
+}
+
+@font-face
+{
+	font-family:DPDPlutoSansLight;
+	src:url(../../fonts/PlutoSansDPDLight-Web.ttf);
+}
+
+@font-face
+{
+	font-family:DPDPlutoSansRegular;
+	src:url(../../fonts/PlutoSansDPDRegular-Web.ttf);
+}
+
+/* Table */
+#dpdfrance_relais_point_table
+{
+	padding-bottom:5px;
+	margin-top:0;
+	text-rendering:optimizelegibility;
+}
+
+#tr_carrier_dpdfrance_relais
+{
+	padding:0;
+}
+
+div.dpdfrance_relais_error
+{
+	background-color:#a90034;
+	padding-left:10px;
+	padding-bottom:0;
+	font-size:13px;
+	color:#fff;
+	line-height:20px;
+	font-family:DPDPlutoSansRegular;
+}
+
+table.dpdfrance_relaistable
+{
+	border-style:none;
+	border-width:0;
+	padding:0;
+	width:100%;
+	background-color:#fff;
+	border-collapse:separate;
+	border-spacing:0 0;
+	font-family:DPDPlutoSansLight;
+	padding-bottom:0!important;
+}
+
+table.dpdfrance_relais_container
+{
+	width:100%;
+}
+
+div.dpdfrance_relais_error
+{
+	background-color:#fff;
+	color:red;
+	text-align:center;
+	line-height:24px;
+	border:1px solid red;
+}
+
+/* Lignes choix PR */
+#dpdfrance_div_relais_header
+{
+	width:100%;
+	height:25px;
+	line-height:24px;
+	padding:0;
+	background-color:#DC0032;
+}
+
+#dpdfrance_div_relais_header p
+{
+	height:25px;
+	padding:0;
+	margin:0;
+	padding-left:15px;
+	font-size:13px;
+	font-family:DPDPlutoSansLight;
+	color:#fff;
+	text-align: left !important;
+}
+
+tr.dpdfrance_lignepr
+{
+	height:60px;
+	display:inline-block;
+	padding:0;
+	width:97%;
+	margin-left:10px;
+	border-style:solid;
+	border-color:#808285;
+	border-width:0 0 1px 0;
+}
+
+.dpdfrance_lignepr:nth-child(6)
+{
+	border:none;
+}
+
+td.dpdfrance_logorelais
+{
+	min-width:40px;
+	width:8%;
+	background:#fff url(../../img/front/relais/pointrelais.png) no-repeat center;
+}
+
+td.dpdfrance_adressepr
+{
+	background-color:#fff;
+	width:60%;
+	font-size:12px;
+	font-weight:400;
+	color:#424143;
+    height: 59px;
+    padding: 0;
+	margin:0;
+	font-family:DPDPlutoSansLight;
+	text-align: left !important;
+	vertical-align: middle;
+}
+
+td.dpdfrance_adressepr b
+{
+	font-family:DPDPlutoSansRegular;
+}
+
+td.dpdfrance_distancepr
+{
+	background-color:#fff;
+	width:12.5%;
+	padding-right:0!important;
+	line-height:14px;
+	font-weight:400;
+	font-size:12px;
+	color:#444;
+	text-align: left !important;
+	vertical-align: middle;
+}
+
+td.dpdfrance_popinpr
+{
+	background-color:#fff;
+	line-height:14px;
+	font-weight:300;
+	font-variant:normal;
+	font-size:11px;
+	color:#434142;
+	padding:0 !important;
+	width:17.5%;
+	text-align: right;
+	vertical-align: middle;
+}
+
+td.dpdfrance_popinpr span u:hover
+{
+	color:#DC0042;
+}
+
+a.dpdfrance_notfancy span
+{
+	font-family:DPDPlutoSansLight;
+}
+
+a.dpdfrance_notfancy span:hover
+{
+	color:#DC0042;
+	text-decoration:underline;
+}
+
+td.dpdfrance_radiopr
+{
+	background-color:#fff;
+	width:10%;
+	padding-right: 5px;
+	padding-left: 10px;
+	text-align: left !important;
+}
+
+td.dpdfrance_radiopr label span:hover
+{
+	cursor:pointer;
+}
+
+input.dpdfrance_relais_buttonok
+{
+	width:35px;
+	height:25px;
+	margin-top:0;
+	margin-left:15px;
+	margin-right:15px;
+	border:none;
+	background:transparent url(../../img/front/relais/relais_button_ok.png) no-repeat center;
+	font-size:0;
+	line-height:0;
+	overflow:hidden;
+	text-indent:-999px;
+	display:block;
+}
+
+input.dpdfrance_relais_buttonchoose
+{
+	cursor:pointer;
+	width:35px;
+	height:25px;
+	margin-top:0;
+	margin-left:15px;
+	margin-right:15px;
+	border:none;
+	background:transparent url(../../img/front/relais/relais_button_choose.png) no-repeat center;
+	font-size:0;
+	line-height:0;
+	overflow:hidden;
+	text-indent:-999px;
+	display:block;
+}
+
+input[name=dpdfrance_relay_id]:not(old)
+{
+	width:2em;
+	margin:0;
+	padding:0;
+	font-size:1em;
+	opacity:0;
+}
+
+/* Bouton */
+input[name=dpdfrance_relay_id]:not(old) + label
+{
+	display:inline-block;
+	margin-left:0;
+	line-height:1.5em;
+	margin-top:-15px;
+}
+
+input[name=dpdfrance_relay_id]:not(old) + label > span
+{
+	display:inline-block;
+	width:35px;
+	height:25px;
+	margin:.25em;
+	background:#E6E7E7;
+	vertical-align:bottom;
+}
+
+/* Bouton gris normal */
+input[name=dpdfrance_relay_id]:not(old):checked + label > span
+{
+	background:#E6E7E7;
+}
+
+/* Texte ICI blanc sur bouton checked*/
+input[name=dpdfrance_relay_id]:not(old):checked + label > span:before
+{
+	content:'ICI';
+	display:block;
+	width:35px;
+	color:#fff;
+	font-size:14px;
+	line-height:25px;
+	text-align:center;
+}
+
+/* Overlay rouge sur bouton checked */
+input[name=dpdfrance_relay_id]:not(old):checked + label > span > span
+{
+	display:block;
+	width:35px;
+	height:25px;
+	margin-top:-25px;
+	margin-right:0;
+	background-color:#DC0032;
+}
+
+/* Texte ICI gris sur bouton normal */
+input[name=dpdfrance_relay_id]:not(old) + label > span:before
+{
+	content:'ICI';
+	display:block;
+	width:35px;
+	color:#424143;
+	font-size:14px;
+	line-height:25px;
+	text-align:center;
+}
+
+/* Masquer le label ICI */
+td.dpdfrance_radiopr label b
+{
+	display:none;
+}
+
+/* Pop-in details */
+#dpdfrance_relais_filter
+{
+	display:none;
+	position:fixed;
+	width:100%;
+	height:100%;
+	background-color:#000;
+	top:0;
+	left:0;
+	padding:14px;
+	text-align:left;
+	z-index:1000;
+	opacity:0.85;
+	filter:alpha(opacity=85);
+/*IE8 et avant */
+}
+
+.dpdfrance_relaisbox
+{
+	font-family:DPDPlutoSansLight, sans-serif;
+	text-rendering:optimizelegibility;
+	display:block;
+	border-radius:6px;
+	position:fixed;
+	width:60%;
+	height:90%;
+	background-color:#FFF;
+	top:5%;
+	left:20%;
+	padding:0;
+	text-align:left;
+	z-index:1110;
+}
+
+.dpdfrance_relaisboxcarto
+{
+	width:100%;
+	min-height:62%;
+	top:0;
+	left:0;
+	border-radius:6px 6px 0 0;
+}
+
+div.gm-style-cc div
+{
+	display:none;
+}
+
+div.dpdfrance_relaisboxbottom
+{
+	position:relative;
+	margin:0 auto;
+	width:800px;
+}
+
+.dpdfrance_relaisboxadresseheader
+{
+	width:240px;
+	height:48px;
+	background:#fff url(../../img/front/relais/pointrelais.png) no-repeat center;
+	font-weight:300;
+	font-size:12px;
+	text-align:center;
+	border-style:none;
+	margin:5px 0 20px 0;
+    line-height: 130px;
+    padding: 0;
+}
+
+.dpdfrance_relaisboxadresse
+{
+	min-height:88px;
+	height:auto;
+	line-height:22px;
+	font-size:11px;
+	width:240px;
+	margin-bottom:0;
+	position:absolute;
+	left:0;
+}
+
+div.dpdfrance_relaisboxadresse p
+{
+	padding:0;
+	font-style:italic;
+	font-size:11px;
+	line-height:12px;
+	margin:0;
+	margin-top:5px;
+	margin-bottom:5px;
+}
+
+div.dpdfrance_relaisboxhoraires
+{
+	text-align:left;
+	background:#FFF;
+	height:auto;
+	line-height:22px;
+	font-size:11px;
+	width:250px;
+	left:260px;
+	position:absolute;
+}
+
+.dpdfrance_relaisboxhorairesheader
+{
+	width:250px;
+	height:48px;
+	background:#fff url(../../img/front/relais/horaires.png) no-repeat center;
+	font-weight:300;
+	font-size:12px;
+	text-align:center;
+	border-style:none;
+	margin:5px 0 20px 0;
+    line-height: 130px;
+    padding: 0;
+}
+
+div.dpdfrance_relaisboxhoraires h5
+{
+	font-family:DPDPlutoSansLight, sans-serif;
+	display:inline-block;
+	background:#dc0032;
+	color:#fff;
+	font-size:11px;
+	font-weight:700;
+	min-width:250px;
+	padding:5px;
+	margin-top:10px;
+	margin-bottom:5px;
+	text-align:center;
+}
+
+div.dpdfrance_relaisboxhoraires p
+{
+	padding:0;
+	padding-top:5px;
+	padding-left:5px;
+	line-height:11px;
+	margin:0!important;
+}
+
+.dpdfrance_relaisboxinfos
+{
+	text-align:left;
+	background:#FFF;
+	height:auto;
+	line-height:22px;
+	font-size:11px;
+	width:265px;
+	margin-right:10px;
+	position:absolute;
+	left:520px;
+}
+
+.dpdfrance_relaisboxinfosheader
+{
+	width:260px;
+	height:48px;
+	background:#fff url(../../img/front/relais/info.png) no-repeat center;
+	font-weight:300;
+	font-size:12px;
+	text-align:center;
+	border-style:none;
+	margin:5px 0 20px 0;
+    line-height: 130px;
+    padding: 0;
+}
+
+div.dpdfrance_relaisboxinfos h5
+{
+	font-family:DPDPlutoSansLight, sans-serif;
+	display:inline-block;
+	color:#dc0032;
+	font-size:11px;
+	font-weight:400;
+	width:210px;
+	margin:0;
+}
+
+div.dpdfrance_relaisboxinfos h4
+{
+	font-family:DPDPlutoSansLight, sans-serif;
+	display:inline-block;
+	color:#dc0032;
+	font-size:11px;
+	font-weight:700;
+	width:120px;
+}
+
+.dpdfrance_relaisboxjour
+{
+	display:inline-block;
+	color:#dc0032;
+	font-size:11px;
+	font-weight:400;
+	min-width:75px;
+}
+
+.dpdfrance_relaisboxclose
+{
+	background:no-repeat;
+	cursor:pointer;
+	display:block;
+	position:fixed;
+	top:5%;
+	left:80.5%;
+	z-index:1111;
+	transition:all .15s;
+}
+
+.dpdfrance_relaisboxclose img
+{
+	float:right;
+	padding-top:2px;
+	padding-right:2px;
+}
+
+.dpdfrance_relaisboxclose:hover
+{
+	transform:rotate(90deg);
+}
+
+div.warnmsg
+{
+	background-color:#fff !important;
+	box-sizing:border-box !important;
+	border-style: solid;
+	border-color: #a90034;
+	border-width: 2px;
+	color:#a90034!important;
+	font-family:DPDPlutoSansRegular !important;
+	font-size:13px!important;
+	font-weight:bold;
+	margin:15px 0!important;
+	padding:15px 15px 15px 50px !important;
+	position:relative!important;
+	width:100%!important;
+	-webkit-transform-style: preserve-3d;
+	-moz-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+}
+
+div.warnmsg::before
+{
+	-moz-osx-font-smoothing:grayscale;
+	-webkit-font-smoothing:antialiased;
+	box-sizing:border-box;
+	color:#a90034;
+	content:"!";
+	display:block;
+	font-family:DPDPlutoSansRegular;
+	font-size:42px;
+	font-style:normal;
+	font-weight:400;
+	height:25px;
+	left:20px;
+	line-height:1;
+	margin:auto;
+	position:absolute;
+	width:25px;
+	top: 39%;
+  	-webkit-transform: translateY(-50%);
+  	-ms-transform: translateY(-50%);
+  	transform: translateY(-50%);
+}
+
+table.dpdfrance_predict_container
+{
+	width:100%;
+}
+
+#div_dpdfrance_predict_header
+{
+	width:100%;
+	height:25px;
+	line-height:24px;
+	margin:0;
+	padding:0;
+	background-color:#DC0032;
+}
+
+#div_dpdfrance_predict_header p
+{
+	height:25px;
+	margin:0;
+	padding:0;
+	padding-left:15px;
+	font-size:13px;
+	font-family:DPDPlutoSansLight;
+	color:#fff;
+	text-align: left !important;
+}
+
+#div_dpdfrance_predict_block
+{
+	width:100%;
+	height:auto;
+	background-color:#fff;
+	margin:0;
+	padding:0;
+	font-size:12px;
+	font-family:DPDPlutoSansLight;
+}
+
+#div_dpdfrance_predict_logo
+{
+	width:100%;
+	height:64px;
+	padding:0;
+	background:url(../../img/front/predict/dpd_predict_logo.png) no-repeat center;
+}
+#div_dpdfrance_dpd_logo
+{
+	height: 45px;
+    margin-top: -30px;
+    width: 99%;
+	background:url(../../img/front/predict/dpd_logo.png) no-repeat right;
+}
+
+#div_dpdfrance_predict_text
+{
+	width:100%;
+	height:auto;
+}
+
+#div_dpdfrance_predict_text h
+{
+	font-weight:700;
+	padding:10px;
+}
+
+#div_dpdfrance_predict_text p
+{
+	width:100%;
+	padding:10px;
+}
+
+#div_dpdfrance_predict_block i
+{
+	padding:5px;
+	display:block;
+}
+
+#div_dpdfrance_predict_gsm
+{
+	background-color:#cac4be;
+	color:#424143;
+	padding:15px;
+	display:block;
+	font-size:13px;
+	font-family:DPDPlutoSansRegular;
+}
+
+#input_dpdfrance_predict_gsm_dest
+{
+	font-size:12px;
+	font-weight:400;
+	height:25px;
+	border:none;
+    width: 100px;
+    margin-left: 5px;
+	padding-left: 5px;
+}
+
+#div_dpdfrance_predict_gsm form
+{
+	margin:0;
+	display:inline-block;
+}
+
+#div_dpdfrance_predict_gsm form p {
+    padding: 0;
+}
+
+#dpdfrance_predict_gsm_button
+{
+	height:25px;
+	width:28px;
+	background-color:#424143;
+	color:#fff;
+	line-height:25px;
+	text-align:center;
+	cursor:pointer;
+	font-size:25px;
+	display:inline-block;
+	vertical-align: middle;
+}
+
+#dpdfrance_predict_gsm_button_opc
+{
+	height:25px;
+	width:28px;
+	background:transparent url(../../img/front/predict/dpd_predict_gsm_button_opc_sumbit.png) no-repeat center;
+	text-align:center;
+	cursor:pointer;
+	font-size:0;
+	border-style:none;
+	display:inline-block;
+	vertical-align: middle;
+}
+
+#dpdfrance_predict_gsm_button_opc_ok
+{
+	height:25px;
+	width:28px;
+	background:transparent url(../../img/front/predict/dpd_predict_gsm_button_opc_ok.png) no-repeat center;
+	text-align:center;
+	cursor:pointer;
+	font-size:0;
+	border-style:none;
+	display:inline-block;
+	vertical-align: middle;
+}
+
+div.dpdfrance_predict_error
+{
+	color:#fff;
+	background-color:#A90034;
+	margin:0;
+	padding:15px;
+	font-size:13px;
+	font-family:DPDPlutoSansRegular;
+}
+
+#predict
+{
+	background:url(../../img/front/predict/predict_receive.jpg) no-repeat;
+	background-size:cover;
+	font-size:12px;
+	color:#424143;
+}
+
+div.copy
+{
+	min-height:301px;
+	padding-left:45%;
+	padding-right:10px;
+}
+
+div.copy p
+{
+	margin:10px;
+}
+
+div.copy h2
+{
+	padding:0;
+	font-family:DPDPlutoSansRegular;
+	margin:10px;
+	font-size:16px;
+	text-transform:none;
+	color:#424143;
+	background:transparent;
+	height: auto;
+}
+
+.copy ul li
+{
+	list-style-type:none;
+	padding-bottom: 5px;
+}
+
+.copy ul li:before
+{
+	content:'•';
+	margin-right:8px;
+	color:#dc0042;
+}
+
+a.dpdfrance_more
+{
+	margin-left:10px;
+	color:#424143;
+}
+
+a.dpdfrance_more:hover
+{
+	color:#DC0042;
+}
+
+/* Responsive design */
+/* Condition horizontale (PC) */
+@media only screen and (max-width: 1350px) {
+	.dpdfrance_relaisbox
+	{
+		width:80%;
+		left:10%;
+		top:5%;
+	}
+	
+	.dpdfrance_relaisboxclose
+	{
+		left:91%;
+		top:5%;
+	}
+}
+
+@media only screen and (max-width: 1020px) {
+	.dpdfrance_relaisboxinfos
+	{
+		display:none;
+	}
+	
+	div.dpdfrance_relaisboxbottom
+	{
+		width:520px;
+	}
+}
+
+@media only screen and (max-width: 750px) {
+	#dpdfrance_div_relais_header
+	{
+		display:none;
+	}
+	
+	td.dpdfrance_logorelais
+	{
+		display:none;
+	}
+	
+	td.dpdfrance_adressepr
+	{
+		padding-left:5px;
+		font-size:10px;
+	}
+	
+	td.dpdfrance_distancepr
+	{
+		font-size:10px;
+	}
+	
+	#predict
+	{
+		background:#fff;
+	}
+	
+	div.copy
+	{
+		padding-left:10px;
+		padding-right:10px;
+	}
+}
+
+@media only screen and (max-width: 680px) {
+	td.dpdfrance_popinpr
+	{
+		display:none;
+	}
+	
+	.dpdfrance_relaisboxcarto
+	{
+		min-height:40%;
+	}
+	
+	.dpdfrance_relaisboxadresse
+	{
+		position:relative;
+	}
+	
+	div.dpdfrance_relaisboxhoraires
+	{
+		left:0;
+	}
+	
+	div.dpdfrance_relaisboxbottom
+	{
+		width:250px;
+	}
+}
+
+/* Condition verticale (Smartphone) */
+@media only screen and (max-height: 610px) {
+	.dpdfrance_relaisboxcarto
+	{
+		display:none;
+	}
+}

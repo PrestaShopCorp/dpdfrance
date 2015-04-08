@@ -1,0 +1,639 @@
+/**
+ * 2007-2014 PrestaShop
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@prestashop.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
+ * versions in the future. If you wish to customize PrestaShop for your
+ * needs please refer to http://www.prestashop.com for more information.
+ *
+ * @author    DPD S.A.S. <ensavoirplus.ecommerce@dpd.fr>
+ * @copyright 2015 DPD S.A.S.
+ * @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+@font-face
+{
+	font-family:DPDPlutoSansExtraLight;
+	src:url(../../fonts/PlutoSansDPDExtraLight-Web.ttf);
+}
+
+@font-face
+{
+	font-family:DPDPlutoSansLight;
+	src:url(../../fonts/PlutoSansDPDLight-Web.ttf);
+}
+
+@font-face
+{
+	font-family:DPDPlutoSansRegular;
+	src:url(../../fonts/PlutoSansDPDRegular-Web.ttf);
+}
+
+.margin_contactform
+{
+	line-height: 18px; 
+	display: inline-block; 
+	width: 215px; 
+	vertical-align: middle; 
+	margin: 0px 5px;
+}
+
+.input_contactform {
+	width: 200px;
+    margin-bottom: 10px;
+}
+
+input.button
+{
+	font-family:DPDPlutoSansLight;
+}
+
+label.error {
+    float: inherit;
+    color: red;
+    font-weight: normal;
+}
+
+div.notabene
+{
+	color:#dc0032;
+	font-family:DPDPlutoSansRegular;
+	text-align:center;
+	font-size: 13px;
+}
+
+#modes_transport label
+{
+	margin-top:5px;
+}
+
+td.hint_cargo
+{
+	font-size:10px;
+	text-align:center;
+}
+
+input.checkbox
+{
+	margin-right:35px;
+}
+
+input.relais_shipper_code
+{
+	margin:0;
+}
+
+input.predict_shipper_code
+{
+	margin:0;
+}
+
+input.classic_shipper_code
+{
+	margin:0;
+}
+
+input.relais_carrier_id
+{
+	margin-right:35px;
+}
+
+input.predict_carrier_id
+{
+	margin-right:35px;
+}
+
+input.classic_carrier_id
+{
+	margin-right:35px;
+}
+
+table.entete
+{
+	font-size:11px;
+	margin-left:208px;
+}
+form fieldset div {
+    font-family: DPDPlutoSansLight;
+}
+#onglets
+{
+	list-style-type:none;
+	margin:auto;
+	padding-bottom:26px;
+	width:800px;
+	font-size: 11px;
+    font-family: DPDPlutoSansLight;
+}
+
+#onglets li
+{
+	list-style-type:none;
+	background-color:#808285;
+	float:left;
+	height:25px;
+	margin:0;
+}
+
+#onglets a
+{
+	color:#fff;
+	display:block;
+    margin-left: 15px;
+    margin-right: 15px;
+	text-decoration:none;
+	font-family: DPDPlutoSansLight;
+	line-height: 25px;
+	
+}
+#onglets li:hover
+{
+	background-color:#dc0032;
+}
+
+#accueil_subtitle {
+    font-size: 14px;
+    font-weight: normal;
+}
+
+td.h_carrierid
+{
+	padding-left:145px;
+}
+
+div.okmsg
+{
+	background-color:#dff0d8!important;
+	box-sizing:border-box!important;
+	color:#424143!important;
+	display:block!important;
+	font-family:DPDPlutoSansLight !important;
+	font-size:13px!important;
+	margin:15px 0!important;
+	padding:15px 15px 15px 50px !important;
+	position:relative!important;
+	width:100%!important;
+	-webkit-transform-style: preserve-3d;
+	-moz-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+}
+
+div.okmsg::before
+{
+	-moz-osx-font-smoothing:grayscale;
+	-webkit-font-smoothing:antialiased;
+	box-sizing:border-box;
+	color:#7cc67c;
+	content:" ";
+	background:url(../../img/admin/ok_icon.png) no-repeat center;
+	display:block;
+	font-family:DPDPlutoSansRegular;
+	font-size:42px;
+	font-style:normal;
+	font-weight:400;
+	height:48px;
+	left:15px;
+	margin:auto;
+	position:absolute;
+	width:25px;
+	top: 45%;
+  	-webkit-transform: translateY(-50%);
+  	-ms-transform: translateY(-50%);
+  	transform: translateY(-50%);
+}
+
+div.warnmsg
+{
+	background-color:#fff !important;
+	box-sizing:border-box !important;
+	border-style: solid;
+	border-color: #a90034;
+	border-width: 2px;
+	color:#a90034!important;
+	display:block!important;
+	font-family:DPDPlutoSansRegular !important;
+	font-size:13px!important;
+	font-weight:bold;
+	margin:15px 0!important;
+	padding:15px 15px 15px 50px !important;
+	position:relative!important;
+	width:100%!important;
+	-webkit-transform-style: preserve-3d;
+	-moz-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+}
+
+div.warnmsg::before
+{
+	-moz-osx-font-smoothing:grayscale;
+	-webkit-font-smoothing:antialiased;
+	box-sizing:border-box;
+	color:#a90034;
+	content:" ";
+	background:url(../../img/admin/warn_icon.png) no-repeat center;
+	display:block;
+	font-family:DPDPlutoSansRegular;
+	font-size:42px;
+	font-style:normal;
+	font-weight:400;
+	height:25px;
+	left:10px;
+	line-height:1;
+	margin:auto;
+	position:absolute;
+	width:25px;
+	top: 45%;
+  	-webkit-transform: translateY(-50%);
+  	-ms-transform: translateY(-50%);
+  	transform: translateY(-50%);
+}
+
+fieldset legend img
+{
+	height:24px;
+}
+
+div.alert-danger
+{
+	background-color:#f3515c;
+	border:1px solid transparent;
+	border-color:#d4323d;
+	border-radius:0;
+	color:#FFF;
+	margin-bottom:18px;
+	padding:15px;
+}
+
+div.alert.alert-danger:before
+{
+	content:"\f057";
+	float:left;
+	font-family:FontAwesome;
+	font-size:32px;
+	margin:-12px -5px;
+	padding-right:15px;
+	vertical-align:-2px;
+}
+
+#accueil_wrap
+{
+	height:200px;
+	margin:auto;
+	padding:10px;
+	width:450px;
+}
+
+.client_title
+{
+	color:#fff;
+	font-family:DPDPlutoSansLight;
+	font-weight:700;
+	text-align:center;
+}
+
+.client_subtitle
+{
+	color:#fff;
+	font-family:DPDPlutoSansLight;
+	font-weight:700;
+	text-align:center;
+}
+
+#pasclient
+{
+	background-color:#808285;
+	cursor:pointer;
+	float:left;
+	height:160px;
+	padding:20px;
+	text-align:center;
+	width:160px;
+}
+
+#client_img
+{
+	background:url(../../img/admin/client.png) no-repeat center;
+	height:96px;
+	margin:auto;
+	padding:10px;
+	width:96px;
+}
+
+#pasclient_img
+{
+	background:url(../../img/admin/pasclient.png) no-repeat center;
+	height:96px;
+	margin:auto;
+	padding:10px;
+	width:96px;
+}
+
+#client
+{
+	background-color:#dc0032;
+	cursor:pointer;
+	float:right;
+	height:160px;
+	padding:20px;
+	text-align:center;
+	width:160px;
+}
+
+#accueil
+{
+	margin:auto;
+	text-align:center;
+}
+
+#donnees_exp_wrap
+{
+	margin:auto;
+	width:600px;
+}
+
+#donnees_exp
+{
+	font-family:DPDPlutoSansLight;
+	text-align:center;
+}
+
+span.section_title
+{
+	font-family:DPDPlutoSansRegular;
+	line-height:52px;
+}
+
+#service_relais
+{
+	background-color:#FFF;
+	float:left;
+    border-style: none;
+    height: 400px;
+	margin:5px;
+	padding:10px;
+	text-align:center;
+	width:230px;
+}
+
+#service_relais label
+{
+	font-family:DPDPlutoSansLight;
+	text-align:center;
+	width:96%;
+}
+
+#service_predict
+{
+	background-color:#FFF;
+	float:left;
+    border-style: none;
+    height: 400px;
+	margin:5px;
+	padding:10px;
+	text-align:center;
+	width:230px;
+}
+
+#service_predict label
+{
+	font-family:DPDPlutoSansLight;
+	text-align:center;
+	width:96%;
+}
+
+#service_classic
+{
+	background-color:#FFF;
+	float:left;
+    border-style: none;
+    height: 400px;
+	margin:5px;
+	padding:10px;
+	text-align:center;
+	width:230px;
+}
+
+#service_classic label
+{
+	font-family:DPDPlutoSansLight;
+	text-align:center;
+	width:96%;
+	padding: 0;
+    margin: 0;
+}
+
+#service_relais select
+{
+	font-family:DPDPlutoSansLight;
+	width:95%;
+}
+
+#service_predict select
+{
+	font-family:DPDPlutoSansLight;
+	width:95%;
+}
+
+#service_classic select
+{
+	font-family:DPDPlutoSansLight;
+	width:95%;
+}
+
+#service_relais_img
+{
+	background:url(../../img/front/relais/carrier_logo.jpg) no-repeat center;
+	height:96px;
+	margin: 0 20px 15px 20px;
+}
+
+#service_predict_img
+{
+	background:url(../../img/front/predict/carrier_logo.jpg) no-repeat center;
+	height:96px;
+	margin: 0 20px 15px 20px;
+}
+
+#service_classic_img
+{
+	background:url(../../img/front/classic/carrier_logo.jpg) no-repeat center;
+	height:96px;
+	margin: 0 20px 5px 20px;
+}
+
+#modes_transport
+{
+	font-family:DPDPlutoSansLight;
+	margin:auto;
+	text-align:center;
+	width:790px;
+}
+
+#service_relais span
+{
+	font-family:DPDPlutoSansLight;
+}
+
+#service_predict span
+{
+	font-family:DPDPlutoSansLight;
+}
+
+#service_classic span
+{
+	font-family:DPDPlutoSansLight;
+}
+
+#donnees_exp_wrap label
+{
+	font-family:DPDPlutoSansLight;
+}
+
+div.margin-form input
+{
+	font-family:DPDPlutoSansLight;
+}
+
+#gestion_exp
+{
+	margin:auto;
+	width:800px;
+}
+
+#gestion_exp strong
+{
+	font-family:DPDPlutoSansLight;
+	left:41%;
+	position:relative;
+}
+
+#options_supp strong
+{
+	font-family:DPDPlutoSansLight;
+	left:41%;
+	line-height:24px;
+	position:relative;
+}
+
+#options_supp
+{
+	margin:auto;
+	width:760px;
+}
+
+#options_supp label
+{
+	font-family:DPDPlutoSansLight;
+}
+
+div.margin-form
+{
+	font-family:DPDPlutoSansLight;
+}
+
+#gestion_exp label
+{
+	font-family:DPDPlutoSansLight;
+}
+
+div.margin-form select
+{
+	font-family:DPDPlutoSansLight;
+}
+
+div.margin-form p
+{
+	font-family:DPDPlutoSansLight;
+}
+
+#gestion_exp div
+{
+	font-family:DPDPlutoSansLight;
+	font-size:11px;
+	line-height:24px;
+}
+
+a.button
+{
+	font-family:DPDPlutoSansLight;
+}
+
+#recap strong center
+{
+	font-family:DPDPlutoSansLight;
+}
+input.button {
+    font-size: 11px;
+}
+#save_settings_button
+{
+	background: #dc0032 url(../../img/admin/save_settings.png) no-repeat 50% 25%;
+	cursor:pointer;
+	height:160px;
+	padding:110px 10px 20px 10px ;
+	text-align:center;
+	width:220px;
+	font-size: 14px !important;
+	font-family: DPDPlutoSansLight;
+    color: #fff;
+	border-style: none !important;
+	border-radius: 0px !important;
+}
+#content fieldset legend {
+    background: #fff;
+    color: #424143;
+    font-family: DPDPlutoSansRegular;
+}
+
+fieldset legend a {
+    background-color: #ffffff;
+    color: #424143;
+    font-family: DPDPlutoSansRegular;
+}
+#content fieldset {
+    background-color: #e6e7e7;
+}
+span.client_subtitle
+{
+	font-size:11px;
+}
+
+span.client_title
+{
+	font-size:14px;
+}
+
+input.relais_depot_code {
+    font-family: DPDPlutoSansLight;
+}
+
+input.relais_shipper_code {
+    font-family: DPDPlutoSansLight;
+}
+
+input.predict_depot_code {
+    font-family: DPDPlutoSansLight;
+}
+
+input.predict_shipper_code {
+    font-family: DPDPlutoSansLight;
+}
+
+input.classic_depot_code {
+    font-family: DPDPlutoSansLight;
+}
+
+input.classic_shipper_code {
+    font-family: DPDPlutoSansLight;
+}

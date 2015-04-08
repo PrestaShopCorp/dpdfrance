@@ -18,8 +18,8 @@
  * versions in the future. If you wish to customize PrestaShop for your
  * needs please refer to http://www.prestashop.com for more information.
  *
- * @author    EXAPAQ S.A.S. <support@icirelais.com>
- * @copyright 2015 EXAPAQ S.A.S.
+ * @author    DPD S.A.S. <ensavoirplus.ecommerce@dpd.fr>
+ * @copyright 2015 DPD S.A.S.
  * @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 
@@ -35,7 +35,7 @@ $cart = (isset($cart) ? $cart : '');
 if (version_compare(_PS_VERSION_, '1.5', '<') && (int)Configuration::get('PS_ORDER_PROCESS_TYPE') == 1)
 	$delivery_option = $cart->id_carrier;
 else
-	$delivery_option = Tools::getValue('exa_carrier');
+	$delivery_option = Tools::getValue('dpdfrance_carrier');
 
 $cart->id_carrier = (int)$delivery_option;
 $cart->gift = Tools::getValue('gift');
@@ -44,26 +44,26 @@ $cart->update();
 
 switch ((int)$delivery_option)
 {
-	case (int)Configuration::get('EXAPAQ_ICIRELAIS_CARRIER_ID'): /* If ICI relais carrier is selected */
+	case (int)Configuration::get('DPDFRANCE_RELAIS_CARRIER_ID'): /* If DPD Relais carrier is selected */
 
 	if ((int)Configuration::get('PS_ORDER_PROCESS_TYPE') == 0)
-		$relay_id = Tools::getValue('relay_id');
+		$relay_id = Tools::getValue('dpdfrance_relay_id');
 	else
-		$relay_id = Tools::getValue('relay_id_opc');
+		$relay_id = Tools::getValue('dpdfrance_relay_id_opc');
 
-	if (!empty(Context::getContext()->cookie->exapaq_icirelais_cookie))
+	if (!empty(Context::getContext()->cookie->dpdfrance_relais_cookie))
 	{
 		if (version_compare(_PS_VERSION_, '1.4.2.4', '>='))
-			$cookiedata = Tools::jsonDecode(Context::getContext()->cookie->exapaq_icirelais_cookie, true); /* Retrieve details of chosen relaypoint in the cookie */
+			$cookiedata = Tools::jsonDecode(Context::getContext()->cookie->dpdfrance_relais_cookie, true); /* Retrieve details of chosen relaypoint in the cookie */
 		else
-			$cookiedata = json_decode(Context::getContext()->cookie->exapaq_icirelais_cookie, true);
+			$cookiedata = json_decode(Context::getContext()->cookie->dpdfrance_relais_cookie, true);
 
 		$detail_relais = $cookiedata[$relay_id];
-		Db::getInstance()->delete(_DB_PREFIX_.'exapaq_france', 'id_cart = "'.psQL($cart->id).'"'); /* Delete previous entry in database */
+		Db::getInstance()->delete(_DB_PREFIX_.'dpdfrance_shipping', 'id_cart = "'.pSQL($cart->id).'"'); /* Delete previous entry in database */
 
-		$address1 = (isset($detail_relais['address1']))?$detail_relais['address1']:'';
-		$address2 = (isset($detail_relais['address2']))?$detail_relais['address2']:'';
-		$sql = 'INSERT IGNORE INTO '._DB_PREFIX_."exapaq_france 
+		$address1 = (isset($detail_relais['address1'])) ? $detail_relais['address1'] : '';
+		$address2 = (isset($detail_relais['address2'])) ? $detail_relais['address2'] : '';
+		$sql = 'INSERT IGNORE INTO '._DB_PREFIX_."dpdfrance_shipping 
 				(id_customer, id_cart, id_carrier, service, relay_id, company, address1, address2, postcode, city, id_country, gsm_dest) 
 				VALUES (
 				'".(int)$cart->id_customer."',
@@ -84,47 +84,47 @@ switch ((int)$delivery_option)
 		{
 			if (version_compare(_PS_VERSION_, '1.5', '<'))
 				if ((int)Configuration::get('PS_ORDER_PROCESS_TYPE') == 0)
-					Tools::redirect('order.php?step=2&cgv=1&icirelais=error'); /* PS 1.4 STD */
+					Tools::redirect('order.php?step=2&cgv=1&dpdrelais=error'); /* PS 1.4 STD */
 				else
-					Tools::redirect('order-opc.php?cgv=1&icirelais=error#opc_delivery_methods'); /* PS 1.4 OPC */
+					Tools::redirect('order-opc.php?cgv=1&dpdrelais=error#opc_delivery_methods'); /* PS 1.4 OPC */
 			else
 				if ((int)Configuration::get('PS_ORDER_PROCESS_TYPE') == 0)
-					Tools::redirect('index.php?controller=order&step=2&cgv=1&icirelais=error'); /* PS 1.5 STD */
+					Tools::redirect('index.php?controller=order&step=2&cgv=1&dpdrelais=error'); /* PS 1.5 STD */
 				else
-					Tools::redirect('index.php?controller=order-opc&isPaymentStep=true&cgv=1&icirelais=error#carrier_area'); /* PS 1.5 OPC */
+					Tools::redirect('index.php?controller=order-opc&isPaymentStep=true&cgv=1&dpdrelais=error#carrier_area'); /* PS 1.5 OPC */
 		}
 		else /* All right, redirect to payment page */
 		{
 			if (version_compare(_PS_VERSION_, '1.5', '<'))
 				if ((int)Configuration::get('PS_ORDER_PROCESS_TYPE') == 0)
-					Tools::redirect('order.php?step=3&cgv=1&icirelais=ok'); /* PS 1.4 STD */
+					Tools::redirect('order.php?step=3&cgv=1&dpdrelais=ok'); /* PS 1.4 STD */
 				else
-					Tools::redirect('order-opc.php?cgv=1&icirelais=ok#opc_delivery_methods'); /* PS 1.4 OPC */
+					Tools::redirect('order-opc.php?cgv=1&dpdrelais=ok#opc_delivery_methods'); /* PS 1.4 OPC */
 			else
 				if ((int)Configuration::get('PS_ORDER_PROCESS_TYPE') == 0)
-					Tools::redirect('index.php?controller=order&step=3&cgv=1&icirelais=ok'); /* PS 1.5 STD */
+					Tools::redirect('index.php?controller=order&step=3&cgv=1&dpdrelais=ok'); /* PS 1.5 STD */
 				else
-					Tools::redirect('index.php?controller=order-opc&isPaymentStep=true&cgv=1&icirelais=ok#carrier_area'); /* PS 1.5 OPC */
+					Tools::redirect('index.php?controller=order-opc&isPaymentStep=true&cgv=1&dpdrelais=ok#carrier_area'); /* PS 1.5 OPC */
 		}
 	}
 	else /* If cookie is empty : redirect to carrier step with error parameter */
 	{
 		if (version_compare(_PS_VERSION_, '1.5', '<'))
 			if ((int)Configuration::get('PS_ORDER_PROCESS_TYPE') == 0)
-				Tools::redirect('order.php?step=2&cgv=1&icirelais=error'); /* PS 1.4 STD */
+				Tools::redirect('order.php?step=2&cgv=1&dpdrelais=error'); /* PS 1.4 STD */
 			else
-				Tools::redirect('order-opc.php?cgv=1&icirelais=error#opc_delivery_methods'); /* PS 1.4 OPC */
+				Tools::redirect('order-opc.php?cgv=1&dpdrelais=error#opc_delivery_methods'); /* PS 1.4 OPC */
 		else
 			if ((int)Configuration::get('PS_ORDER_PROCESS_TYPE') == 0)
-				Tools::redirect('index.php?controller=order&step=2&cgv=1&icirelais=error'); /* PS 1.5 STD */
+				Tools::redirect('index.php?controller=order&step=2&cgv=1&dpdrelais=error'); /* PS 1.5 STD */
 			else
-				Tools::redirect('index.php?controller=order-opc&isPaymentStep=true&cgv=1&icirelais=error#carrier_area'); /* PS 1.5 OPC */
+				Tools::redirect('index.php?controller=order-opc&isPaymentStep=true&cgv=1&dpdrelais=error#carrier_area'); /* PS 1.5 OPC */
 	}
 	break;
 
-	case (int)Configuration::get('EXAPAQ_PREDICT_CARRIER_ID') : /* If Predict carrier is selected */
-		$exapredict_gsm_dest = Tools::getValue('exapredict_gsm_dest');
-		$input_tel = Tools::getValue('exapredict_gsm_dest'); /* Get customer's mobile phone number entered */
+	case (int)Configuration::get('DPDFRANCE_PREDICT_CARRIER_ID') : /* If DPD Predict carrier is selected */
+		$dpdfrance_predict_gsm_dest = Tools::getValue('dpdfrance_predict_gsm_dest');
+		$input_tel = Tools::getValue('dpdfrance_predict_gsm_dest'); /* Get customer's mobile phone number entered */
 		$elimine = array('00000000', '11111111', '22222222', '33333333', '44444444', '55555555', '66666666', '77777777', '88888888', '99999999', '123465789', '23456789', '98765432'); /* Patterns à éliminer */
 		$gsm = str_replace(array(' ', '.', '-', ',', ';', '/', '\\', '(', ')'), '', $input_tel); /* Cleans the input - Result is 10 digits straight */
 		$gsm = str_replace('+33', '0', $gsm); /* Prefix +33 is replaced by a 0 */
@@ -134,19 +134,19 @@ switch ((int)$delivery_option)
 			/* Bad number : set error parameter and redirect to carriers page */
 			if (version_compare(_PS_VERSION_, '1.5', '<'))
 				if ((int)Configuration::get('PS_ORDER_PROCESS_TYPE') == 0)
-					Tools::redirect('order.php?step=2&cgv=1&predict=error'); /* PS 1.4 STD */
+					Tools::redirect('order.php?step=2&cgv=1&dpdpredict=error'); /* PS 1.4 STD */
 				else
-					Tools::redirect('order-opc.php?cgv=1&predict=error#opc_delivery_methods'); /* PS 1.4 OPC */
+					Tools::redirect('order-opc.php?cgv=1&dpdpredict=error#opc_delivery_methods'); /* PS 1.4 OPC */
 			else
 				if ((int)Configuration::get('PS_ORDER_PROCESS_TYPE') == 0)
-					Tools::redirect('index.php?controller=order&step=2&cgv=1&predict=error'); /* PS 1.5 STD */
+					Tools::redirect('index.php?controller=order&step=2&cgv=1&dpdpredict=error'); /* PS 1.5 STD */
 				else
-					Tools::redirect('index.php?controller=order-opc&isPaymentStep=true&cgv=1&predict=error#carrier_area'); /* PS 1.5 OPC */
+					Tools::redirect('index.php?controller=order-opc&isPaymentStep=true&cgv=1&dpdpredict=error#carrier_area'); /* PS 1.5 OPC */
 		}
 		else
 		{ /* All right, delete previous entry of GSM for this cart and write the new one */
-			Db::getInstance()->delete(_DB_PREFIX_.'exapaq_france', 'id_cart = "'.pSQL($cart->id).'"');
-			$sql = 'INSERT IGNORE INTO '._DB_PREFIX_."exapaq_france 
+			Db::getInstance()->delete(_DB_PREFIX_.'dpdfrance_shipping', 'id_cart = "'.pSQL($cart->id).'"');
+			$sql = 'INSERT IGNORE INTO '._DB_PREFIX_."dpdfrance_shipping 
 						(id_customer, id_cart, id_carrier, service, relay_id, company, address1, address2, postcode, city, id_country, gsm_dest) 
 						VALUES (
 						'".(int)$cart->id_customer."',
@@ -170,14 +170,14 @@ switch ((int)$delivery_option)
 			}
 			if (version_compare(_PS_VERSION_, '1.5', '<'))
 				if ((int)Configuration::get('PS_ORDER_PROCESS_TYPE') == 0)
-					Tools::redirect('order.php?step=3&cgv=1&predict=ok'); /* PS 1.4 STD */
+					Tools::redirect('order.php?step=3&cgv=1&dpdpredict=ok'); /* PS 1.4 STD */
 				else
-					Tools::redirect('order-opc.php?cgv=1&predict=ok#opc_delivery_methods'); /* PS 1.4 OPC */
+					Tools::redirect('order-opc.php?cgv=1&dpdpredict=ok#opc_delivery_methods'); /* PS 1.4 OPC */
 			else
 				if ((int)Configuration::get('PS_ORDER_PROCESS_TYPE') == 0)
-					Tools::redirect('index.php?controller=order&step=3&cgv=1&predict=ok'); /* PS 1.5 STD */
+					Tools::redirect('index.php?controller=order&step=3&cgv=1&dpdpredict=ok'); /* PS 1.5 STD */
 				else
-					Tools::redirect('index.php?controller=order-opc&isPaymentStep=true&cgv=1&predict=ok#carrier_area'); /* PS 1.5 OPC */
+					Tools::redirect('index.php?controller=order-opc&isPaymentStep=true&cgv=1&dpdpredict=ok#carrier_area'); /* PS 1.5 OPC */
 		}
 		break;
 
@@ -185,14 +185,14 @@ switch ((int)$delivery_option)
 	/* If the selected carrier is not one of ours : then go straight to payment page */
 		if (version_compare(_PS_VERSION_, '1.5', '<'))
 			if ((int)Configuration::get('PS_ORDER_PROCESS_TYPE') == 0)
-				Tools::redirect('order.php?step=3&cgv=1&exapaq=bypass'); /* PS 1.4 STD */
+				Tools::redirect('order.php?step=3&cgv=1&dpdfrance=bypass'); /* PS 1.4 STD */
 			else
-				Tools::redirect('order-opc.php?cgv=1&exapaq=bypass#opc_delivery_methods'); /* PS 1.4 OPC */
+				Tools::redirect('order-opc.php?cgv=1&dpdfrance=bypass#opc_delivery_methods'); /* PS 1.4 OPC */
 		else
 			if ((int)Configuration::get('PS_ORDER_PROCESS_TYPE') == 0)
-				Tools::redirect('index.php?controller=order&step=3&cgv=1&exapaq=bypass'); /* PS 1.5 STD */
+				Tools::redirect('index.php?controller=order&step=3&cgv=1&dpdfrance=bypass'); /* PS 1.5 STD */
 			else
-				Tools::redirect('index.php?controller=order-opc&isPaymentStep=true&cgv=1&exapaq=bypass#carrier_area'); /* PS 1.5 OPC */
+				Tools::redirect('index.php?controller=order-opc&isPaymentStep=true&cgv=1&dpdfrance=bypass#carrier_area'); /* PS 1.5 OPC */
 		break;
 }
 exit;
