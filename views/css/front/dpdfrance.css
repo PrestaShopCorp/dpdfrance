@@ -206,6 +206,7 @@ td.dpdfrance_radiopr
 	padding-right: 5px;
 	padding-left: 10px;
 	text-align: left !important;
+	vertical-align: middle;
 }
 
 td.dpdfrance_radiopr label span:hover
