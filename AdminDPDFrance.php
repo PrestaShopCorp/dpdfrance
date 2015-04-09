@@ -448,7 +448,7 @@ class AdminDPDFrance extends AdminTab
 			$classic_carrier_log = 'CA.id_carrier IN ('.implode(',', array_map('intval', explode('|', Tools::substr(Configuration::get('DPDFRANCE_CLASSIC_CARRIER_LOG', null, null, (int)$this->context->shop->id), 1)))).') OR ';
 		if (Configuration::get('DPDFRANCE_RELAIS_CARRIER_LOG', null, null, (int)$this->context->shop->id))
 			$relais_carrier_log = 'CA.id_carrier IN ('.implode(',', array_map('intval', explode('|', Tools::substr(Configuration::get('DPDFRANCE_RELAIS_CARRIER_LOG', null, null, (int)$this->context->shop->id), 1)))).') OR ';
-		$europe_carrier_log = 'CA.name LIKE \'%DPD CLASSIC Delivery%\'';
+		$europe_carrier_log = 'CA.name LIKE \'%Livraison internationale par DPD%\'';
 
 		if (!empty($orders))
 		{
@@ -516,7 +516,7 @@ class AdminDPDFrance extends AdminTab
 							$address = '<a class="popup" href="http://www.dpd.fr/dpdrelais/id_'.Tools::substr($address_delivery->company, -7, 6).'" target="_blank">'.$address_delivery->company.'<br/>'.$address_delivery->postcode.' '.$address_delivery->city.'</a>';
 							break;
 						default:
-							if ($order_var['name'] == 'DPD CLASSIC Delivery')
+							if ($order_var['name'] == 'Livraison internationale par DPD')
 								$type = 'Intercontinental<img src="../modules/dpdfrance/views/img/admin/service_world.png" title="Intercontinental"/>';
 							else
 								$type = 'Classic<img src="../modules/dpdfrance/views/img/admin/service_dom.png" title="Classic"/>';
