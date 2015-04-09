@@ -215,7 +215,7 @@ class DPDFrance extends CarrierModule
 			$this->tab = 'Carriers';
 		else
 			$this->tab = 'shipping_logistics';
-		$this->version = '5.1.0';
+		$this->version = '5.1.1';
 		$this->author = 'DPD S.A.S.';
 		$this->need_instance = 1;
 
