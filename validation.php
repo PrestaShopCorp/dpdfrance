@@ -28,7 +28,7 @@ include('../../init.php');
 
 /* Backward compatibility */
 if (_PS_VERSION_ < '1.5')
-	require_once('/backward_compatibility/backward.php');
+	require_once('backward_compatibility/backward.php');
 
 $cart = (isset($cart) ? $cart : '');
 
