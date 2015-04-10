@@ -103,7 +103,7 @@ $(document).ready(function(){
 	{/if}
 
 	<div id="div_dpdfrance_predict_gsm">
-		<form method='post' action='{if $ssl}{$base_dir_ssl|escape:'htmlall':'UTF-8'}{else}{$base_dir|escape:'htmlall':'UTF-8'}{/if}modules/dpdfrance/validation.php'>
+		<form method='post' action='{if $ssl}{$base_dir_ssl|escape:'htmlall':'UTF-8'}{else}{$base_dir|escape:'htmlall':'UTF-8'}{/if}modules/dpdfrance/validation.php?dpdfrance_carrier={$dpdfrance_predict_carrier_id|escape:'javascript':'UTF-8'}'>
 			<p>
 				{l s='Get all the advantages of DPD\'s Predict service by providing a french GSM number here and click on the icon to confirm ' mod='dpdfrance'}
 				<input type='text' name="dpdfrance_predict_gsm_dest" id="input_dpdfrance_predict_gsm_dest" value="{$dpdfrance_predict_gsm_dest|escape:'htmlall':'UTF-8'}"></input><input type="submit" value="{$dpdfrance_predict_gsm_dest|escape:'htmlall':'UTF-8'}" id="dpdfrance_predict_gsm_button_opc"></input>
