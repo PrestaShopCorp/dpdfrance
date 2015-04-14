@@ -258,7 +258,7 @@ class DPDFrance extends CarrierModule
 			return false;
 		return true;
 	}
-	
+
 	public static function uninstallByName($name)
 	{
 		if (!is_array($name))
