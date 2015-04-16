@@ -116,7 +116,7 @@ for (i=1; i<6; i++){
 			</span>
 		</td>
 		<td align="center" class="dpdfrance_radiopr">
-		<form method='post' action='{if $ssl}{$base_dir_ssl|escape:'htmlall':'UTF-8'}{else}{$base_dir|escape:'htmlall':'UTF-8'}{/if}modules/dpdfrance/validation.php'>
+		<form method='post' action='{if $ssl}{$base_dir_ssl|escape:'htmlall':'UTF-8'}{else}{$base_dir|escape:'htmlall':'UTF-8'}{/if}modules/dpdfrance/validation.php?dpdfrance_carrier={$dpdfrance_relais_carrier_id|escape:'javascript':'UTF-8'}'>
 		{if $dpdfrance_selectedrelay == $points.relay_id}
 			<input type='submit' name="dpdfrance_relay_id_opc" id="{$points.relay_id|escape:'htmlall':'UTF-8'}" value="{$points.relay_id|escape:'htmlall':'UTF-8'}" class="dpdfrance_relais_buttonok" onMouseOver="javascript:this.style.cursor='pointer';" onMouseOut="javascript:this.style.cursor='auto';"></input>
 		{else}

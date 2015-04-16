@@ -29,3 +29,19 @@
 	{include file="$dpdfrance_tpl_path/relais/dpdfrance_relais_opc.tpl"}
 	{include file="$dpdfrance_tpl_path/predict/dpdfrance_predict_opc.tpl"}
 {/if}
+
+<script type="text/javascript">
+{literal}
+
+$(document).ready(function(){
+	$("input[name='id_carrier']").change(function(){
+		checkedCarrier = $("input[name*='id_carrier']:checked").val();
+		if ($('#id_carrier' + {/literal}{$dpdfrance_relais_carrier_id|escape:'javascript':'UTF-8'}{literal}).attr('checked') || $('#id_carrier' + {/literal}{$dpdfrance_predict_carrier_id|escape:'javascript':'UTF-8'}{literal}).attr('checked'))
+			$("#form").attr("action", baseDir+'modules/dpdfrance/validation.php?dpdfrance_carrier=' + checkedCarrier);
+		else
+			$("#form").attr("action", baseDir+'order.php');
+	});
+});
+
+{/literal}
+</script>

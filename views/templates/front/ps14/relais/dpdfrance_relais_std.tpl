@@ -32,25 +32,25 @@ $(document).ready(function(){
 	checkedCarrier = $("input[name*='id_carrier']:checked").val();
 
 	if ($('#id_carrier' + {/literal}{$dpdfrance_relais_carrier_id|escape:'javascript':'UTF-8'}{literal}).attr('checked')){
+		checkedCarrier = $("input[name*='id_carrier']:checked").val();
 		document.getElementById('dpdfrance_relais_point_table').style.display = "";
 		$("#form").attr("action", baseDir+'modules/dpdfrance/validation.php?dpdfrance_carrier=' + checkedCarrier);
 		$("#tr_carrier_dpdfrance_relais").html(dpdfrance_relais_response);
 		$("#tr_carrier_dpdfrance_relais").fadeIn('slow');
 	}
-	
+
 	$('#id_carrier' + {/literal}{$dpdfrance_relais_carrier_id|escape:'javascript':'UTF-8'}{literal}).click(function(){
+		checkedCarrier = $("input[name*='id_carrier']:checked").val();
 		document.getElementById('dpdfrance_relais_point_table').style.display = "";
 		$("#form").attr("action", baseDir+'modules/dpdfrance/validation.php?dpdfrance_carrier=' + checkedCarrier);
 		$("#tr_carrier_dpdfrance_relais").html(dpdfrance_relais_response);
 		$("#tr_carrier_dpdfrance_relais").fadeIn('slow');
 	});
-					
+
 	$("input[name='id_carrier']").change(function(){
 		checkedCarrier = $("input[name*='id_carrier']:checked").val();
-		if (!$('#id_carrier' + {/literal}{$dpdfrance_relais_carrier_id|escape:'javascript':'UTF-8'}{literal}).attr('checked')){
+		if (!$('#id_carrier' + {/literal}{$dpdfrance_relais_carrier_id|escape:'javascript':'UTF-8'}{literal}).attr('checked'))
 			$("#tr_carrier_dpdfrance_relais").fadeOut('fast');
-			$("#form").attr("action", baseDir+'order.php');
-		}
 	});
 });
 

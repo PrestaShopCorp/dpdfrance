@@ -30,11 +30,21 @@
 	
 $(document).ready(function(){
 
+	$("input[name='id_carrier']").change(function(){
+		checkedCarrier = $("input[name*='id_carrier']:checked").val();
+		if ($('#id_carrier' + {/literal}{$dpdfrance_relais_carrier_id|escape:'javascript':'UTF-8'}{literal}).attr('checked') || $('#id_carrier' + {/literal}{$dpdfrance_predict_carrier_id|escape:'javascript':'UTF-8'}{literal}).attr('checked'))
+			$("#form").attr("action", baseDir+'modules/dpdfrance/validation.php?dpdfrance_carrier=' + checkedCarrier);
+		else
+			$("#form").attr("action", baseDir+'order.php');
+	});
+
 	$('#id_carrier' + {/literal}{$dpdfrance_relais_carrier_id|escape:'javascript':'UTF-8'}{literal}).parent().parent().after("<tr><td colspan='4' style='height:340px;vertical-align:top;padding:0; display:none' id='tr_carrier_dpdfrance_relais'></td></tr>");
 	dpdfrance_relais_response = $('#dpdfrance_relais_point_table');
 	checkedCarrier = $("input[name*='id_carrier']:checked").val();
+
 	if ($("#div_dpdfrance_relais_error").length==0){
 		if ($('#id_carrier' + {/literal}{$dpdfrance_relais_carrier_id|escape:'javascript':'UTF-8'}{literal}).attr('checked')){
+			checkedCarrier = $("input[name*='id_carrier']:checked").val();
 			document.getElementById('dpdfrance_relais_point_table').style.display = "";
 			$("#form").attr("action", baseDir+'modules/dpdfrance/validation.php?dpdfrance_carrier=' + checkedCarrier);
 			$("#tr_carrier_dpdfrance_relais").html(dpdfrance_relais_response);
@@ -42,6 +52,7 @@ $(document).ready(function(){
 		}
 		
 		$('#id_carrier' + {/literal}{$dpdfrance_relais_carrier_id|escape:'javascript':'UTF-8'}{literal}).click(function(){
+			checkedCarrier = $("input[name*='id_carrier']:checked").val();
 			document.getElementById('dpdfrance_relais_point_table').style.display = "";
 			$("#form").attr("action", baseDir+'modules/dpdfrance/validation.php?dpdfrance_carrier=' + checkedCarrier);
 			$("#tr_carrier_dpdfrance_relais").html(dpdfrance_relais_response);
@@ -50,29 +61,28 @@ $(document).ready(function(){
 						
 		$("input[name='id_carrier']").change(function(){
 			checkedCarrier = $("input[name*='id_carrier']:checked").val();
-			if (!$('#id_carrier' + {/literal}{$dpdfrance_relais_carrier_id|escape:'javascript':'UTF-8'}{literal}).attr('checked')){
+			if (!$('#id_carrier' + {/literal}{$dpdfrance_relais_carrier_id|escape:'javascript':'UTF-8'}{literal}).attr('checked'))
 				$("#tr_carrier_dpdfrance_relais").fadeOut('fast');
-				$("#form").attr("action", baseDir+'order.php');
-			}
 		});
 	}
 	else
 	{
 		if ($('#id_carrier' + {/literal}{$dpdfrance_relais_carrier_id|escape:'javascript':'UTF-8'}{literal}).attr('checked')){
+			checkedCarrier = $("input[name*='id_carrier']:checked").val();
 			$("#div_dpdfrance_relais_error").fadeIn('slow');
 			$("#form").attr("action", baseDir+'modules/dpdfrance/validation.php?dpdfrance_carrier=' + checkedCarrier);
 		}
 
 		$('#id_carrier' + {/literal}{$dpdfrance_relais_carrier_id|escape:'javascript':'UTF-8'}{literal}).click(function(){
+			checkedCarrier = $("input[name*='id_carrier']:checked").val();
 			$("#div_dpdfrance_relais_error").fadeIn('slow');
 			$("#form").attr("action", baseDir+'modules/dpdfrance/validation.php?dpdfrance_carrier=' + checkedCarrier);			
 		});
 
 		$("input[name='id_carrier']").change(function(){
-			if (!$('#id_carrier' + {/literal}{$dpdfrance_relais_carrier_id|escape:'javascript':'UTF-8'}{literal}).attr('checked')){
+			checkedCarrier = $("input[name*='id_carrier']:checked").val();
+			if (!$('#id_carrier' + {/literal}{$dpdfrance_relais_carrier_id|escape:'javascript':'UTF-8'}{literal}).attr('checked'))
 				$("#div_dpdfrance_relais_error").fadeOut('fast');
-				$("#form").attr("action", baseDir+'order.php');
-			}
 		});
 	}
 });
@@ -262,7 +272,6 @@ $(document).ready(function(){
 </table>
 
 
-
 <script type="text/javascript">
 {literal}
 
@@ -273,25 +282,25 @@ $(document).ready(function(){
 	checkedCarrier = $("input[name*='id_carrier']:checked").val();
 
 	if ($('#id_carrier' + {/literal}{$dpdfrance_predict_carrier_id|escape:'javascript':'UTF-8'}{literal}).attr('checked')){
+		checkedCarrier = $("input[name*='id_carrier']:checked").val();
 		document.getElementById('div_dpdfrance_predict_block').style.display = "";
 		$("#form").attr("action", baseDir+'modules/dpdfrance/validation.php?dpdfrance_carrier=' + checkedCarrier);
 		$("#tr_carrier_predict").html(dpdfrance_predict_response);
 		$("#tr_carrier_predict").fadeIn('slow');
 	}		
-					
+
 	$('#id_carrier' + {/literal}{$dpdfrance_predict_carrier_id|escape:'javascript':'UTF-8'}{literal}).click(function(){
+		checkedCarrier = $("input[name*='id_carrier']:checked").val();
 		document.getElementById('div_dpdfrance_predict_block').style.display = "";
 		$("#form").attr("action", baseDir+'modules/dpdfrance/validation.php?dpdfrance_carrier=' + checkedCarrier);
 		$("#tr_carrier_predict").html(dpdfrance_predict_response);
 		$("#tr_carrier_predict").fadeIn('slow');
 	});
-					
+
 	$("input[name='id_carrier']").change(function(){
 		checkedCarrier = $("input[name*='id_carrier']:checked").val();
-		if (!$('#id_carrier' + {/literal}{$dpdfrance_predict_carrier_id|escape:'javascript':'UTF-8'}{literal}).attr('checked')){
+		if (!$('#id_carrier' + {/literal}{$dpdfrance_predict_carrier_id|escape:'javascript':'UTF-8'}{literal}).attr('checked'))
 			$("#tr_carrier_predict").fadeOut('fast');
-			$("#form").attr("action", baseDir+'order.php');
-		}
 	});
 });
 
