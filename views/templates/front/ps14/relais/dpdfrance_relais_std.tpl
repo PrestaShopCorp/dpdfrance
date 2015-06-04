@@ -24,9 +24,8 @@
 
 <script type="text/javascript">
 {literal}
-
-$(document).ready(function(){
-
+$(document).ready(function()
+{
 	$('#id_carrier' + {/literal}{$dpdfrance_relais_carrier_id|escape:'javascript':'UTF-8'}{literal}).parent().parent().after("<tr><td colspan='4' style='padding:0; display:none' id='tr_carrier_dpdfrance_relais'></td></tr>");
 	dpdfrance_relais_response = $('#dpdfrance_relais_point_table');
 	checkedCarrier = $("input[name*='id_carrier']:checked").val();
@@ -53,7 +52,6 @@ $(document).ready(function(){
 			$("#tr_carrier_dpdfrance_relais").fadeOut('fast');
 	});
 });
-
 {/literal}
 </script>
 

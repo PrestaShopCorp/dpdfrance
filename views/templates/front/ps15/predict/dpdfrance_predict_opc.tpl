@@ -25,8 +25,8 @@
 <script type="text/javascript">
 var dpdfrancePredictCarrierId = "{$dpdfrance_predict_carrier_id|escape:'javascript':'UTF-8'}";
 {literal}
-
-function dpdfrance_predict_redirect(){
+function dpdfrance_predict_redirect()
+{
 	checkedCarrier = $("input[name*='delivery_option[']:checked").val().substr(0,$("input[name*='delivery_option[']:checked").val().indexOf(','));
 	if (checkedCarrier != dpdfrancePredictCarrierId) {
 		$("#tr_carrier_predict").fadeOut('fast');
@@ -41,34 +41,34 @@ function dpdfrance_predict_redirect(){
 	}
 }
 
-$(document).ready(function() {
-	$("a.dpdfrance_more").click(function() {
-    $.fancybox({
-            'padding'       : 0,
-            'autoScale'     : false,
-            'openEffect'  : 'elastic',
-            'closeEffect' : 'elastic',           
-			'openSpeed'  : 150,
-            'closeSpeed' : 150,
-            'title'         : this.title,
-            'width'     	: 720,
-            'height'        : 435,
-            'href'          : this.href.replace(new RegExp("watch\\?v=", "i"), 'v/') + '&autoplay=1',
-            'type'          : 'swf',
-            'swf'           : {
-            'wmode'        : 'transparent',
-            'allowfullscreen'   : 'true'
-            }
-        });
-
-    return false;
-});
+$(document).ready(function()
+{
+	$("a.dpdfrance_more").click(function(){
+		$.fancybox({
+			'padding'		: 0,
+			'autoScale'		: false,
+			'openEffect'	: 'elastic',
+			'closeEffect'	: 'elastic',
+			'openSpeed'		: 150,
+			'closeSpeed'	: 150,
+			'title'			: this.title,
+			'width'			: 720,
+			'height'		: 435,
+			'href'			: this.href.replace(new RegExp("watch\\?v=", "i"), 'v/') + '&autoplay=1',
+			'type'			: 'swf',
+			'swf'			: {
+				'wmode'				: 'transparent',
+				'allowfullscreen'	: 'true'
+				}
+		});
+		return false;
+	});
 	carrier_block = $('input[class=delivery_option_radio]:checked').parents('div.delivery_option');
 	$(carrier_block).append(
 		'<div>'
 			+'<table id="dpdfrance_predict_container" class="dpdfrance_predict_container">'
 				+'<tr>'
-				+	  '<td style="display:none;" id="id_carrier' + dpdfrancePredictCarrierId + '" value="'+dpdfrancePredictCarrierId+'" /></td>'
+				+	'<td style="display:none;" id="id_carrier' + dpdfrancePredictCarrierId + '" value="'+dpdfrancePredictCarrierId+'" /></td>'
 				+ '</tr>'
 			+'</table>'
 		+'</div>');
@@ -79,10 +79,9 @@ $(document).ready(function() {
 	
 	$("input[name*='delivery_option[']").change(function() {
 			dpdfrance_predict_redirect();
-		});
-		dpdfrance_predict_redirect();
-       });
-	   
+	});
+	dpdfrance_predict_redirect();
+});
 {/literal}
 </script>
 

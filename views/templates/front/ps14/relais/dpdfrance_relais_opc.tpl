@@ -21,18 +21,18 @@
  * @copyright 2015 DPD S.A.S.
  * @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  *}
- 
- <script type="text/javascript">
+
+<script type="text/javascript">
     var badIE = false;
 </script>
 
 <!--[if lt IE 8]>
 	<script type="text/javascript">badIE = true;</script>
 <![endif]-->
+
 <script type="text/javascript">
 if (badIE == false){
 	{literal}
-
 	$(document).ready(function()
 	{
 		checkedCarrier = $("input[name*='id_carrier']:checked").val();

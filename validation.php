@@ -51,7 +51,7 @@ switch ((int)$delivery_option)
 	else
 		$relay_id = Tools::getValue('dpdfrance_relay_id_opc');
 
-	if (!empty(Context::getContext()->cookie->dpdfrance_relais_cookie))
+	if (!empty(Context::getContext()->cookie->dpdfrance_relais_cookie) && !empty($relay_id))
 	{
 		if (version_compare(_PS_VERSION_, '1.4.2.4', '>='))
 			$cookiedata = Tools::jsonDecode(Context::getContext()->cookie->dpdfrance_relais_cookie, true); /* Retrieve details of chosen relaypoint in the cookie */
@@ -107,7 +107,7 @@ switch ((int)$delivery_option)
 					Tools::redirect('index.php?controller=order-opc&isPaymentStep=true&cgv=1&dpdrelais=ok#carrier_area'); /* PS 1.5 OPC */
 		}
 	}
-	else /* If cookie is empty : redirect to carrier step with error parameter */
+	else /* If cookie or relaypoint selection is empty : redirect to carrier step with error parameter */
 	{
 		if (version_compare(_PS_VERSION_, '1.5', '<'))
 			if ((int)Configuration::get('PS_ORDER_PROCESS_TYPE') == 0)

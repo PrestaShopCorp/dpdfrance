@@ -26,17 +26,17 @@
 var dpdfranceRelaisCarrierId = "{$dpdfrance_relais_carrier_id|escape:'javascript':'UTF-8'}";
 var psVer = parseFloat("{$ps_version|escape:'javascript':'UTF-8'}");
 {literal}
-
-function dpdfrance_relais_redirect() {
+function dpdfrance_relais_redirect()
+{
 	checkedCarrier = $("input[name*='delivery_option[']:checked").val().substr(0,$("input[name*='delivery_option[']:checked").val().indexOf(','));
 	if (checkedCarrier != dpdfranceRelaisCarrierId) {
-		$('#form').attr("action", baseDir+'order.php');
+		$("#form").attr("action", baseDir+'order.php');
 		$("#tr_carrier_dpdfrance_relais").fadeOut('fast');
 		if (document.getElementById("tr_carrier_dpdfrance_relais"))
 			$("#tr_carrier_dpdfrance_relais").remove();
 		$("#dpdfrance_relais_container").remove();
 	} else {
-		$('#form').attr("action", baseDir+'modules/dpdfrance/validation.php?dpdfrance_carrier=' + checkedCarrier);
+		$("#form").attr("action", baseDir+'modules/dpdfrance/validation.php?dpdfrance_carrier=' + checkedCarrier);
 		if (document.getElementById("dpdfrance_relais_point_table"))
 			document.getElementById('dpdfrance_relais_point_table').style.display = "";
 		$("#tr_carrier_dpdfrance_relais").html(dpdfrance_relais_response);
@@ -44,7 +44,8 @@ function dpdfrance_relais_redirect() {
 	}
 }
 
-$(document).ready(function() {
+$(document).ready(function()
+{
 	carrier_block = $('input[class=delivery_option_radio]:checked').parents('div.delivery_option');
 	$(carrier_block).append(
 		'<div>'
@@ -82,8 +83,8 @@ if (psVer >= 1.6)
 <div id="dpdfrance_relais_filter" onclick="
 var i = 1;
 for (i=1; i<6; i++){
-    document.getElementById('dpdfrance_relais_filter').style.display='none';
-    document.getElementById('dpdfrance_relaydetail'+i).style.display='none';
+	document.getElementById('dpdfrance_relais_filter').style.display='none';
+	document.getElementById('dpdfrance_relaydetail'+i).style.display='none';
 }"></div>
 
 <table align="center" id="dpdfrance_relais_point_table" class="dpdfrance_relaistable" style="display:none;">

@@ -21,11 +21,11 @@
  * @copyright 2015 DPD S.A.S.
  * @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  *}
- 
+
 <script type="text/javascript"> 
 {literal}
-
-$(document).ready(function(){
+$(document).ready(function()
+{
 	$("a.dpdfrance_more").click(function() {
 		$.fancybox({
             'padding'       : 0,
@@ -73,7 +73,6 @@ $(document).ready(function(){
 			$("#tr_carrier_dpdfrance_predict").fadeOut('fast');
 	});
 });
-
 {/literal}
 </script>
 

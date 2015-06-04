@@ -215,7 +215,7 @@ class DPDFrance extends CarrierModule
 			$this->tab = 'Carriers';
 		else
 			$this->tab = 'shipping_logistics';
-		$this->version = '5.1.2';
+		$this->version = '5.1.3';
 		$this->author = 'DPD France S.A.S.';
 		$this->need_instance = 1;
 
@@ -644,53 +644,33 @@ class DPDFrance extends CarrierModule
 			case (Configuration::get('DPDFRANCE_RELAIS_CARRIER_ID')):
 				$order = $params['order'];
 				$cart = $params['cart'];
-				$id_address_delivery = 0;
 
-				// DPD Relais address will become one of customer's
+				// Retrieve default order address and fetch its ID
+				$ps_address = new Address($cart->id_address_delivery);
+				$id_address_delivery = (int)$ps_address->id;
+
+				// Retrieve DPD Pickup point selection
 				$address_relais = self::getDeliveryInfos($cart->id);
+
+				// DPD Pickup address will become one of customer's
 				if (is_array($address_relais) && !empty($address_relais['relay_id']))
 				{
-					// Check if the DPD Relais address already exists
-					$return = Db::getInstance()->GetRow('SELECT id_address, company, lastname, firstname, address1, address2, postcode, city, phone, phone_mobile
-										FROM '._DB_PREFIX_.'address
-										WHERE id_customer = '.(int)$order->id_customer.'
-											AND alias LIKE "DPD Relais '.pSQL($address_relais['relay_id']).'"
-										ORDER BY id_address DESC');
-
-					// DPD Relais address already exists for this customer => get id_address
-					if (is_array($return))
-					{
-						$ps_address = new Address((int)$return['id_address']);
-						if ($ps_address->company == Tools::substr($address_relais['company'], 0, 23).' ('.$address_relais['relay_id'].')'
-													&& $ps_address->address1 == Tools::substr($address_relais['address1'], 0, 128)
-													&& $ps_address->address2 == Tools::substr($address_relais['address2'], 0, 128)
-													&& $ps_address->postcode == $address_relais['postcode']
-													&& $ps_address->city == $address_relais['city']
-													&& $ps_address->id_country == $address_relais['id_country'])
-							$id_address_delivery = (int)$ps_address->id;
-					}
-
-					// DPD Relais address does not exist for this customer => create it
-					if ($id_address_delivery == 0)
-					{
-						$ps_address = new Address($cart->id_address_delivery);
-						$new_address = new Address();
-						$new_address->id_customer 	= $ps_address->id_customer;
-						$new_address->lastname 		= $ps_address->lastname;
-						$new_address->firstname 	= $ps_address->firstname;
-						$new_address->company 		= Tools::substr($address_relais['company'], 0, 23).' ('.$address_relais['relay_id'].')';
-						$new_address->address1 		= Tools::substr($address_relais['address1'], 0, 128);
-						$new_address->address2 		= Tools::substr($address_relais['address2'], 0, 128);
-						$new_address->postcode		= $address_relais['postcode'];
-						$new_address->city 			= $address_relais['city'];
-						$new_address->phone 		= $ps_address->phone;
-						$new_address->phone_mobile 	= $ps_address->phone_mobile;
-						$new_address->id_country 	= $address_relais['id_country'];
-						$new_address->alias 		= 'DPD Relais '.$address_relais['relay_id'];
-						$new_address->deleted 		= 1;
-						$new_address->add();
-						$id_address_delivery = (int)$new_address->id;
-					}
+					$new_address = new Address();
+					$new_address->id_customer 	= $ps_address->id_customer;
+					$new_address->lastname 		= $ps_address->lastname;
+					$new_address->firstname 	= $ps_address->firstname;
+					$new_address->company 		= Tools::substr($address_relais['company'], 0, 23).' ('.$address_relais['relay_id'].')';
+					$new_address->address1 		= Tools::substr($address_relais['address1'], 0, 128);
+					$new_address->address2 		= Tools::substr($address_relais['address2'], 0, 128);
+					$new_address->postcode		= $address_relais['postcode'];
+					$new_address->city 			= $address_relais['city'];
+					$new_address->phone 		= $ps_address->phone;
+					$new_address->phone_mobile 	= $ps_address->phone_mobile;
+					$new_address->id_country 	= $address_relais['id_country'];
+					$new_address->alias 		= 'DPD Relais '.$address_relais['relay_id'];
+					$new_address->deleted 		= 1;
+					$new_address->add();
+					$id_address_delivery = (int)$new_address->id;
 				}
 				// Update order
 				$order->id_address_delivery = $id_address_delivery;
@@ -700,48 +680,33 @@ class DPDFrance extends CarrierModule
 			case (Configuration::get('DPDFRANCE_PREDICT_CARRIER_ID')):
 				$order = $params['order'];
 				$cart = $params['cart'];
-				$id_address_delivery = 0;
+
+				// Retrieve default order address and fetch its ID
+				$ps_address = new Address($cart->id_address_delivery);
+				$id_address_delivery = (int)$ps_address->id;
+
+				// Retrieve GSM number for Predict
+				$address_predict = self::getDeliveryInfos($cart->id);
 
 				// Predict address will become one of customer's
-				$address_predict = self::getDeliveryInfos($cart->id);
 				if (is_array($address_predict) && !empty($address_predict['gsm_dest']))
 				{
-					// Check if the Predict address already exists
-					$return = Db::getInstance()->GetRow('SELECT id_address, company, lastname, firstname, address1, address2, postcode, city, phone, phone_mobile
-									FROM '._DB_PREFIX_.'address
-									WHERE id_customer = '.(int)$order->id_customer.'
-										AND alias LIKE "DPD Predict '.pSQL($address_predict['gsm_dest']).'"
-									ORDER BY id_address DESC');
-
-					// Predict address already exists for this customer => get id_address
-					if (is_array($return))
-					{
-						$ps_address = new Address((int)$return['id_address']);
-						if ($ps_address->phone_mobile == $address_predict['gsm_dest'])
-							$id_address_delivery = (int)$ps_address->id;
-					}
-
-					// Predict address does not exist for this customer => create it
-					if ($id_address_delivery == 0)
-					{
-						$ps_address = new Address($cart->id_address_delivery);
-						$new_address = new Address();
-						$new_address->id_customer 	= $ps_address->id_customer;
-						$new_address->lastname 		= $ps_address->lastname;
-						$new_address->firstname 	= $ps_address->firstname;
-						$new_address->company 		= $ps_address->company;
-						$new_address->address1 		= $ps_address->address1;
-						$new_address->address2 		= $ps_address->address2;
-						$new_address->postcode		= $ps_address->postcode;
-						$new_address->city 			= $ps_address->city;
-						$new_address->id_country 	= $ps_address->id_country;
-						$new_address->phone 		= $ps_address->phone;
-						$new_address->phone_mobile 	= $address_predict['gsm_dest'];
-						$new_address->alias 		= 'DPD Predict '.$address_predict['gsm_dest'];
-						$new_address->deleted 		= 1;
-						$new_address->add();
-						$id_address_delivery = (int)$new_address->id;
-					}
+					$new_address = new Address();
+					$new_address->id_customer 	= $ps_address->id_customer;
+					$new_address->lastname 		= $ps_address->lastname;
+					$new_address->firstname 	= $ps_address->firstname;
+					$new_address->company 		= $ps_address->company;
+					$new_address->address1 		= $ps_address->address1;
+					$new_address->address2 		= $ps_address->address2;
+					$new_address->postcode		= $ps_address->postcode;
+					$new_address->city 			= $ps_address->city;
+					$new_address->id_country 	= $ps_address->id_country;
+					$new_address->phone 		= $ps_address->phone;
+					$new_address->phone_mobile 	= $address_predict['gsm_dest'];
+					$new_address->alias 		= 'DPD Predict '.$address_predict['gsm_dest'];
+					$new_address->deleted 		= 1;
+					$new_address->add();
+					$id_address_delivery = (int)$new_address->id;
 				}
 				// Update order
 				$order->id_address_delivery = $id_address_delivery;
@@ -753,20 +718,42 @@ class DPDFrance extends CarrierModule
 	/* Maintains DPD France Carriers' ID up to date */
 	public function hookupdateCarrier($params)
 	{
-		if ((int)$params['id_carrier'] == (int)Configuration::get('DPDFRANCE_RELAIS_CARRIER_ID'))
+		foreach (Shop::getShops(true) as $shop)
 		{
-			Configuration::updateValue('DPDFRANCE_RELAIS_CARRIER_ID', (int)$params['carrier']->id);
-			Configuration::updateValue('DPDFRANCE_RELAIS_CARRIER_LOG', Configuration::get('DPDFRANCE_RELAIS_CARRIER_LOG').'|'.(int)$params['carrier']->id);
+			if ((int)$params['id_carrier'] == (int)Configuration::get('DPDFRANCE_RELAIS_CARRIER_ID', null, $shop['id_shop_group'], $shop['id_shop']))
+			{
+				Configuration::updateValue('DPDFRANCE_RELAIS_CARRIER_ID', (int)$params['carrier']->id, false, $shop['id_shop_group'], $shop['id_shop']);
+				Configuration::updateValue('DPDFRANCE_RELAIS_CARRIER_LOG', Configuration::get('DPDFRANCE_RELAIS_CARRIER_LOG', null, $shop['id_shop_group'], $shop['id_shop']).'|'.(int)$params['carrier']->id, false, $shop['id_shop_group'], $shop['id_shop']);
+			}
+			if ((int)$params['id_carrier'] == (int)Configuration::get('DPDFRANCE_PREDICT_CARRIER_ID', null, $shop['id_shop_group'], $shop['id_shop']))
+			{
+				Configuration::updateValue('DPDFRANCE_PREDICT_CARRIER_ID', (int)$params['carrier']->id, false, $shop['id_shop_group'], $shop['id_shop']);
+				Configuration::updateValue('DPDFRANCE_PREDICT_CARRIER_LOG', Configuration::get('DPDFRANCE_PREDICT_CARRIER_LOG', null, $shop['id_shop_group'], $shop['id_shop']).'|'.(int)$params['carrier']->id, false, $shop['id_shop_group'], $shop['id_shop']);
+			}
+			if ((int)$params['id_carrier'] == (int)Configuration::get('DPDFRANCE_CLASSIC_CARRIER_ID', null, $shop['id_shop_group'], $shop['id_shop']))
+			{
+				Configuration::updateValue('DPDFRANCE_CLASSIC_CARRIER_ID', (int)$params['carrier']->id, false, $shop['id_shop_group'], $shop['id_shop']);
+				Configuration::updateValue('DPDFRANCE_CLASSIC_CARRIER_LOG', Configuration::get('DPDFRANCE_CLASSIC_CARRIER_LOG', null, $shop['id_shop_group'], $shop['id_shop']).'|'.(int)$params['carrier']->id, false, $shop['id_shop_group'], $shop['id_shop']);
+			}
 		}
-		if ((int)$params['id_carrier'] == (int)Configuration::get('DPDFRANCE_PREDICT_CARRIER_ID'))
+
+		$shop['id_shop'] = null;
+		$shop['id_shop_group'] = null;
+
+		if ((int)$params['id_carrier'] == (int)Configuration::get('DPDFRANCE_RELAIS_CARRIER_ID', null, $shop['id_shop_group'], $shop['id_shop']))
 		{
-			Configuration::updateValue('DPDFRANCE_PREDICT_CARRIER_ID', (int)$params['carrier']->id);
-			Configuration::updateValue('DPDFRANCE_PREDICT_CARRIER_LOG', Configuration::get('DPDFRANCE_PREDICT_CARRIER_LOG').'|'.(int)$params['carrier']->id);
+			Configuration::updateValue('DPDFRANCE_RELAIS_CARRIER_ID', (int)$params['carrier']->id, false, $shop['id_shop_group'], $shop['id_shop']);
+			Configuration::updateValue('DPDFRANCE_RELAIS_CARRIER_LOG', Configuration::get('DPDFRANCE_RELAIS_CARRIER_LOG', null, $shop['id_shop_group'], $shop['id_shop']).'|'.(int)$params['carrier']->id, false, $shop['id_shop_group'], $shop['id_shop']);
 		}
-		if ((int)$params['id_carrier'] == (int)Configuration::get('DPDFRANCE_CLASSIC_CARRIER_ID'))
+		if ((int)$params['id_carrier'] == (int)Configuration::get('DPDFRANCE_PREDICT_CARRIER_ID', null, $shop['id_shop_group'], $shop['id_shop']))
 		{
-			Configuration::updateValue('DPDFRANCE_CLASSIC_CARRIER_ID', (int)$params['carrier']->id);
-			Configuration::updateValue('DPDFRANCE_CLASSIC_CARRIER_LOG', Configuration::get('DPDFRANCE_CLASSIC_CARRIER_LOG').'|'.(int)$params['carrier']->id);
+			Configuration::updateValue('DPDFRANCE_PREDICT_CARRIER_ID', (int)$params['carrier']->id, false, $shop['id_shop_group'], $shop['id_shop']);
+			Configuration::updateValue('DPDFRANCE_PREDICT_CARRIER_LOG', Configuration::get('DPDFRANCE_PREDICT_CARRIER_LOG', null, $shop['id_shop_group'], $shop['id_shop']).'|'.(int)$params['carrier']->id, false, $shop['id_shop_group'], $shop['id_shop']);
+		}
+		if ((int)$params['id_carrier'] == (int)Configuration::get('DPDFRANCE_CLASSIC_CARRIER_ID', null, $shop['id_shop_group'], $shop['id_shop']))
+		{
+			Configuration::updateValue('DPDFRANCE_CLASSIC_CARRIER_ID', (int)$params['carrier']->id, false, $shop['id_shop_group'], $shop['id_shop']);
+			Configuration::updateValue('DPDFRANCE_CLASSIC_CARRIER_LOG', Configuration::get('DPDFRANCE_CLASSIC_CARRIER_LOG', null, $shop['id_shop_group'], $shop['id_shop']).'|'.(int)$params['carrier']->id, false, $shop['id_shop_group'], $shop['id_shop']);
 		}
 	}
 
