@@ -26,8 +26,8 @@
 var dpdfranceRelaisCarrierId = "{$dpdfrance_relais_carrier_id|escape:'javascript':'UTF-8'}";
 var psVer = parseFloat("{$ps_version|escape:'javascript':'UTF-8'}");
 {literal}
-
-function dpdfrance_relais_redirect() {
+function dpdfrance_relais_redirect()
+{
 	checkedCarrier = $("input[name*='delivery_option[']:checked").val().substr(0,$("input[name*='delivery_option[']:checked").val().indexOf(','));
 	if (checkedCarrier != dpdfranceRelaisCarrierId) {
 		$("#form").attr("action", baseDir+'index.php?controller=order');
@@ -44,7 +44,8 @@ function dpdfrance_relais_redirect() {
 	}
 }
 
-$(document).ready(function() {
+$(document).ready(function()
+{
 	carrier_block = $('input[class=delivery_option_radio]:checked').parents('div.delivery_option');
 	$(carrier_block).append(
 		'<div>'
@@ -78,6 +79,7 @@ if (psVer >= 1.6)
 }
 {/literal}
 </script>
+
 <div id="dpdfrance_relais_filter" onclick="
 var i = 1;
 for (i=1; i<6; i++){

@@ -25,8 +25,8 @@
 <script type="text/javascript">
 var dpdfrancePredictCarrierId = "{$dpdfrance_predict_carrier_id|escape:'javascript':'UTF-8'}";
 {literal}
-
-function dpdfrance_predict_redirect() {
+function dpdfrance_predict_redirect()
+{
 	checkedCarrier = $("input[name*='id_carrier']:checked").val();
 	if (checkedCarrier != dpdfrancePredictCarrierId) {
 		$("#form").attr("action", baseDir+'order.php');
@@ -40,7 +40,8 @@ function dpdfrance_predict_redirect() {
 	}
 }
 
-$(document).ready(function(){
+$(document).ready(function()
+{
 	$("a.dpdfrance_more").click(function() {
 		$.fancybox({
             'padding'       : 0,
@@ -71,7 +72,6 @@ $(document).ready(function(){
 	});
 	dpdfrance_predict_redirect();
 });
-
 {/literal}
 </script>
 

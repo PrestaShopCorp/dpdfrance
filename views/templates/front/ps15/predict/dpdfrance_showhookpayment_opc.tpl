@@ -22,7 +22,7 @@
  * @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  *}
 
- <script type="text/javascript">
+<script type="text/javascript">
 {literal}
 $(document).ready(function() 
 {
