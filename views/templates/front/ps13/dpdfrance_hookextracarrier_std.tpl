@@ -27,9 +27,8 @@
 <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"></script>
 <script type="text/javascript">
 {literal}
-	
-$(document).ready(function(){
-
+$(document).ready(function()
+{
 	$("input[name='id_carrier']").change(function(){
 		checkedCarrier = $("input[name*='id_carrier']:checked").val();
 		if ($('#id_carrier' + {/literal}{$dpdfrance_relais_carrier_id|escape:'javascript':'UTF-8'}{literal}).attr('checked') || $('#id_carrier' + {/literal}{$dpdfrance_predict_carrier_id|escape:'javascript':'UTF-8'}{literal}).attr('checked'))
@@ -86,7 +85,6 @@ $(document).ready(function(){
 		});
 	}
 });
-
 {/literal}
 </script>
 
@@ -274,9 +272,8 @@ $(document).ready(function(){
 
 <script type="text/javascript">
 {literal}
-
-$(document).ready(function(){
-
+$(document).ready(function()
+{
 	$('#id_carrier' + {/literal}{$dpdfrance_predict_carrier_id|escape:'javascript':'UTF-8'}{literal}).parent().parent().after("<tr><td colspan='4' style='padding:0; display:none;' id='tr_carrier_predict'></td></tr>");
 	dpdfrance_predict_response = $('#div_dpdfrance_predict_block');
 	checkedCarrier = $("input[name*='id_carrier']:checked").val();
@@ -303,7 +300,6 @@ $(document).ready(function(){
 			$("#tr_carrier_predict").fadeOut('fast');
 	});
 });
-
 {/literal}
 </script>
 

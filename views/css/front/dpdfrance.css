@@ -96,7 +96,7 @@ div.dpdfrance_relais_error
 	width:100%;
 	height:25px;
 	line-height:24px;
-	padding:0;
+	padding:0 !important;
 	background-color:#DC0032;
 }
 
@@ -136,6 +136,7 @@ td.dpdfrance_logorelais
 	width:8%;
 	background:#fff url(../../img/front/relais/pointrelais.png) no-repeat center;
 	border-style: none !important;
+	vertical-align: middle !important;
 }
 
 td.dpdfrance_adressepr
@@ -151,7 +152,7 @@ td.dpdfrance_adressepr
 	margin:0;
 	font-family:DPDPlutoSansLight;
 	text-align: left !important;
-	vertical-align: middle;
+	vertical-align: middle !important;
 	border-style: none !important;
 }
 
@@ -170,7 +171,7 @@ td.dpdfrance_distancepr
 	font-size:12px;
 	color:#444;
 	text-align: left !important;
-	vertical-align: middle;
+	vertical-align: middle !important;
 	border-style: none !important;
 }
 
@@ -185,7 +186,7 @@ td.dpdfrance_popinpr
 	padding:0 !important;
 	width:17.5%;
 	text-align: right;
-	vertical-align: middle;
+	vertical-align: middle !important;
 	border-style: none !important;
 }
 
@@ -209,10 +210,9 @@ td.dpdfrance_radiopr
 {
 	background-color:#fff;
 	width:10%;
-	padding-right: 5px;
-	padding-left: 10px;
+	padding: 0px 10px !important;
 	text-align: left !important;
-	vertical-align: middle;
+	vertical-align: middle !important;
 	border-style: none !important;
 }
 

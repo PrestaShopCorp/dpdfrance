@@ -22,11 +22,12 @@
  * @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  *}
 
- <script type="text/javascript">
+<script type="text/javascript">
 {literal}
 $(document).ready(function() 
 {
 	document.getElementById('opc_payment_methods-content').style.display = "block";
+	document.getElementById('HOOK_PAYMENT').style.display = "block";
 });
 {/literal}
 </script>
