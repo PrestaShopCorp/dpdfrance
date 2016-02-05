@@ -128,18 +128,18 @@ class DPDFrance extends CarrierModule
 	{
 		$employee = new Employee((int)Context::getContext()->cookie->id_employee);
 		$data = array(
-			'{shop}' => Configuration::get('PS_SHOP_NAME'),
-			'{host}' => $_SERVER['HTTP_HOST'],
-			'{firstName}' => $employee->firstname,
-			'{lastName}' => $employee->lastname,
-			'{raison_sociale}' => (Tools::getValue('raison_sociale') ? Tools::getValue('raison_sociale') : 'Non renseigné'),
-			'{adresse}' => (Tools::getValue('adresse') ? Tools::getValue('adresse') : 'Non renseigné'),
-			'{code_postal}' => (Tools::getValue('code_postal') ? Tools::getValue('code_postal') : 'Non renseigné'),
-			'{ville}' => (Tools::getValue('ville') ? Tools::getValue('ville') : 'Non renseigné'),
-			'{email}' => $employee->email,
-			'{telephone}' => (Tools::getValue('telephone') ? Tools::getValue('telephone') : 'Non renseigné'),
-			'{volume_colis}' => (Tools::getValue('volume_colis') ? Tools::getValue('volume_colis') : 'Non renseigné'),
-			'{message}' => (Tools::getValue('message') ? preg_replace('/\r|\n/', ' ', Tools::getValue('message')) : 'Non renseigné'),
+			'{shop}'=>Configuration::get('PS_SHOP_NAME'),
+			'{host}'=>$_SERVER['HTTP_HOST'],
+			'{firstName}'=>$employee->firstname,
+			'{lastName}'=>$employee->lastname,
+			'{siret}'=>(Tools::getValue('siret')?Tools::getValue('siret'):'Non renseigné'),
+			'{adresse}'=>(Configuration::get('PS_SHOP_ADDR1')?Configuration::get('PS_SHOP_ADDR1'):'Non renseigné'),
+			'{code_postal}'=>(Tools::getValue('zipcode')?Tools::getValue('zipcode'):'Non renseigné'),
+			'{ville}'=>(Configuration::get('PS_SHOP_CITY')?Configuration::get('PS_SHOP_CITY'):'Non renseigné'),
+			'{email}'=>$employee->email,
+			'{telephone}'=>(Tools::getValue('telephone')?Tools::getValue('telephone'):'Non renseigné'),
+			'{volume_colis}'=>(Tools::getValue('volume_colis')?Tools::getValue('volume_colis'):'Non renseigné'),
+			'{message}'=>(Tools::getValue('message')?preg_replace('/\r|\n/', ' ', Tools::getValue('message')):'Non renseigné'),
 		);
 
 		$attachment = array();
@@ -151,6 +151,7 @@ class DPDFrance extends CarrierModule
 		if (file_exists(dirname(__FILE__).'/mails/'.$iso.'/contact.txt') && file_exists(dirname(__FILE__).'/mails/'.$iso.'/contact.html'))
 			if (!Mail::Send((int)$this->context->cookie->id_lang, 'contact', 'Lead Prestashop', $data, 'ensavoirplus.ecommerce@dpd.fr', null, Configuration::get('PS_SHOP_EMAIL'), null, $attachment, null, dirname(__FILE__).'/mails/'))
 				return false;
+			Configuration::updateValue('DPDFRANCE_DATA_SENT', 1);
 			return true;
 	}
 
@@ -215,7 +216,7 @@ class DPDFrance extends CarrierModule
 			$this->tab = 'Carriers';
 		else
 			$this->tab = 'shipping_logistics';
-		$this->version = '5.1.3';
+		$this->version = '5.1.4';
 		$this->author = 'DPD France S.A.S.';
 		$this->need_instance = 1;
 
@@ -244,7 +245,34 @@ class DPDFrance extends CarrierModule
 
 	public function install()
 	{
-		if (!parent::install() || !$this->installModuleTab('AdminDPDFrance', 'DPD France', Tab::getIdFromClassName('AdminOrders')) || !$this->registerHookByVersion() || !Configuration::updateValue('DPDFRANCE_PARAM', 0) || !Configuration::updateValue('DPDFRANCE_NOM_EXP', '') || !Configuration::updateValue('DPDFRANCE_ADDRESS_EXP', '') || !Configuration::updateValue('DPDFRANCE_ADDRESS2_EXP', '') || !Configuration::updateValue('DPDFRANCE_CP_EXP', '') || !Configuration::updateValue('DPDFRANCE_VILLE_EXP', '') || !Configuration::updateValue('DPDFRANCE_TEL_EXP', '') || !Configuration::updateValue('DPDFRANCE_GSM_EXP', '') || !Configuration::updateValue('DPDFRANCE_EMAIL_EXP', '') || !Configuration::updateValue('DPDFRANCE_RELAIS_CARRIER_ID', '') || !Configuration::updateValue('DPDFRANCE_RELAIS_DEPOT_CODE', '') || !Configuration::updateValue('DPDFRANCE_RELAIS_SHIPPER_CODE', '') || !Configuration::updateValue('DPDFRANCE_PREDICT_CARRIER_ID', '') || !Configuration::updateValue('DPDFRANCE_PREDICT_DEPOT_CODE', '') || !Configuration::updateValue('DPDFRANCE_PREDICT_SHIPPER_CODE', '') || !Configuration::updateValue('DPDFRANCE_CLASSIC_CARRIER_ID', '') || !Configuration::updateValue('DPDFRANCE_CLASSIC_DEPOT_CODE', '') || !Configuration::updateValue('DPDFRANCE_CLASSIC_SHIPPER_CODE', '') || !Configuration::updateValue('DPDFRANCE_SUPP_ILES', '') || !Configuration::updateValue('DPDFRANCE_SUPP_MONTAGNE', '') || !Configuration::updateValue('DPDFRANCE_ETAPE_EXPEDITION', '3') || !Configuration::updateValue('DPDFRANCE_ETAPE_EXPEDIEE', '4') || !Configuration::updateValue('DPDFRANCE_ETAPE_LIVRE', '5') || !Configuration::updateValue('DPDFRANCE_AD_VALOREM', ''))
+		if (!parent::install()
+		|| !$this->installModuleTab('AdminDPDFrance', 'DPD France', Tab::getIdFromClassName('AdminOrders'))
+		|| !$this->registerHookByVersion()
+		|| !Configuration::updateValue('DPDFRANCE_PARAM', 0)
+		|| !Configuration::updateValue('DPDFRANCE_NOM_EXP', '')
+		|| !Configuration::updateValue('DPDFRANCE_ADDRESS_EXP', '')
+		|| !Configuration::updateValue('DPDFRANCE_ADDRESS2_EXP', '')
+		|| !Configuration::updateValue('DPDFRANCE_CP_EXP', '')
+		|| !Configuration::updateValue('DPDFRANCE_VILLE_EXP', '')
+		|| !Configuration::updateValue('DPDFRANCE_TEL_EXP', '')
+		|| !Configuration::updateValue('DPDFRANCE_GSM_EXP', '')
+		|| !Configuration::updateValue('DPDFRANCE_EMAIL_EXP', '')
+		|| !Configuration::updateValue('DPDFRANCE_RELAIS_CARRIER_ID', '')
+		|| !Configuration::updateValue('DPDFRANCE_RELAIS_DEPOT_CODE', '')
+		|| !Configuration::updateValue('DPDFRANCE_RELAIS_SHIPPER_CODE', '')
+		|| !Configuration::updateValue('DPDFRANCE_PREDICT_CARRIER_ID', '')
+		|| !Configuration::updateValue('DPDFRANCE_PREDICT_DEPOT_CODE', '')
+		|| !Configuration::updateValue('DPDFRANCE_PREDICT_SHIPPER_CODE', '')
+		|| !Configuration::updateValue('DPDFRANCE_CLASSIC_CARRIER_ID', '')
+		|| !Configuration::updateValue('DPDFRANCE_CLASSIC_DEPOT_CODE', '')
+		|| !Configuration::updateValue('DPDFRANCE_CLASSIC_SHIPPER_CODE', '')
+		|| !Configuration::updateValue('DPDFRANCE_SUPP_ILES', '')
+		|| !Configuration::updateValue('DPDFRANCE_SUPP_MONTAGNE', '')
+		|| !Configuration::updateValue('DPDFRANCE_ETAPE_EXPEDITION', '3')
+		|| !Configuration::updateValue('DPDFRANCE_ETAPE_EXPEDIEE', '4')
+		|| !Configuration::updateValue('DPDFRANCE_ETAPE_LIVRE', '5')
+		|| !Configuration::updateValue('DPDFRANCE_AD_VALOREM', '')
+		|| !Configuration::updateValue('DPDFRANCE_DATA_SENT', '0'))
 			return false;
 		return $this->installConfigDB();
 	}
@@ -382,7 +410,34 @@ class DPDFrance extends CarrierModule
 
 	public function uninstall()
 	{
-		if (!parent::uninstall() || !$this->uninstallModuleTab('AdminDPDFrance') || !Configuration::deleteByName('DPDFRANCE_NOM_EXP') || !Configuration::deleteByName('DPDFRANCE_ADDRESS_EXP') || !Configuration::deleteByName('DPDFRANCE_ADDRESS2_EXP') || !Configuration::deleteByName('DPDFRANCE_CP_EXP') || !Configuration::deleteByName('DPDFRANCE_VILLE_EXP') || !Configuration::deleteByName('DPDFRANCE_TEL_EXP') || !Configuration::deleteByName('DPDFRANCE_EMAIL_EXP') || !Configuration::deleteByName('DPDFRANCE_GSM_EXP') || !Configuration::deleteByName('DPDFRANCE_RELAIS_CARRIER_ID', '') || !Configuration::deleteByName('DPDFRANCE_RELAIS_DEPOT_CODE', '') || !Configuration::deleteByName('DPDFRANCE_RELAIS_SHIPPER_CODE', '') || !Configuration::deleteByName('DPDFRANCE_PREDICT_CARRIER_ID', '') || !Configuration::deleteByName('DPDFRANCE_PREDICT_DEPOT_CODE', '') || !Configuration::deleteByName('DPDFRANCE_PREDICT_SHIPPER_CODE', '') || !Configuration::deleteByName('DPDFRANCE_CLASSIC_CARRIER_ID', '') || !Configuration::deleteByName('DPDFRANCE_CLASSIC_DEPOT_CODE', '') || !Configuration::deleteByName('DPDFRANCE_CLASSIC_SHIPPER_CODE', '') || !Configuration::deleteByName('DPDFRANCE_RELAIS_MYPUDO_URL') || !Configuration::deleteByName('DPDFRANCE_SUPP_ILES') || !Configuration::deleteByName('DPDFRANCE_SUPP_MONTAGNE') || !Configuration::deleteByName('DPDFRANCE_ETAPE_EXPEDITION') || !Configuration::deleteByName('DPDFRANCE_ETAPE_EXPEDIEE') || !Configuration::deleteByName('DPDFRANCE_ETAPE_LIVRE') || !Configuration::deleteByName('DPDFRANCE_AD_VALOREM') || !Configuration::deleteByName('DPDFRANCE_PARAM'))
+		if (!parent::uninstall()
+		|| !$this->uninstallModuleTab('AdminDPDFrance')
+		|| !Configuration::deleteByName('DPDFRANCE_NOM_EXP')
+		|| !Configuration::deleteByName('DPDFRANCE_ADDRESS_EXP')
+		|| !Configuration::deleteByName('DPDFRANCE_ADDRESS2_EXP')
+		|| !Configuration::deleteByName('DPDFRANCE_CP_EXP')
+		|| !Configuration::deleteByName('DPDFRANCE_VILLE_EXP')
+		|| !Configuration::deleteByName('DPDFRANCE_TEL_EXP')
+		|| !Configuration::deleteByName('DPDFRANCE_EMAIL_EXP')
+		|| !Configuration::deleteByName('DPDFRANCE_GSM_EXP')
+		|| !Configuration::deleteByName('DPDFRANCE_RELAIS_CARRIER_ID', '')
+		|| !Configuration::deleteByName('DPDFRANCE_RELAIS_DEPOT_CODE', '')
+		|| !Configuration::deleteByName('DPDFRANCE_RELAIS_SHIPPER_CODE', '')
+		|| !Configuration::deleteByName('DPDFRANCE_PREDICT_CARRIER_ID', '')
+		|| !Configuration::deleteByName('DPDFRANCE_PREDICT_DEPOT_CODE', '')
+		|| !Configuration::deleteByName('DPDFRANCE_PREDICT_SHIPPER_CODE', '')
+		|| !Configuration::deleteByName('DPDFRANCE_CLASSIC_CARRIER_ID', '')
+		|| !Configuration::deleteByName('DPDFRANCE_CLASSIC_DEPOT_CODE', '')
+		|| !Configuration::deleteByName('DPDFRANCE_CLASSIC_SHIPPER_CODE', '')
+		|| !Configuration::deleteByName('DPDFRANCE_RELAIS_MYPUDO_URL')
+		|| !Configuration::deleteByName('DPDFRANCE_SUPP_ILES')
+		|| !Configuration::deleteByName('DPDFRANCE_SUPP_MONTAGNE')
+		|| !Configuration::deleteByName('DPDFRANCE_ETAPE_EXPEDITION')
+		|| !Configuration::deleteByName('DPDFRANCE_ETAPE_EXPEDIEE')
+		|| !Configuration::deleteByName('DPDFRANCE_ETAPE_LIVRE')
+		|| !Configuration::deleteByName('DPDFRANCE_AD_VALOREM')
+		|| !Configuration::deleteByName('DPDFRANCE_DATA_SENT')
+		|| !Configuration::deleteByName('DPDFRANCE_PARAM'))
 			return false;
 		return true;
 	}
@@ -399,9 +454,9 @@ class DPDFrance extends CarrierModule
 		if (Tools::isSubmit('submitContactForm'))
 		{
 			if (!$this->sendLead())
-				$output .= '<div class="error">'.$this->l('An error occured while sending your information. Please try again or visit www.dpd.fr').'</div>';
+				$output .= '<div class="warnmsg">'.$this->l('An error occured while sending your information. Please try again or visit www.dpd.fr').'</div>';
 			else
-				$output .= '<div class="conf confirm">'.$this->l('Thank you! Your information are successfully sent, we will keep you in touch as soon as possible.').'</div>';
+				$output .= '<div class="okmsg">'.$this->l('Thank you! Your information are successfully sent, we will keep you in touch as soon as possible.').'</div>';
 		}
 
 		// DPD Relais carrier creation
@@ -409,21 +464,21 @@ class DPDFrance extends CarrierModule
 		{
 			$this->createCarrier($this->config_carrier_relais, 'relais');
 			$output .= '<div class="okmsg">'.$this->l('DPD Relais carrier created').'</div>';
-			$output .= '<script language="javascript">$(document).ready(function(){$("#onglet2").click();});</script>';
+			$output .= '<script language="javascript">$(document).ready(function(){$("#onglet2").click();dpdfrance_attr_carrier($("[name=dpdfrance_relais_carrier_id]"));});</script>';
 		}
 		// DPD Predict carrier creation
 		if (Tools::isSubmit('submitCreateCarrierPredict'))
 		{
 			$this->createCarrier($this->config_carrier_predict, 'predict');
 			$output .= '<div class="okmsg">'.$this->l('Predict carrier created').'</div>';
-			$output .= '<script language="javascript">$(document).ready(function(){$("#onglet2").click();});</script>';
+			$output .= '<script language="javascript">$(document).ready(function(){$("#onglet2").click();dpdfrance_attr_carrier($("[name=dpdfrance_predict_carrier_id]"));});</script>';
 		}
 		// DPD Classic carrier creation
 		if (Tools::isSubmit('submitCreateCarrierClassic'))
 		{
 			$this->createCarrier($this->config_carrier_classic, 'classic');
 			$output .= '<div class="okmsg">'.$this->l('Classic carrier created').'</div>';
-			$output .= '<script language="javascript">$(document).ready(function(){$("#onglet2").click();});</script>';
+			$output .= '<script language="javascript">$(document).ready(function(){$("#onglet2").click();dpdfrance_attr_carrier($("[name=dpdfrance_classic_carrier_id]"));});</script>';
 		}
 		// DPD Intercontinental carrier creation
 		if (Tools::isSubmit('submitCreateCarrierWorld'))
@@ -487,8 +542,8 @@ class DPDFrance extends CarrierModule
 			Configuration::updateValue('DPDFRANCE_CLASSIC_SHIPPER_CODE', Tools::getValue('classic_shipper_code'));
 
 			Configuration::updateValue('DPDFRANCE_RELAIS_MYPUDO_URL', preg_replace('/\s+/', '', Tools::getValue('mypudo_url')));
-			Configuration::updateValue('DPDFRANCE_SUPP_ILES', (int)Tools::getValue('supp_iles'));
-			Configuration::updateValue('DPDFRANCE_SUPP_MONTAGNE', (int)Tools::getValue('supp_montagne'));
+			Configuration::updateValue('DPDFRANCE_SUPP_ILES', (float)Tools::getValue('supp_iles'));
+			Configuration::updateValue('DPDFRANCE_SUPP_MONTAGNE', (float)Tools::getValue('supp_montagne'));
 
 			Configuration::updateValue('DPDFRANCE_ETAPE_EXPEDITION', (int)Tools::getValue('id_expedition'));
 			Configuration::updateValue('DPDFRANCE_ETAPE_EXPEDIEE', (int)Tools::getValue('id_expedie'));
@@ -538,16 +593,30 @@ class DPDFrance extends CarrierModule
 			'optvd'						=> array($this->l('Integrated parcel insurance service (23 € / kg)'), $this->l('Ad Valorem insurance service')),
 			'ps_version' 				=> (float)_PS_VERSION_,
 			'form_submit_url' 			=> $_SERVER['REQUEST_URI'],
+			'dpdfrance_data_sent'=>Configuration::get('DPDFRANCE_DATA_SENT'),
 			));
 		return $this->display(__FILE__, 'views/templates/admin/config.tpl');
 		}
 	}
-	/* Calls CSS and JS files on header of front-office pages */
+
+	/* Calls CSS and JS files on header of front-office order pages */
 	public function hookHeader()
 	{
-		$this->context->controller->addCSS($this->_path.'views/css/front/dpdfrance.css');
-		$this->context->controller->addJS($this->_path.'views/js/front/relais/dpdfrance_relais.js');
-		$this->context->controller->addJS('https://maps.googleapis.com/maps/api/js?sensor=false');
+		if (!($file = basename(Tools::getValue('controller'))))
+			$file = str_replace('.php', '', basename($_SERVER['SCRIPT_NAME']));
+
+		if (in_array($file, array('order-opc', 'order', 'orderopc')))
+		{
+			$this->context->controller->addCSS($this->_path.'views/css/front/dpdfrance.css');
+			$this->context->controller->addJS($this->_path.'views/js/front/dpdfrance.js');
+			$this->context->controller->addJS('https://maps.googleapis.com/maps/api/js?sensor=false');
+			$this->context->smarty->assign(array(
+					'ps_version' 						=> (float)_PS_VERSION_,
+					'opc' 								=> (int)Configuration::get('PS_ORDER_PROCESS_TYPE'),
+					'dpdfrance_relais_carrier_id' 		=> (int)Configuration::get('DPDFRANCE_RELAIS_CARRIER_ID'),
+					'dpdfrance_predict_carrier_id' 		=> (int)Configuration::get('DPDFRANCE_PREDICT_CARRIER_ID')));
+			return $this->display(__FILE__, 'views/templates/front/header.tpl');
+		}
 	}
 
 	/* Calls TPL files and executes DPD Relais webservice call upon carrier selection */
@@ -606,7 +675,7 @@ class DPDFrance extends CarrierModule
 	/* In OPC mode, shows or blocks payment methods upon carrier selection and customer data presence */
 	public function hookPaymentTop($params)
 	{
-		if ((int)Configuration::get('PS_ORDER_PROCESS_TYPE') == 1)
+		if ((int)Configuration::get('PS_ORDER_PROCESS_TYPE') == 1 && $this->context->country->iso_code == 'FR')
 		{
 			switch ($this->context->cart->id_carrier)
 			{
@@ -628,6 +697,8 @@ class DPDFrance extends CarrierModule
 					return $this->display(__FILE__, 'views/templates/front/ps15/predict/dpdfrance_showhookpayment_opc.tpl');
 			}
 		}
+		else
+			return $this->display(__FILE__, 'views/templates/front/ps15/predict/dpdfrance_showhookpayment_opc.tpl');
 	}
 
 	/* Get delivery information from a Cart ID */

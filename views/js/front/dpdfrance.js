@@ -1,5 +1,5 @@
 /**
- * 2007-2014 PrestaShop
+ * 2007-2015 PrestaShop
  *
  * NOTICE OF LICENSE
  *
@@ -22,6 +22,35 @@
  * @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 
+var opc;
+if (opc == 1)
+{
+	$(document).bind('ready ajaxComplete', function()
+	{
+		$("input[name*='delivery_option[']").change(function() {
+			$('[name=dpdfrance_wait]').remove();
+			checkedCarrier = $("input[name*='delivery_option[']:checked").val().substr(0,$("input[name*='delivery_option[']:checked").val().indexOf(','));
+			if (checkedCarrier == dpdfranceRelaisCarrierId || checkedCarrier == dpdfrancePredictCarrierId)
+				$('input[class=delivery_option_radio]:checked').parents('div.delivery_option').after('<div name="dpdfrance_wait"></div>');
+		});
+	});
+}
+else
+{
+	$(document).ready(function()
+	{
+		$("input[name*='delivery_option[']").change(function() {
+			$('[name=dpdfrance_wait]').remove();
+			checkedCarrier = $("input[name*='delivery_option[']:checked").val().substr(0,$("input[name*='delivery_option[']:checked").val().indexOf(','));
+			if (checkedCarrier == dpdfranceRelaisCarrierId || checkedCarrier == dpdfrancePredictCarrierId)
+			{
+				$('input[class=delivery_option_radio]:checked').parents('div.delivery_option').after('<div name="dpdfrance_wait"></div>');
+				$('[name=processCarrier]').attr('disabled', 'disabled');
+			}
+		});
+	});
+}
+ 
 function initializeDpdfrance(mapid,lat,longti,baseurl) {
     var latlng = new google.maps.LatLng(lat, longti);
 	

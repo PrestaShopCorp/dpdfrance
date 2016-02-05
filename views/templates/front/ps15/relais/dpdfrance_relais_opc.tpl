@@ -23,8 +23,6 @@
  *}
 
 <script type="text/javascript">
-var dpdfranceRelaisCarrierId = "{$dpdfrance_relais_carrier_id|escape:'javascript':'UTF-8'}";
-var psVer = parseFloat("{$ps_version|escape:'javascript':'UTF-8'}");
 {literal}
 function dpdfrance_relais_redirect()
 {

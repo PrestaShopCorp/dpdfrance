@@ -39,6 +39,13 @@
 	src:url(../../fonts/PlutoSansDPDRegular-Web.ttf);
 }
 
+div[name=dpdfrance_wait] {
+    background: transparent url(../../img/front/relais/loader.gif) no-repeat center;
+	height: 32px;
+	width: 32px;
+	margin: 10px auto;
+}
+
 /* Table */
 #dpdfrance_relais_point_table
 {
