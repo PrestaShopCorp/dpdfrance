@@ -114,7 +114,7 @@ class AdminDPDFrance extends AdminTab
 	}
 
 	/* Formats GSM numbers */
-	public function formatGSM($gsm_dest, $code_iso)
+	public static function formatGSM($gsm_dest, $code_iso)
 	{
 		if ($code_iso == 'F')
 		{
@@ -122,15 +122,33 @@ class AdminDPDFrance extends AdminTab
 			$gsm_dest = str_replace('+33', '0', $gsm_dest);
 			if (Tools::substr($gsm_dest, 0, 2) == 33) // Chrome autofill fix
 				$gsm_dest = substr_replace($gsm_dest, '0', 0, 2);
+			if (Tools::substr($gsm_dest, 0, 2) == 06 || Tools::substr($gsm_dest, 0, 2) == 07)
+				return $gsm_dest;
 		}
-		return $gsm_dest;
+		else
+			return $gsm_dest;
 	}
 
 	/* Get delivery service for a cart ID & checks if id_carrier matches */
-	public function getService($id_cart, $id_carrier)
+	public static function getService($order, $lang_id)
 	{
-		$sql = Db::getInstance()->getRow('SELECT `service` FROM `'._DB_PREFIX_.'dpdfrance_shipping` WHERE `id_cart` = '.(int)$id_cart.' AND `id_carrier` = '.(int)$id_carrier);
-		return $sql['service'];
+		$sql = Db::getInstance()->getRow('SELECT `service` FROM `'._DB_PREFIX_.'dpdfrance_shipping` WHERE `id_cart` = '.(int)$order->id_cart.' AND `id_carrier` = '.(int)$order->id_carrier);
+		$service = $sql['service'];
+		// Service override, forcing Relais or Predict shipment on eligible orders
+		if (!$service)
+		{
+			$address_invoice = new Address($order->id_address_invoice, (int)$lang_id);
+			$address_delivery = new Address($order->id_address_delivery, (int)$lang_id);
+			$relay_id = Tools::substr($address_delivery->company, -7, 6);
+			$code_pays_dest = self::getIsoCodebyIdCountry((int)$address_delivery->id_country);
+			$tel_dest = (($address_delivery->phone_mobile)?$address_delivery->phone_mobile:(($address_invoice->phone_mobile)?$address_invoice->phone_mobile:(($address_delivery->phone)?$address_delivery->phone:(($address_invoice->phone)?$address_invoice->phone:''))));
+			$mobile = self::formatGSM($tel_dest, $code_pays_dest);
+			if (preg_match('/P\d{5}/i', $relay_id))
+				$service = 'REL';
+			elseif ($mobile && $code_pays_dest == 'F' && $order->id_carrier != Configuration::get('DPDFRANCE_CLASSIC_CARRIER_ID', null, null, (int)$order->id_shop))
+				$service = 'PRE';
+		}
+		return $service;
 	}
 
 	/* Get eligible orders and builds up display */
@@ -147,12 +165,23 @@ class AdminDPDFrance extends AdminTab
 		{
 			if (empty($rss->channel->item))
 				$stream = 'error';
-			foreach ($rss->channel->item as $item)
-				$stream[] = array(
-					'category' 		=> (string)$item->category,
-					'title' 		=> (string)$item->title,
-					'description'	=> (string)$item->description,
-				);
+			else
+			{
+				foreach ($rss->channel->item as $item)
+				{
+					$i = 0;
+					$stream[$i] = array('category' => (string)$item->category,
+										'title' => (string)$item->title,
+										'description' => (string)$item->description,
+										'date' => strtotime((string)$item->pubDate)
+									);
+					if (strtotime('-30 day', strtotime(date('d-m-Y'))) > $stream[$i]['date'])
+						unset($stream[$i]);
+					$i++;
+				}
+			}
+			if (empty($stream))
+				$stream = 'error';
 		}
 		else
 			$stream = 'error';
@@ -227,7 +256,8 @@ class AdminDPDFrance extends AdminTab
 							else
 								$internalref_cleaned = $order->reference;
 
-							switch (self::getService($order->id_cart, $order->id_carrier))
+							$service = self::getService($order, $this->context->language->id);
+							switch ($service)
 							{
 								case 'PRE':
 									$compte_chargeur = Configuration::get('DPDFRANCE_PREDICT_SHIPPER_CODE', null, null, (int)$order->id_shop);
@@ -263,7 +293,24 @@ class AdminDPDFrance extends AdminTab
 							else
 								$template_vars = array('{followup}' => $url, '{firstname}' => $customer->firstname, '{lastname}' => $customer->lastname, '{order_name}' => $order->reference, '{id_order}' => (int)$order->id);
 
-							$subject = 'Votre commande est expédiée par DPD';
+							switch (Language::getIsoById((int)$order->id_lang))
+							{
+								case 'fr':
+									$subject = 'Votre commande sera livrée par DPD';
+									break;
+								case 'en':
+									$subject = 'Your parcel will be delivered by DPD';
+									break;
+								case 'es':
+									$subject = 'Su pedido será enviado por DPD';
+									break;
+								case 'it':
+									$subject = 'Il vostro pacchetto sará trasportato da DPD';
+									break;
+								case 'de':
+									$subject = 'Ihre Bestellung wird per DPD geliefert werden';
+									break;
+							}
 							if (!$history->addWithemail(true, $template_vars))
 								$this->_errors[] = Tools::displayError('an error occurred while changing status or was unable to send e-mail to the customer');
 
@@ -336,19 +383,19 @@ class AdminDPDFrance extends AdminTab
 							$address_delivery 	= new Address($order->id_address_delivery, (int)$this->context->language->id);
 							$code_pays_dest 	= self::getIsoCodebyIdCountry((int)$address_delivery->id_country);
 							$instr_liv_cleaned 	= str_replace (array("\r\n", "\n", "\r", "\t"), ' ', $address_delivery->other);
-							$type 				= self::getService($order->id_cart, $order->id_carrier);
+							$service 			= self::getService($order, $this->context->language->id);
 							$relay_id 			= Tools::substr($address_delivery->company, -7, 6);
 							$tel_dest 			= Db::getInstance()->getValue('SELECT gsm_dest FROM '._DB_PREFIX_.'dpdfrance_shipping WHERE id_cart ="'.$order->id_cart.'"');
 							if ($tel_dest == '')
 								$tel_dest = (($address_delivery->phone_mobile) ? $address_delivery->phone_mobile : (($address_invoice->phone_mobile) ? $address_invoice->phone_mobile : (($address_delivery->phone) ? $address_delivery->phone : (($address_invoice->phone) ? $address_invoice->phone : ''))));
-
+							$mobile = self::formatGSM($tel_dest, $code_pays_dest);
 							if (Tools::strtolower(Configuration::get('PS_WEIGHT_UNIT', null, null, (int)$order->id_shop)) == 'kg')
 								$poids = (int)($order->getTotalWeight() * 100);
 
 							if (Tools::strtolower(Configuration::get('PS_WEIGHT_UNIT', null, null, (int)$order->id_shop)) == 'g')
 								$poids = (int)($order->getTotalWeight() * 0.1);
 
-							switch (self::getService($order->id_cart, $order->id_carrier))
+							switch ($service)
 							{
 								case 'PRE':
 									$compte_chargeur = Configuration::get('DPDFRANCE_PREDICT_SHIPPER_CODE', null, null, (int)$order->id_shop);
@@ -364,7 +411,7 @@ class AdminDPDFrance extends AdminTab
 							// DPD unified interface file structure
 							$record->add($order->reference, 0, 35);														//	Référence client N°1 - Référence Commande Prestashop 1.5
 							$record->add(str_pad((int)$poids, 8, '0', STR_PAD_LEFT), 37, 8);							//	Poids du colis sur 8 caractères
-							if ($type == 'REL')
+							if ($service == 'REL')
 							{
 								$record->add($address_delivery->lastname, 60, 35);    									//	Nom du destinataire
 								$record->add($address_delivery->firstname, 95, 35);    									//	Prénom du destinataire
@@ -399,10 +446,10 @@ class AdminDPDFrance extends AdminTab
 							$record->add($email_exp, 1116, 80);        													//	E-mail expéditeur
 							$record->add($gsm_exp, 1196, 35);        													//	GSM expéditeur
 							$record->add($customer->email, 1231, 80);      												//	E-mail destinataire
-							$record->add(self::formatGSM($tel_dest, $code_pays_dest), 1311, 35);  						//	GSM destinataire
-							if ($type == 'REL')
+							$record->add($mobile, 1311, 35);															//	GSM destinataire
+							if ($service == 'REL')
 								$record->add($relay_id, 1442, 8);         												//	Identifiant relais Pickup
-							if ($type == 'PRE' && $tel_dest && $code_pays_dest == 'F')
+							if ($service == 'PRE')
 								$record->add('+', 1568, 1);																//	Flag Predict
 							$record->add($address_delivery->lastname, 1569, 35);    									//	Nom de famille du destinataire
 							$record->addLine();
@@ -448,7 +495,7 @@ class AdminDPDFrance extends AdminTab
 			$classic_carrier_log = 'CA.id_carrier IN ('.implode(',', array_map('intval', explode('|', Tools::substr(Configuration::get('DPDFRANCE_CLASSIC_CARRIER_LOG', null, null, (int)$this->context->shop->id), 1)))).') OR ';
 		if (Configuration::get('DPDFRANCE_RELAIS_CARRIER_LOG', null, null, (int)$this->context->shop->id))
 			$relais_carrier_log = 'CA.id_carrier IN ('.implode(',', array_map('intval', explode('|', Tools::substr(Configuration::get('DPDFRANCE_RELAIS_CARRIER_LOG', null, null, (int)$this->context->shop->id), 1)))).') OR ';
-		$europe_carrier_log = 'CA.name LIKE \'%Livraison internationale par DPD%\'';
+		$europe_carrier_log = 'CA.name LIKE \'%DPD%\'';
 
 		if (!empty($orders))
 		{
@@ -500,8 +547,9 @@ class AdminDPDFrance extends AdminTab
 					}
 					$weight = number_format($order->getTotalWeight(), 2, '.', '.').' '.Configuration::get('PS_WEIGHT_UNIT', null, null, (int)$order->id_shop);
 					$amount = number_format($order->total_paid, 2, '.', '.').' €';
+					$service = self::getService($order, $this->context->language->id);
 
-					switch (self::getService($order->id_cart, $order->id_carrier))
+					switch ($service)
 					{
 						case 'PRE':
 							$type = 'Predict<img src="../modules/dpdfrance/views/img/admin/service_predict.png" title="Predict"/>';

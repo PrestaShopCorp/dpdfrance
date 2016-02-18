@@ -23,8 +23,6 @@
  *}
 
 <script type="text/javascript">
-var dpdfranceRelaisCarrierId = "{$dpdfrance_relais_carrier_id|escape:'javascript':'UTF-8'}";
-var psVer = parseFloat("{$ps_version|escape:'javascript':'UTF-8'}");
 {literal}
 function dpdfrance_relais_redirect()
 {
@@ -46,6 +44,8 @@ function dpdfrance_relais_redirect()
 
 $(document).ready(function()
 {
+	$('[name=processCarrier]').removeAttr('disabled')
+	$('[name=dpdfrance_wait]').remove();
 	carrier_block = $('input[class=delivery_option_radio]:checked').parents('div.delivery_option');
 	$(carrier_block).append(
 		'<div>'

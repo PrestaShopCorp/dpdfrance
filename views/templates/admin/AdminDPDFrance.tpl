@@ -85,7 +85,7 @@
 		});
 	});
 	 function checkallboxes(ele) {
-		 var checkboxes = document.getElementsByName('checkbox[]');
+		 var checkboxes = $("#fbody").find(".checkbox:visible");
 		 if (ele.checked) {
 			 for (var i = 0; i < checkboxes.length; i++) {
 				 if (checkboxes[i].type == 'checkbox') {

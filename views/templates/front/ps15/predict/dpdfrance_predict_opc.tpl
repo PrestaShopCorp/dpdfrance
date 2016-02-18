@@ -23,7 +23,6 @@
  *}
 
 <script type="text/javascript">
-var dpdfrancePredictCarrierId = "{$dpdfrance_predict_carrier_id|escape:'javascript':'UTF-8'}";
 {literal}
 function dpdfrance_predict_redirect()
 {
