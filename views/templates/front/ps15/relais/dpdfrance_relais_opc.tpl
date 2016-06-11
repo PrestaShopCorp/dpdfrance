@@ -67,7 +67,7 @@ $(document).ready(function()
 /* Hack de la librairie Uniform pour PS 1.6 : supprime les div qui entourent les boutons radio */
 if (psVer >= 1.6)
 {
-	$(window).load(function(){
+	$(window).on('load', function(){
 		$(".dpdfrance_radiopr").each(function() {
 			radio = $(this).children('div').children('span').html();
 			label = $(this).children('label').prop('outerHTML');
