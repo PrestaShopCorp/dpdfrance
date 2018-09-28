@@ -683,5 +683,14 @@ class DPDStation
 		$str = preg_replace('/[\x{0022}\x{0025}\x{0026}\x{0027}\x{00A1}\x{00A2}\x{00A3}\x{00A4}\x{00A5}\x{00A6}\x{00A7}\x{00A8}\x{00AA}\x{00AB}\x{00AC}\x{00AD}\x{00AE}\x{00AF}\x{00B0}\x{00B1}\x{00B2}\x{00B3}\x{00B4}\x{00B5}\x{00B6}\x{00B7}\x{00B8}\x{00BA}\x{00BB}\x{00BC}\x{00BD}\x{00BE}\x{00BF}]/u', ' ', $str);
 		return $str;
 	}
+	
+	/**
+	 * Sometimes, self is designed as controller in Prestashop Context.
+	 * So, we need to implement addCss, no need to write logic.
+	 */
+	public function addCss()
+	{
+	    return;
+	}
 }
 ?>
